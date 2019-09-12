@@ -8,6 +8,9 @@
     "mocha"
   ],
   "author": "serverless.com",
+  "dependencies": {
+    "rimraf": "^3.0.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@serverless/eslint-config": "^1.2.0",

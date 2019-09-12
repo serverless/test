@@ -44,3 +44,13 @@ Each extension needs to be pased through in `require` option as, e.g.:
 Will ensure meaningful errors if there are async operations detected after all tests are reported to be finished.
 
 When relying on Bluebird, the bluebird patch (`setup/bluebird-async-leaks-detector-patch`) also needs to be loaded.
+
+##### Mock homedir (`setup/mock-homedir`);
+
+Mocks user home dir into temp dir (to not mess in real user homedir)
+
+### Utils
+
+#### `process-tmp-dir`
+
+Path to temporary directory that was created for exclusive use in context of given test process
