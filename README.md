@@ -62,3 +62,43 @@ After each top level test run restore cwd to initial state
 #### `process-tmp-dir`
 
 Path to temporary directory that was created for exclusive use in context of given test process
+
+#### `skip-with-notice`
+
+Skip given test, and ensure proper notice will be displayed for developer with tests summary
+
+Example usage
+
+```javascript
+const skipWithNotice = require('@serverless/test/skip-with-notice');
+
+describe('Some suite', () => {
+  it('Some test that involves optional runtime', function() {
+    invokePython().catch(error => {
+      if (error.code === 'ENOENT' && error.path === 'python2') {
+        skipWithNotice(this, 'Python runtime is not installed');
+      }
+      throw error;
+    });
+  });
+});
+```
+
+#### `skip-on-disabled-symlinks-in-windows`
+
+Preconfigured `skipWithNotice` usage to skip on Windows symlink errors.
+
+Usage:
+
+```javascript
+const skipOnDisabledSymlinksInWindows = require('@serverless/test/skip-on-disabled-symlinks-in-windows');
+
+describe('Some suite', () => {
+  it('Some test that involves symlinks creation', function() {
+    ensureSymlink(realFilePath, symlinkPath).catch(error => {
+      skipOnWindowsDisabledSymlinks(error, this);
+      throw error;
+    });
+  });
+});
+```
