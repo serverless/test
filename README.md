@@ -49,6 +49,10 @@ When relying on Bluebird, the bluebird patch (`setup/bluebird-async-leaks-detect
 
 Mocks user home dir into temp dir (to not mess in real user homedir)
 
+#### Disable `serverless` stats requests (`setup/disable-serverless-stats-requests`);
+
+Important when testing involves [serverless](https://github.com/serverless/serverless/) instances. Ensures that tracking requests are not issued
+
 ### Utils
 
 #### `process-tmp-dir`
