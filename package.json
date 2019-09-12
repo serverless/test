@@ -12,7 +12,9 @@
     "chalk": "^2.4.2",
     "child-process-ext": "^2.1.0",
     "cli-progress-footer": "^1.1.1",
+    "lodash": "^4.17.15",
     "p-limit": "^2.2.1",
+    "process-utils": "^2.5.0",
     "rimraf": "^3.0.0"
   },
   "devDependencies": {
