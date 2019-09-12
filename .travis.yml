@@ -58,7 +58,7 @@ jobs:
 
     # PR's from branches
     # Ensure commit messages follow CC, and confirm on changelog in case of release PR's
-    - name: 'Prettier check updated, Lint updated, Commitlint, Changelog confirm (on release) - Node.js v12'
+    - name: 'Prettier check updated, Lint updated, Commitlint, Changelog confirm (on release), Test - Node.js v12'
       if: type = pull_request AND fork = false
       node_js: 12
       script:
@@ -72,19 +72,21 @@ jobs:
           then
             npx dump-release-notes-from-cc-changelog $tagName
           fi
+        - npm test
 
     # PR's from forks
     # Do not validate commit messages,
     # (if user didn't ensure CC, PR should be squash merged with a valid CC commit message)
-    - name: 'Prettier check updated, Lint updated - Node.js v12'
+    - name: 'Prettier check updated, Lint updated, Test - Node.js v12'
       if: type = pull_request AND fork = true
       node_js: 12
       script:
         - npm run prettier-check:updated
         - npm run lint:updated
+        - npm test
 
     # master branch
-    - name: 'Lint, Tag on version bump - Node.js v12'
+    - name: 'Lint, Test, Tag on version bump - Node.js v12'
       env:
         # GITHUB_TOKEN
         - secure: nNfyiLgDBOD8M71EdKv4/0JK0i0VDe2cZc2AMazfTZkkp7hPDgtrVLBumGCtTpKvv5VJbOO3KAuDoB+NTAqLg87Y/K4+AigQpzHkugrj3N1XTCH+7BR/Rx0TFqcIO+YYuIp5fUAIofYg3BhY3w81P10WTuPm77C1b5bFg9UA9YLwapoZEDf0O1JBLV18Ss1/a3AlO/710CL9/ab6dQyHhM5T069nFlu7JaDdR0N6Z2VWEZMqeclI8+gB6uYLMpa4PvvqSHmyFH2lC7rf1nbBwFQ2RBhPgRvfG40Dwy968iLPmWKz9fX09N4VE2nmEtq+UVvorTcffbzml2tjUhmXFHjBGNDrtS1sBPFGMQXGE+p/oy0xIkY1McoxhnECLsLWYt57B2wuP/NM9fexFJbKAAzrri3hXyJWUWmHGJaaAfrE+OvXjAm4g7l5K/qBOmlYdDsbo4e55ISPTn8/LlpFg6JuTRiTl/eOkYDFKjJN9DpqOHGGmAxZmzXaoRux3ZxRQrBhZJrOpV8iR4bf+NNVwag35J9n42om5XLEusGHsib9hqq7wb/YAXjCRZ9/XrLwkJH9DPiOUaMk4XJS6VTH0WhZj3TBEpfk86KmiTx5EuLeRzid+QUOhgyW8HWbsVdbGBSP3NicxsjfDAU53MASmBNKluwNaLp5z+MbVv7x/rc=
@@ -92,6 +94,7 @@ jobs:
       node_js: 12
       script:
         - npm run lint
+        - npm test
         # If package version was changed with last merged PR, push tag
         - |
           tagName=`git diff HEAD^ package.json | grep '"version": "' | tail -n 1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+"` || :
@@ -100,6 +103,15 @@ jobs:
             git tag v$tagName
             git push -q https://$GITHUB_TOKEN@github.com/serverless/test --tags
           fi
+
+    - name: 'Test - Node.js v10'
+      node_js: 10
+
+    - name: 'Test - Node.js v8'
+      node_js: 8
+
+    - name: 'Test - Node.js v6'
+      node_js: 6
 
     # version tag
     - stage: Deploy
