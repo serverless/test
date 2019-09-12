@@ -10,6 +10,9 @@
   "author": "serverless.com",
   "dependencies": {
     "chalk": "^2.4.2",
+    "child-process-ext": "^2.1.0",
+    "cli-progress-footer": "^1.1.1",
+    "p-limit": "^2.2.1",
     "rimraf": "^3.0.0"
   },
   "devDependencies": {
