@@ -15,6 +15,7 @@
     "eslint-plugin-import": "^2.18.2",
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
+    "glob-exec": "^0.1.1",
     "husky": "^3.0.5",
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
@@ -52,7 +53,8 @@
     "prettier-check": "prettier -c --ignore-path .gitignore \"**/*.{css,html,js,json,md,yaml,yml}\"",
     "prettier-check:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
     "prettify": "prettier --write --ignore-path .gitignore \"**/*.{css,html,js,json,md,yaml,yml}\"",
-    "prettify:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier --write"
+    "prettify:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier --write",
+    "test": "glob-exec --foreach --parallel \"**/*.test.js\" -- \"node {{file}}\""
   },
   "publishConfig": {
     "access": "public"
