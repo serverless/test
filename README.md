@@ -111,6 +111,24 @@ Registered callbacks for all other scheduled hooks will be ignored
 When provided, serverless instance will be created out of freshly required module,
 and provided cache map will be used as stub for underlying required modules.
 
+#### `configure-inquirer-stub`
+
+An utility that helps to confogure inquirer prompt stubs.
+
+Takes inquirer instance (to have `prompt` method stubbed), a config map of mocked responses:
+
+e.g. following stubs complete AWS credentials setup that maybe configured via interactive CLI
+
+```javascript
+const inquirer = require('inquirer');
+const configureInquirerStub = require('@serverless/test/configure-inquirer-stub');
+
+configureInquirerStub(inquirer, {
+  confirm: { shouldSetupAwsCredentials: true, hasAwsAccount: true },
+  input: { accessKeyId, secretAccessKey },
+});
+```
+
 #### `process-tmp-dir`
 
 Path to temporary directory that was created for exclusive use in context of given test process
