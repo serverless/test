@@ -53,6 +53,10 @@ Mocks user home dir into temp dir (to not mess in real user homedir)
 
 Important when testing involves [serverless](https://github.com/serverless/serverless/) instances. Ensures that tracking requests are not issued
 
+#### Restore cwd (current working directory) (`setup/restore-cwd`);
+
+After each top level test run restore cwd to initial state
+
 ### Utils
 
 #### `process-tmp-dir`
