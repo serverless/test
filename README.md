@@ -27,3 +27,7 @@ In `package.json` add `mocha` section with `reporter` option set as follows:
 ### Setup extensions
 
 All setup extensions are documented in [docs/setup](docs/setup) folder
+
+### Utils
+
+All utils are documented in [docs](docs) folder
