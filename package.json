@@ -11,6 +11,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@serverless/eslint-config": "^1.2.0",
+    "bluebird": "^3.5.5",
     "eslint": "^6.3.0",
     "eslint-plugin-import": "^2.18.2",
     "git-list-updated": "^1.2.1",
