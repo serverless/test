@@ -5,6 +5,7 @@ const { removeSync } = require('fs-extra');
 const path = require('path');
 const os = require('os');
 const crypto = require('crypto');
+const rmTmpDirIgnorableErrorCodes = require('./lib/private/rm-tmp-dir-ignorable-error-codes');
 
 const systemTmpDir = os.tmpdir();
 const serverlessTmpDir = path.join(systemTmpDir, 'tmpdirs-serverless');
@@ -25,4 +26,11 @@ module.exports = (function self() {
   return processTmpDir;
 })();
 
-process.on('exit', () => removeSync(module.exports));
+process.on('exit', () => {
+  try {
+    removeSync(module.exports);
+  } catch (error) {
+    if (rmTmpDirIgnorableErrorCodes.has(error.code)) return;
+    throw error;
+  }
+});
