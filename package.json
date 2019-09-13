@@ -18,7 +18,8 @@
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.15",
     "p-limit": "^2.2.1",
-    "process-utils": "^2.5.0"
+    "process-utils": "^2.5.0",
+    "sinon": "^7.4.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
