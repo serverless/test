@@ -31,3 +31,7 @@ All setup extensions are documented in [docs/setup](docs/setup) folder
 ### Utils
 
 All utils are documented in [docs](docs) folder
+
+### Binaries
+
+All binaries are documented in [docs/bin](docs/bin) folder
