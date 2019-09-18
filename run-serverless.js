@@ -39,7 +39,15 @@ const resolveServerless = (serverlessPath, modulesCacheStub, callback) => {
 
 module.exports = (
   serverlessPath,
-  { cwd, cliArgs, env, pluginPathsWhitelist, hookNamesWhitelist, modulesCacheStub, hooks = {} }
+  {
+    cwd,
+    cliArgs,
+    env,
+    pluginPathsWhitelist,
+    lifecycleHookNamesWhitelist,
+    modulesCacheStub,
+    hooks = {},
+  }
 ) =>
   overrideEnv(originalEnv => {
     process.env.APPDATA = originalEnv.APPDATA; // Needed on Windows
@@ -62,7 +70,7 @@ module.exports = (
 
               const { hooks: lifecycleHooks } = pluginManager;
               for (const hookName of Object.keys(lifecycleHooks)) {
-                if (!hookNamesWhitelist.includes(hookName)) {
+                if (!lifecycleHookNamesWhitelist.includes(hookName)) {
                   delete lifecycleHooks[hookName];
                   continue;
                 }
