@@ -49,3 +49,17 @@ Registered callbacks for all other scheduled hooks will be ignored
 
 When provided, serverless instance will be created out of freshly required module,
 and provided cache map will be used as stub for underlying required modules.
+
+#### `hooks` (optional)
+
+Optional hooks, to be run in prepared mocked environemnt.
+
+Supported hooks:
+
+##### `before`
+
+Run as first step of evaluation (before `Serverless` instance is initialized, but after constructor is loaded)
+
+##### `after`
+
+Run as last step of evaluation (after `serverless.run()` resolves)
