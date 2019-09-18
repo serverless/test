@@ -2,6 +2,8 @@
 
 const sinon = require('sinon');
 
+const validatedTypes = new Set(['input', 'password']);
+
 module.exports = (inquirer, config) =>
   sinon.stub(inquirer, 'prompt').callsFake(promptConfig => {
     return new Promise(resolve => {
@@ -12,7 +14,7 @@ module.exports = (inquirer, config) =>
       if (answer == null) throw new Error(`Unexpected config name: ${promptConfig.name}`);
       resolve(
         new Promise(resolveValidation => {
-          if (promptConfig.type !== 'input') return resolveValidation(true);
+          if (!validatedTypes.has(promptConfig.type)) return resolveValidation(true);
           if (!promptConfig.validate) return resolveValidation(true);
           return resolveValidation(promptConfig.validate(answer));
         }).then(validationResult => {
