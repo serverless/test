@@ -40,9 +40,9 @@ Eventual environment variables (e.g. `{ SLS_DEBUG: '*' }`)
 Paths to plugins of which registered hooks should be invoked.  
 Note: All other plugins will be naturally initialized but no hooks they registered will be invoked
 
-#### `hookNamesWhiteList`
+#### `lifecycleHookNamesWhitelist`
 
-List of hooks for which callbacks should be run.
+List of lifecycle hooks for which callbacks should be run.
 Registered callbacks for all other scheduled hooks will be ignored
 
 #### `modulesCacheStup` (optional)
