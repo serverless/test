@@ -22,10 +22,10 @@
     "sinon": "^7.4.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
+    "@commitlint/cli": "^8.2.0",
     "@serverless/eslint-config": "^1.2.0",
     "bluebird": "^3.5.5",
-    "eslint": "^6.3.0",
+    "eslint": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
