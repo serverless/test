@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/serverless/test/compare/v1.0.0...v2.0.0) (2019-09-19)
+
+### Bug Fixes
+
+- Cleanup homedir only after top suite run finalizes ([523f48d](https://github.com/serverless/test/commit/523f48d))
+- Support validation for 'password' type in inquirer stub ([bcbcf4c](https://github.com/serverless/test/commit/bcbcf4c))
+
+### Features
+
+- Support `hooks` in _run-serverless_ util ([c385862](https://github.com/serverless/test/commit/c385862))
+
+### refactor
+
+- Rename `hookNamesWhitelist` _run-serverless_ option ([9df7313](https://github.com/serverless/test/commit/9df7313))
+
+### BREAKING CHANGES
+
+- In _run-serveless_ util `hookNamesWhitelist` option was renamed to
+  `lifecycleHookNamesWhitelist`.
+  It's to not confuse it with `hooks` option (which is not about lifecycle hooks)
+
 ## 1.0.0 (2019-09-13)
 
 Initial implementation, derived from [serveress](https://github.com/serverless/serverless/) codebase.
