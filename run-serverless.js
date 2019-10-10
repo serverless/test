@@ -98,6 +98,13 @@ module.exports = (
               const whitelistedPlugins = pluginManager.plugins.filter(plugin =>
                 pluginConstructorsWhitelist.some(Plugin => plugin instanceof Plugin)
               );
+              for (const [index, Plugin] of pluginConstructorsWhitelist.entries()) {
+                if (!whitelistedPlugins.some(plugin => plugin instanceof Plugin)) {
+                  throw new Error(
+                    `Didn't resolve a plugin instance for ${pluginPathsWhitelist[index]}`
+                  );
+                }
+              }
 
               const { hooks: lifecycleHooks } = pluginManager;
               for (const hookName of Object.keys(lifecycleHooks)) {
