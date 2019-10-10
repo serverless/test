@@ -1,5 +1,9 @@
 'use strict';
 
+const ensureString = require('type/string/ensure');
+const ensureIterable = require('type/iterable/ensure');
+const ensurePlainObject = require('type/plain-object/ensure');
+const ensurePlainFunction = require('type/plain-function/ensure');
 const { entries, values } = require('lodash');
 const overrideEnv = require('process-utils/override-env');
 const overrideCwd = require('process-utils/override-cwd');
@@ -48,12 +52,39 @@ module.exports = (
     modulesCacheStub,
     hooks = {},
   }
-) =>
-  overrideEnv(originalEnv => {
+) => {
+  cwd = ensureString(cwd, {
+    errorMessage: '`cwd` (current working directory) is a mandatory option, received %v',
+  });
+  cliArgs = ensureIterable(cliArgs, {
+    default: [],
+    ensureItem: ensureString,
+    errorMessage: 'Expected `cliArgs` to be a string collection, received %v',
+  });
+  pluginPathsWhitelist = ensureIterable(pluginPathsWhitelist, {
+    denyEmpty: true,
+    ensureItem: ensureString,
+    errorMessage:
+      'Expected `pluginPathsWhitelist` to be a non empty string collection, received %v',
+  });
+  lifecycleHookNamesWhitelist = ensureIterable(lifecycleHookNamesWhitelist, {
+    denyEmpty: true,
+    ensureItem: ensureString,
+    errorMessage:
+      'Expected `lifecycleHookNamesWhitelist` to be a non empty string collection, received %v',
+  });
+  ensurePlainObject(hooks, {
+    default: {},
+    allowedKeys: ['after', 'before'],
+    ensurePropertyValue: ensurePlainFunction,
+    errorMessage:
+      'Expected `hooks` to be a plain object with predefined supported hooks, received %v',
+  });
+  return overrideEnv(originalEnv => {
     process.env.APPDATA = originalEnv.APPDATA; // Needed on Windows
     if (env) Object.assign(process.env, env);
     return overrideCwd(cwd, () =>
-      overrideArgv({ args: ['serverless', ...(cliArgs || [])] }, () =>
+      overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
         resolveServerless(serverlessPath, modulesCacheStub, Serverless =>
           Promise.resolve(hooks.before && hooks.before()).then(() => {
             // Intialize serverless instances in preconfigured environment
@@ -92,3 +123,4 @@ module.exports = (
       )
     );
   });
+};

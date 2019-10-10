@@ -19,7 +19,8 @@
     "lodash": "^4.17.15",
     "p-limit": "^2.2.1",
     "process-utils": "^2.5.0",
-    "sinon": "^7.4.2"
+    "sinon": "^7.4.2",
+    "type": "^2.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
