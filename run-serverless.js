@@ -107,15 +107,26 @@ module.exports = (
               }
 
               const { hooks: lifecycleHooks } = pluginManager;
+              const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
               for (const hookName of Object.keys(lifecycleHooks)) {
                 if (!lifecycleHookNamesWhitelist.includes(hookName)) {
                   delete lifecycleHooks[hookName];
                   continue;
                 }
+
                 lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(({ hook }) =>
                   whitelistedPlugins.some(whitelistedPlugin =>
                     values(whitelistedPlugin.hooks).includes(hook)
                   )
+                );
+                if (lifecycleHooks[hookName].length) unconfirmedLifecycleHookNames.delete(hookName);
+              }
+              if (unconfirmedLifecycleHookNames.size) {
+                throw new Error(
+                  'Some of whitelisted lifecycle hook names are not recognized ' +
+                    `in scope of whitelisted plugins: ${Array.from(
+                      unconfirmedLifecycleHookNames
+                    ).join(', ')}`
                 );
               }
 
