@@ -53,6 +53,17 @@ module.exports = (
     hooks = {},
   }
 ) => {
+  serverlessPath = ensureString(serverlessPath, {
+    errorMessage: "Expected 'serverlessPath' to be a string. Received: %v",
+  });
+  try {
+    require.resolve(serverlessPath);
+  } catch (error) {
+    throw new TypeError(
+      `Provided 'serverlessPath' (${serverlessPath}) ` +
+        `doesn't point a working node module: ${error.message}`
+    );
+  }
   cwd = ensureString(cwd, {
     errorMessage: '`cwd` (current working directory) is a mandatory option, received %v',
   });
