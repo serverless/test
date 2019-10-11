@@ -11,7 +11,7 @@ const runServerless = require('@serverless/test/run-serverless');
 
 describe('Some suite', () => {
   it('Some test that involves creation of serverless instance', function() {
-    runServerless(pathToServerlessRootFolder, {
+    runServerless(serverlessPath, {
       // Options, see below documentation
     }).then(serverless => {
       // Resolved after serverless.run() finalizes.
@@ -20,6 +20,8 @@ describe('Some suite', () => {
   });
 });
 ```
+
+`serverlessPath` should point a path to Serverless Framework which we want to run test against.
 
 ### Supported options
 
@@ -38,7 +40,9 @@ Eventual environment variables (e.g. `{ SLS_DEBUG: '*' }`)
 #### `pluginPathsWhiteList`
 
 Paths to plugins of which registered hooks should be invoked.  
-Note: All other plugins will be naturally initialized but no hooks they registered will be invoked
+Note: All other plugins will be naturally initialized but no hooks they registered will be invoked.
+
+Path can be absolute or relative against `serverlessPath`.
 
 #### `lifecycleHookNamesWhitelist`
 
