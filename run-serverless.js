@@ -77,7 +77,8 @@ module.exports = (
   });
   pluginPathsWhitelist = ensureIterable(pluginPathsWhitelist, {
     denyEmpty: true,
-    ensureItem: pluginPath => require.resolve(ensureString(pluginPath)),
+    ensureItem: pluginPath =>
+      require.resolve(path.resolve(serverlessPath, ensureString(pluginPath))),
     errorMessage:
       'Expected `pluginPathsWhitelist` to be a non empty, valid plugin paths collection,' +
       ' received %v',
