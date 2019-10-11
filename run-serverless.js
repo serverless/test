@@ -5,6 +5,7 @@ const ensureIterable = require('type/iterable/ensure');
 const ensurePlainObject = require('type/plain-object/ensure');
 const ensurePlainFunction = require('type/plain-function/ensure');
 const { entries, values } = require('lodash');
+const path = require('path');
 const overrideEnv = require('process-utils/override-env');
 const overrideCwd = require('process-utils/override-cwd');
 const overrideArgv = require('process-utils/override-argv');
@@ -53,9 +54,11 @@ module.exports = (
     hooks = {},
   }
 ) => {
-  serverlessPath = ensureString(serverlessPath, {
-    errorMessage: "Expected 'serverlessPath' to be a string. Received: %v",
-  });
+  serverlessPath = path.resolve(
+    ensureString(serverlessPath, {
+      errorMessage: "Expected 'serverlessPath' to be a string. Received: %v",
+    })
+  );
   try {
     require.resolve(serverlessPath);
   } catch (error) {
@@ -74,9 +77,10 @@ module.exports = (
   });
   pluginPathsWhitelist = ensureIterable(pluginPathsWhitelist, {
     denyEmpty: true,
-    ensureItem: ensureString,
+    ensureItem: pluginPath => require.resolve(ensureString(pluginPath)),
     errorMessage:
-      'Expected `pluginPathsWhitelist` to be a non empty string collection, received %v',
+      'Expected `pluginPathsWhitelist` to be a non empty, valid plugin paths collection,' +
+      ' received %v',
   });
   lifecycleHookNamesWhitelist = ensureIterable(lifecycleHookNamesWhitelist, {
     denyEmpty: true,
