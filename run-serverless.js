@@ -108,32 +108,55 @@ module.exports = (
 
               const { hooks: lifecycleHooks } = pluginManager;
               const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
+              const notExecutedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
               for (const hookName of Object.keys(lifecycleHooks)) {
                 if (!lifecycleHookNamesWhitelist.includes(hookName)) {
                   delete lifecycleHooks[hookName];
                   continue;
                 }
 
-                lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(({ hook }) =>
-                  whitelistedPlugins.some(whitelistedPlugin =>
-                    values(whitelistedPlugin.hooks).includes(hook)
-                  )
-                );
+                lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(hookData => {
+                  if (
+                    !whitelistedPlugins.some(whitelistedPlugin =>
+                      values(whitelistedPlugin.hooks).includes(hookData.hook)
+                    )
+                  ) {
+                    return false;
+                  }
+                  const originalHook = hookData.hook;
+                  hookData.hook = function(...args) {
+                    notExecutedLifecycleHookNames.delete(hookName);
+                    return originalHook.apply(this, args);
+                  };
+                  return true;
+                });
+
                 if (lifecycleHooks[hookName].length) unconfirmedLifecycleHookNames.delete(hookName);
               }
               if (unconfirmedLifecycleHookNames.size) {
                 throw new Error(
-                  'Some of whitelisted lifecycle hook names are not recognized ' +
-                    `in scope of whitelisted plugins: ${Array.from(
-                      unconfirmedLifecycleHookNames
-                    ).join(', ')}`
+                  `${Array.from(unconfirmedLifecycleHookNames).join(
+                    ', '
+                  )} whitelisted lifecycle hook names were not recognized ` +
+                    'in scope of whitelisted plugins'
                 );
               }
 
               // Run plugin manager hooks
               return serverless
                 .run()
-                .then(() => hooks.after && hooks.after(serverless))
+                .then(() => {
+                  if (notExecutedLifecycleHookNames.size) {
+                    throw new Error(
+                      `${Array.from(unconfirmedLifecycleHookNames).join(
+                        ', '
+                      )} whitelisted lifecycle hooks were not executed. ` +
+                        'Ensure to enforce desired serverless command via `cliArgs` option.'
+                    );
+                  }
+                  if (hooks.after) return hooks.after(serverless);
+                  return null;
+                })
                 .then(() => serverless);
             });
           })
