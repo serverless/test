@@ -28,8 +28,9 @@ module.exports = (inquirer, config) => {
   };
 
   if (inquirer.prompt.restore) inquirer.prompt.restore();
+  if (inquirer.createPromptModule.restore) inquirer.createPromptModule.restore();
 
-  return sinon.stub(inquirer, 'prompt').callsFake(promptConfig => {
+  sinon.stub(inquirer, 'prompt').callsFake(promptConfig => {
     if (!Array.isArray(promptConfig)) return resolveAnswer(promptConfig);
     const result = {};
     return promptConfig.reduce(
@@ -41,4 +42,8 @@ module.exports = (inquirer, config) => {
       Promise.resolve({})
     );
   });
+
+  sinon.stub(inquirer, 'createPromptModule').callsFake(() => inquirer.prompt);
+
+  return inquirer;
 };
