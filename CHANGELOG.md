@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/serverless/test/compare/v2.0.0...v2.1.0) (2019-10-15)
+
+### Features
+
+- `provision-tmp-dir` util ([6954597](https://github.com/serverless/test/commit/6954597))
+- **Inquirer Stub:**
+  - Auto reset eventual previous stub ([ae048ec](https://github.com/serverless/test/commit/ae048ec))
+  - Stub `createPromptModule` ([8331c08](https://github.com/serverless/test/commit/8331c08))
+  - Support prompt collections ([edf29aa](https://github.com/serverless/test/commit/edf29aa))
+- **Run Serverless:**
+  - Support `config` option, as an alternative to `cwd` ([6362b23](https://github.com/serverless/test/commit/6362b23))
+  - Confirm whitelisted lifecycle hooks were executed ([76c66b6](https://github.com/serverless/test/commit/76c66b6))
+  - Ensure whitelisted lifecycle hooks are recognized ([3f1f7f3](https://github.com/serverless/test/commit/3f1f7f3))
+  - Ensure whitelisted plugins exist ([fd7a222](https://github.com/serverless/test/commit/fd7a222))
+  - Support relative plugin paths ([95766e9](https://github.com/serverless/test/commit/95766e9))
+  - Validate input arguments ([2ec470d](https://github.com/serverless/test/commit/2ec470d))
+  - Validate input serverlessPath ([2e9419f](https://github.com/serverless/test/commit/2e9419f))
+  - Validate paths of whitelisted plugins upfront ([cc85e5b](https://github.com/serverless/test/commit/cc85e5b))
+
 ## [2.0.0](https://github.com/serverless/test/compare/v1.0.0...v2.0.0) (2019-09-19)
 
 ### Bug Fixes
