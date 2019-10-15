@@ -27,6 +27,8 @@ module.exports = (inquirer, config) => {
     });
   };
 
+  if (inquirer.prompt.restore) inquirer.prompt.restore();
+
   return sinon.stub(inquirer, 'prompt').callsFake(promptConfig => {
     if (!Array.isArray(promptConfig)) return resolveAnswer(promptConfig);
     const result = {};
