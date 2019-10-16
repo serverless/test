@@ -118,6 +118,11 @@ module.exports = (
     errorMessage:
       'Expected `hooks` to be a plain object with predefined supported hooks, received %v',
   });
+  env = ensurePlainObject(env, {
+    isOptional: true,
+    ensurePropertyValue: ensureString,
+    errorMessage: 'Expected `env` to be a plain object with string property values, received %v',
+  });
   return resolveCwd({ cwd, config }).then(confirmedCwd =>
     overrideEnv(originalEnv => {
       if (originalEnv.APPDATA) process.env.APPDATA = originalEnv.APPDATA; // Needed on Windows
