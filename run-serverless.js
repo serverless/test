@@ -61,6 +61,7 @@ module.exports = (
     config,
     cliArgs,
     env,
+    envWhitelist,
     pluginPathsWhitelist,
     lifecycleHookNamesWhitelist,
     modulesCacheStub,
@@ -123,9 +124,17 @@ module.exports = (
     ensurePropertyValue: ensureString,
     errorMessage: 'Expected `env` to be a plain object with string property values, received %v',
   });
+  envWhitelist = ensureIterable(envWhitelist, {
+    default: [],
+    ensureItem: ensureString,
+    errorMessage: 'Expected `envWhitelist` to be a var names collection, received %v',
+  });
   return resolveCwd({ cwd, config }).then(confirmedCwd =>
     overrideEnv(originalEnv => {
       if (originalEnv.APPDATA) process.env.APPDATA = originalEnv.APPDATA; // Needed on Windows
+      for (const envVarName of envWhitelist) {
+        if (originalEnv[envVarName]) process.env[envVarName] = originalEnv[envVarName];
+      }
       if (env) Object.assign(process.env, env);
       return overrideCwd(confirmedCwd, () =>
         overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
