@@ -120,7 +120,7 @@ module.exports = (
   });
   return resolveCwd({ cwd, config }).then(confirmedCwd =>
     overrideEnv(originalEnv => {
-      process.env.APPDATA = originalEnv.APPDATA; // Needed on Windows
+      if (originalEnv.APPDATA) process.env.APPDATA = originalEnv.APPDATA; // Needed on Windows
       if (env) Object.assign(process.env, env);
       return overrideCwd(confirmedCwd, () =>
         overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
