@@ -46,6 +46,12 @@ CLI arguments (e.g. `['deploy', '--stage', 'beta']`), defaults to `[]`
 
 Eventual environment variables (e.g. `{ SLS_DEBUG: '*' }`)
 
+#### `envWhitelist` (optional)
+
+`runServerless` is run with mocked `process.env` and no env vars from original `process.env` exposed.
+
+If there's a need to expose some env vars from original env, provide this option with expected var names to expose
+
 #### `pluginPathsWhiteList`
 
 Paths to plugins of which registered hooks should be invoked.  
