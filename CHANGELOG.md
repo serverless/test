@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/serverless/test/compare/v2.1.0...v2.2.0) (2019-10-21)
+
+### Bug Fixes
+
+- **Run Serverless:**
+  - Do not assign 'undefined' value to env var ([a928602](https://github.com/serverless/test/commit/a928602))
+
+### Features
+
+- **Run Serverless:**
+  - `envWhitelist` option ([ad6e047](https://github.com/serverless/test/commit/ad6e047))
+  - Validate eventually passed 'env' option ([6cee5ae](https://github.com/serverless/test/commit/6cee5ae))
+- `resolveAwsEnv` util ([2eb4630](https://github.com/serverless/test/commit/2eb4630))
+- `resolveEnv` util ([c5856e7](https://github.com/serverless/test/commit/c5856e7))
+- Log writing setup option ([4e02245](https://github.com/serverless/test/commit/4e02245))
+
 ## [2.1.0](https://github.com/serverless/test/compare/v2.0.0...v2.1.0) (2019-10-15)
 
 ### Features
