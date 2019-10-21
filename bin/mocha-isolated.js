@@ -10,6 +10,8 @@ const spawn = require('child-process-ext/spawn');
 const chalk = require('chalk');
 const pLimit = require('p-limit');
 const mochaCollectFiles = require('mocha/lib/cli/collect-files');
+const resolveEnv = require('../resolve-env');
+const resolveAwsEnv = require('../resolve-aws-env');
 
 const inputOptions = {};
 const filePatterns = process.argv.slice(2).filter(arg => {
@@ -100,19 +102,8 @@ const run = path => {
       );
   })();
 
-  const env = { FORCE_COLOR: '1' };
-  for (const varName of ['APPDATA', 'HOME', 'PATH', 'TMPDIR', 'USERPROFILE']) {
-    if (process.env[varName]) env[varName] = process.env[varName];
-  }
-
-  if (inputOptions.passThroughAwsCreds) {
-    for (const envVarName of Object.keys(process.env)) {
-      if (envVarName.startsWith('AWS_')) env[envVarName] = process.env[envVarName];
-    }
-    if (process.env.SERVERLESS_ACCESS_KEY) {
-      env.SERVERLESS_ACCESS_KEY = process.env.SERVERLESS_ACCESS_KEY;
-    }
-  }
+  const env = inputOptions.passThroughAwsCreds ? resolveAwsEnv() : resolveEnv();
+  env.FORCE_COLOR = '1';
   return spawn('node', ['node_modules/.bin/_mocha', path], {
     stdio: isMultiProcessRun ? null : 'inherit',
     env,
