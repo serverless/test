@@ -1,15 +1,21 @@
 'use strict';
 
+const log = require('log').get('mocha');
 const initializeLogWriter = require('log-node');
+const { deferredRunner } = require('./mocha-reporter');
 
 const logWriter = initializeLogWriter();
+
+deferredRunner.then(runner => {
+  runner.on('suite', suite => log.debug('suite %s', suite.title));
+  runner.on('test', suite => log.debug('test %s', suite.title));
+});
 
 if (process.env.LOG_LEVEL || process.env.LOG_DEBUG || process.env.DEBUG) return;
 
 // Flush all gathered logs (down to DEBUG level) on test failure
 
 const logEmitter = require('log/lib/emitter');
-const { deferredRunner } = require('./mocha-reporter');
 
 const logsBuffer = [];
 const flushLogs = () => {
