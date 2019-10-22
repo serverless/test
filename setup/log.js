@@ -19,10 +19,13 @@ const logEmitter = require('log/lib/emitter');
 
 const logsBuffer = [];
 const flushLogs = () => {
-  logsBuffer.forEach(event => {
-    if (!event.message) logWriter.resolveMessage(event);
-    logWriter.writeMessage(event);
-  });
+  // Write, only if there are some non-mocha log events
+  if (logsBuffer.some(event => event.logger.namespace !== 'mocha')) {
+    logsBuffer.forEach(event => {
+      if (!event.message) logWriter.resolveMessage(event);
+      logWriter.writeMessage(event);
+    });
+  }
   logsBuffer.length = 0; // Empty array
 };
 
