@@ -6,9 +6,22 @@ const { deferredRunner } = require('./mocha-reporter');
 
 const logWriter = initializeLogWriter();
 
+const logSuiteTitle = suite => {
+  let message = '%s';
+  const args = [suite.title];
+  while (suite.parent) {
+    suite = suite.parent;
+    if (suite.title) {
+      message = `%s > ${message}`;
+      args.unshift(suite.title);
+    }
+  }
+  log.debug(message, ...args);
+};
+
 deferredRunner.then(runner => {
-  runner.on('suite', suite => log.debug('suite %s', suite.title));
-  runner.on('test', suite => log.debug('test %s', suite.title));
+  runner.on('suite', logSuiteTitle);
+  runner.on('test', logSuiteTitle);
 });
 
 if (process.env.LOG_LEVEL || process.env.LOG_DEBUG || process.env.DEBUG) return;
