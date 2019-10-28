@@ -11,6 +11,6 @@ require('../mocha-reporter').deferredRunner.then(runner =>
       throw new Error('Test ended with unfinished async jobs');
       // Timeout '2' to ensure no false positives, with '1' there are observable rare scenarios
       // of possibly a garbage collector delaying process exit being picked up
-    }, 2).unref();
+    }, 3).unref();
   })
 );
