@@ -4,6 +4,6 @@ const createEnv = require('process-utils/create-env');
 
 module.exports = () =>
   createEnv({
-    whitelist: ['APPDATA', 'HOME', 'PATH', 'TMPDIR', 'USERPROFILE'],
+    whitelist: ['APPDATA', 'HOME', 'PATH', 'SERVERLESS_BINARY_PATH', 'TMPDIR', 'USERPROFILE'],
     variables: { SLS_TRACKING_DISABLED: '1' },
   });
