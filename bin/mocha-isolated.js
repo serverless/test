@@ -71,7 +71,16 @@ const { ongoing, cliFooter } = (() => {
   return { ongoing: new Set(), cliFooter: require('cli-progress-footer')() };
 })();
 
+const failed = [];
+process.on('exit', () => {
+  if (!failed.length) return;
+  process.stdout.write('\n');
+  for (const testPath of failed) process.stdout.write(chalk.red.bold(`${testPath} failed\n`));
+});
+
+let shouldAbort = false;
 const run = path => {
+  if (shouldAbort) return null;
   if (isMultiProcessRun) {
     ongoing.add(path);
     cliFooter.updateProgress(Array.from(ongoing));
@@ -94,7 +103,9 @@ const run = path => {
             process.stdout.write(
               chalk.red.bold(`${path} didn't clean created temporary files\n\n`)
             );
-            process.exit(1);
+            failed.push(path);
+            process.exitCode = 1;
+            shouldAbort = true;
           }
         }
       );
@@ -105,14 +116,14 @@ const run = path => {
   return spawn('node', ['node_modules/.bin/_mocha', path], {
     stdio: isMultiProcessRun ? null : 'inherit',
     env,
-  }).then(onFinally, error => {
-    if (isMultiProcessRun) ongoing.clear();
-    return onFinally(error).then(() => {
+  }).then(onFinally, error =>
+    onFinally(error).then(() => {
+      failed.push(path);
       process.stdout.write(chalk.red.bold(`${path} failed\n\n`));
-      if (error.code <= 2) process.exit(error.code);
-      throw error;
-    });
-  });
+      if (error.code > 2) throw error;
+      process.exitCode = 1;
+    })
+  );
 };
 
 const limit = pLimit(processesCount);
