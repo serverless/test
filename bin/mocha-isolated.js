@@ -17,6 +17,9 @@ const inputOptions = {};
 const filePatterns = process.argv.slice(2).filter(arg => {
   if (!arg.startsWith('-')) return true;
   switch (arg) {
+    case '--bail':
+      inputOptions.bail = true;
+      break;
     case '--pass-through-aws-creds':
       inputOptions.passThroughAwsCreds = true;
       break;
@@ -122,6 +125,7 @@ const run = path => {
       process.stdout.write(chalk.red.bold(`${path} failed\n\n`));
       if (error.code > 2) throw error;
       process.exitCode = 1;
+      if (inputOptions.bail) shouldAbort = true;
     })
   );
 };
