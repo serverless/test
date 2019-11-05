@@ -35,8 +35,7 @@ const resolveGitStatus = () =>
   spawn('git', ['status', '--porcelain']).then(
     ({ stdoutBuffer }) => String(stdoutBuffer),
     error => {
-      process.stdout.write(error.stdoutBuffer);
-      process.stderr.write(error.stderrBuffer);
+      process.stdout.write(error.stdBuffer);
       throw error;
     }
   );
@@ -80,11 +79,10 @@ const run = path => {
 
   const onFinally = (() => {
     if (isMultiProcessRun) {
-      return ({ stdoutBuffer, stderrBuffer }) => {
+      return ({ stdBuffer }) => {
         ongoing.delete(path);
         cliFooter.updateProgress(Array.from(ongoing));
-        process.stdout.write(stdoutBuffer);
-        process.stderr.write(stderrBuffer);
+        process.stdout.write(stdBuffer);
         return Promise.resolve();
       };
     }
