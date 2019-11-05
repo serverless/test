@@ -24,7 +24,7 @@ const filePatterns = process.argv.slice(2).filter(arg => {
       inputOptions.skipFsCleanupCheck = true;
       break;
     default:
-      process.stderr.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
+      process.stdout.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
       process.exit(1);
   }
   return false;
@@ -56,7 +56,7 @@ const paths = mochaCollectFiles({
 }).map(filename => filename.slice(cwdPathLength));
 
 if (!paths.length) {
-  process.stderr.write(chalk.red.bold('No test files matched\n\n'));
+  process.stdout.write(chalk.red.bold('No test files matched\n\n'));
   process.exit(1);
 }
 
@@ -91,7 +91,7 @@ const run = path => {
       Promise.all([initialGitStatusDeferred, resolveGitStatus()]).then(
         ([initialStatus, currentStatus]) => {
           if (initialStatus !== currentStatus) {
-            process.stderr.write(
+            process.stdout.write(
               chalk.red.bold(`${path} didn't clean created temporary files\n\n`)
             );
             process.exit(1);
@@ -108,7 +108,7 @@ const run = path => {
   }).then(onFinally, error => {
     if (isMultiProcessRun) ongoing.clear();
     return onFinally(error).then(() => {
-      process.stderr.write(chalk.red.bold(`${path} failed\n\n`));
+      process.stdout.write(chalk.red.bold(`${path} failed\n\n`));
       if (error.code <= 2) process.exit(error.code);
       throw error;
     });
