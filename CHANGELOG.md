@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/serverless/test/compare/v2.4.0...v2.5.0) (2019-11-08)
+
+### Bug Fixes
+
+- Increase async leaks detector wait gap ([5cc991c](https://github.com/serverless/test/commit/5cc991c))
+
+### Features
+
+- **Mocha Isolated:**:
+  - --bail' option to abort after first fail ([d0c7a3a](https://github.com/serverless/test/commit/d0c7a3a))
+  - Do not hard exit process on test fail ([3b86bea](https://github.com/serverless/test/commit/3b86bea))
+  - Output stdout and stderr of finalized test in sync ([77de37a](https://github.com/serverless/test/commit/77de37a))
+- **Run Serverless:**
+  - Whitelist SERVERLESS_BINARY_PATH env var ([a767b67](https://github.com/serverless/test/commit/a767b67))
+
 ## [2.4.0](https://github.com/serverless/test/compare/v2.3.0...v2.4.0) (2019-10-23)
 
 ### Features
