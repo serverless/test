@@ -26,9 +26,9 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
-    "@serverless/eslint-config": "^1.2.0",
+    "@serverless/eslint-config": "^1.2.1",
     "bluebird": "^3.7.1",
-    "eslint": "^6.5.1",
+    "eslint": "^6.6.0",
     "eslint-plugin-import": "^2.18.2",
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
