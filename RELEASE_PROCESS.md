@@ -6,13 +6,13 @@ This project uses [semantic commit messages](https://www.conventionalcommits.org
 
 See proposed [Commit Message Guidelines](https://docs.google.com/document/d/1hKUs3qt_aVp_PBI1UqvfaIqKma3jAJimEoGCRGGbOqs/edit#)
 
-In PR's as coming from forks (so community contributions) while its welcome, we do not require to follow semantic commit messages. Yet, such PR is expected to be squash merged by project member with single semantic commit message.
+In PR's as coming from forks (so community contributions) while its welcome, we do not require to follow semantic commit messages. Yet, such PR is expected to be squash merged by project member with a single semantic commit message.
 
 PR's comming from branches have commit messages validated with [commmitlint](https://commitlint.js.org/#/)
 
 ## Process
 
-Release are issued by preparing a release PR's as follows
+Releases are issued by preparing a release PR's as follows
 
 1. Create a _release_ branch (should derive from current `master` state)
 2. Bump version ranges of _all_ dependencies to latest supported versions (e.g. if latest version of a dependency is `2.3.5`, range in a `package.json` is `^2.2.4` then it should be updated to `^2.3.5`)  
@@ -22,11 +22,11 @@ Release are issued by preparing a release PR's as follows
    `chore: Bump dependencies`  
    message
 4. Run `npm run prepare-release` command.  
-   _It'll automatically bump version in `package.json` to expected one (by inspecting changes since previous release)) and will generate new changelog entry._
+   _It'll automatically bump version in `package.json` to expected one (by inspecting changes since previous release) and will generate a new changelog entry._
 5. If needed improve generated changelog entry in `CHANGELOG.md`
 6. Commit `package.json` and `CHANGELOG.md` changes with  
    `chore: Release`  
-   message (note: it is important, it's the last commit in a PR)
+   message (__Note: for automation purposes it is important, it's the last commit in the PR__)
 7. Push branch upstream and create a PR.  
    _Release PR's are automatically detected in CI by fact of `version` in `package.json` file being changed. In context of that build, existence of new version changelog entry (in `CHANGELOG.md`) is validated._
 8. After PR is accepted by CI and one of the reviewers, merge it via _"Rebase and merge"_ option
