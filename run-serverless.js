@@ -135,82 +135,84 @@ module.exports = (
       return overrideCwd(confirmedCwd, () =>
         overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
           resolveServerless(serverlessPath, modulesCacheStub, Serverless =>
-            Promise.resolve(hooks.before && hooks.before()).then(() => {
-              // Intialize serverless instances in preconfigured environment
-              const serverless = new Serverless();
-              const { pluginManager } = serverless;
-              const pluginConstructorsWhitelist = pluginPathsWhitelist.map(pluginPath =>
-                require(pluginPath)
-              );
-              return serverless.init().then(() => {
-                // Strip registered hooks, so only those intended are executed
-                const whitelistedPlugins = pluginManager.plugins.filter(plugin =>
-                  pluginConstructorsWhitelist.some(Plugin => plugin instanceof Plugin)
+            Promise.resolve(hooks.before && hooks.before(Serverless, { cwd: confirmedCwd })).then(
+              () => {
+                // Intialize serverless instances in preconfigured environment
+                const serverless = new Serverless();
+                const { pluginManager } = serverless;
+                const pluginConstructorsWhitelist = pluginPathsWhitelist.map(pluginPath =>
+                  require(pluginPath)
                 );
-                for (const [index, Plugin] of pluginConstructorsWhitelist.entries()) {
-                  if (!whitelistedPlugins.some(plugin => plugin instanceof Plugin)) {
-                    throw new Error(
-                      `Didn't resolve a plugin instance for ${pluginPathsWhitelist[index]}`
-                    );
-                  }
-                }
-
-                const { hooks: lifecycleHooks } = pluginManager;
-                const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
-                const notExecutedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
-                for (const hookName of Object.keys(lifecycleHooks)) {
-                  if (!lifecycleHookNamesWhitelist.includes(hookName)) {
-                    delete lifecycleHooks[hookName];
-                    continue;
-                  }
-
-                  lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(hookData => {
-                    if (
-                      !whitelistedPlugins.some(whitelistedPlugin =>
-                        values(whitelistedPlugin.hooks).includes(hookData.hook)
-                      )
-                    ) {
-                      return false;
-                    }
-                    const originalHook = hookData.hook;
-                    hookData.hook = function(...args) {
-                      notExecutedLifecycleHookNames.delete(hookName);
-                      return originalHook.apply(this, args);
-                    };
-                    return true;
-                  });
-
-                  if (lifecycleHooks[hookName].length) {
-                    unconfirmedLifecycleHookNames.delete(hookName);
-                  }
-                }
-                if (unconfirmedLifecycleHookNames.size) {
-                  throw new Error(
-                    `${Array.from(unconfirmedLifecycleHookNames).join(
-                      ', '
-                    )} whitelisted lifecycle hook names were not recognized ` +
-                      'in scope of whitelisted plugins'
+                return serverless.init().then(() => {
+                  // Strip registered hooks, so only those intended are executed
+                  const whitelistedPlugins = pluginManager.plugins.filter(plugin =>
+                    pluginConstructorsWhitelist.some(Plugin => plugin instanceof Plugin)
                   );
-                }
-
-                // Run plugin manager hooks
-                return serverless
-                  .run()
-                  .then(() => {
-                    if (notExecutedLifecycleHookNames.size) {
+                  for (const [index, Plugin] of pluginConstructorsWhitelist.entries()) {
+                    if (!whitelistedPlugins.some(plugin => plugin instanceof Plugin)) {
                       throw new Error(
-                        `${Array.from(unconfirmedLifecycleHookNames).join(
-                          ', '
-                        )} whitelisted lifecycle hooks were not executed. ` +
-                          'Ensure to enforce desired serverless command via `cliArgs` option.'
+                        `Didn't resolve a plugin instance for ${pluginPathsWhitelist[index]}`
                       );
                     }
-                    if (hooks.after) return hooks.after(serverless);
-                    return null;
-                  })
-                  .then(() => serverless);
-              });
-            })
+                  }
+
+                  const { hooks: lifecycleHooks } = pluginManager;
+                  const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
+                  const notExecutedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
+                  for (const hookName of Object.keys(lifecycleHooks)) {
+                    if (!lifecycleHookNamesWhitelist.includes(hookName)) {
+                      delete lifecycleHooks[hookName];
+                      continue;
+                    }
+
+                    lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(hookData => {
+                      if (
+                        !whitelistedPlugins.some(whitelistedPlugin =>
+                          values(whitelistedPlugin.hooks).includes(hookData.hook)
+                        )
+                      ) {
+                        return false;
+                      }
+                      const originalHook = hookData.hook;
+                      hookData.hook = function(...args) {
+                        notExecutedLifecycleHookNames.delete(hookName);
+                        return originalHook.apply(this, args);
+                      };
+                      return true;
+                    });
+
+                    if (lifecycleHooks[hookName].length) {
+                      unconfirmedLifecycleHookNames.delete(hookName);
+                    }
+                  }
+                  if (unconfirmedLifecycleHookNames.size) {
+                    throw new Error(
+                      `${Array.from(unconfirmedLifecycleHookNames).join(
+                        ', '
+                      )} whitelisted lifecycle hook names were not recognized ` +
+                        'in scope of whitelisted plugins'
+                    );
+                  }
+
+                  // Run plugin manager hooks
+                  return serverless
+                    .run()
+                    .then(() => {
+                      if (notExecutedLifecycleHookNames.size) {
+                        throw new Error(
+                          `${Array.from(unconfirmedLifecycleHookNames).join(
+                            ', '
+                          )} whitelisted lifecycle hooks were not executed. ` +
+                            'Ensure to enforce desired serverless command via `cliArgs` option.'
+                        );
+                      }
+                      if (hooks.after) return hooks.after(serverless);
+                      return null;
+                    })
+                    .then(() => serverless);
+                });
+              }
+            )
           )
         )
       );
