@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/serverless/test/compare/v2.5.0...v3.0.0) (2019-11-19)
+
+### Features
+
+- **Run Serverless:**:
+  - Pass Serverless constructor and cwd to `before` hook ([d0e0530](https://github.com/serverless/test/commit/d0e0530))
+  - Replace whitelist approach with blacklist one ([b1faeb9](https://github.com/serverless/test/commit/b1faeb9))
+
+### BREAKING CHANGES
+
+- **Run Serverless:** `pluginPathsWhitelist` and `lifecycleHookNamesWhitelist` options were
+  removed in favor of `pluginPathsBlacklist` and
+  `lifecycleHookNamesBlacklist`
+
 ## [2.5.0](https://github.com/serverless/test/compare/v2.4.0...v2.5.0) (2019-11-08)
 
 ### Bug Fixes
