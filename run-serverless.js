@@ -63,8 +63,8 @@ module.exports = (
     cliArgs,
     env,
     envWhitelist,
-    pluginPathsWhitelist,
-    lifecycleHookNamesWhitelist,
+    pluginPathsBlacklist,
+    lifecycleHookNamesBlacklist,
     modulesCacheStub,
     hooks = {},
   }
@@ -99,19 +99,17 @@ module.exports = (
     ensureItem: ensureString,
     errorMessage: 'Expected `cliArgs` to be a string collection, received %v',
   });
-  pluginPathsWhitelist = ensureIterable(pluginPathsWhitelist, {
-    denyEmpty: true,
+  pluginPathsBlacklist = ensureIterable(pluginPathsBlacklist, {
+    default: [],
     ensureItem: pluginPath =>
       require.resolve(path.resolve(serverlessPath, ensureString(pluginPath))),
     errorMessage:
-      'Expected `pluginPathsWhitelist` to be a non empty, valid plugin paths collection,' +
-      ' received %v',
+      'Expected `pluginPathsBlacklist` to be a valid plugin paths collection, received %v',
   });
-  lifecycleHookNamesWhitelist = ensureIterable(lifecycleHookNamesWhitelist, {
-    denyEmpty: true,
+  lifecycleHookNamesBlacklist = ensureIterable(lifecycleHookNamesBlacklist, {
+    default: [],
     ensureItem: ensureString,
-    errorMessage:
-      'Expected `lifecycleHookNamesWhitelist` to be a non empty string collection, received %v',
+    errorMessage: 'Expected `lifecycleHookNamesBlacklist` to be a string collection, received %v',
   });
   ensurePlainObject(hooks, {
     default: {},
@@ -139,58 +137,44 @@ module.exports = (
               () => {
                 // Intialize serverless instances in preconfigured environment
                 const serverless = new Serverless();
-                const { pluginManager } = serverless;
-                const pluginConstructorsWhitelist = pluginPathsWhitelist.map(pluginPath =>
+                const pluginConstructorsBlacklist = pluginPathsBlacklist.map(pluginPath =>
                   require(pluginPath)
                 );
                 return serverless.init().then(() => {
+                  const { pluginManager } = serverless;
                   // Strip registered hooks, so only those intended are executed
-                  const whitelistedPlugins = pluginManager.plugins.filter(plugin =>
-                    pluginConstructorsWhitelist.some(Plugin => plugin instanceof Plugin)
+                  const blacklistedPlugins = pluginManager.plugins.filter(plugin =>
+                    pluginConstructorsBlacklist.some(Plugin => plugin instanceof Plugin)
                   );
-                  for (const [index, Plugin] of pluginConstructorsWhitelist.entries()) {
-                    if (!whitelistedPlugins.some(plugin => plugin instanceof Plugin)) {
+                  for (const [index, Plugin] of pluginConstructorsBlacklist.entries()) {
+                    if (!blacklistedPlugins.some(plugin => plugin instanceof Plugin)) {
                       throw new Error(
-                        `Didn't resolve a plugin instance for ${pluginPathsWhitelist[index]}`
+                        `Didn't resolve a plugin instance for ${pluginPathsBlacklist[index]}`
                       );
                     }
                   }
 
                   const { hooks: lifecycleHooks } = pluginManager;
-                  const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
-                  const notExecutedLifecycleHookNames = new Set(lifecycleHookNamesWhitelist);
+                  const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesBlacklist);
                   for (const hookName of Object.keys(lifecycleHooks)) {
-                    if (!lifecycleHookNamesWhitelist.includes(hookName)) {
+                    unconfirmedLifecycleHookNames.delete(hookName);
+                    if (lifecycleHookNamesBlacklist.includes(hookName)) {
                       delete lifecycleHooks[hookName];
                       continue;
                     }
 
-                    lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(hookData => {
-                      if (
-                        !whitelistedPlugins.some(whitelistedPlugin =>
-                          values(whitelistedPlugin.hooks).includes(hookData.hook)
+                    lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(
+                      hookData =>
+                        !blacklistedPlugins.some(blacklistedPlugin =>
+                          values(blacklistedPlugin.hooks).includes(hookData.hook)
                         )
-                      ) {
-                        return false;
-                      }
-                      const originalHook = hookData.hook;
-                      hookData.hook = function(...args) {
-                        notExecutedLifecycleHookNames.delete(hookName);
-                        return originalHook.apply(this, args);
-                      };
-                      return true;
-                    });
-
-                    if (lifecycleHooks[hookName].length) {
-                      unconfirmedLifecycleHookNames.delete(hookName);
-                    }
+                    );
                   }
                   if (unconfirmedLifecycleHookNames.size) {
                     throw new Error(
                       `${Array.from(unconfirmedLifecycleHookNames).join(
                         ', '
-                      )} whitelisted lifecycle hook names were not recognized ` +
-                        'in scope of whitelisted plugins'
+                      )} blacklisted lifecycle hook names were not recognized.`
                     );
                   }
 
@@ -198,14 +182,6 @@ module.exports = (
                   return serverless
                     .run()
                     .then(() => {
-                      if (notExecutedLifecycleHookNames.size) {
-                        throw new Error(
-                          `${Array.from(unconfirmedLifecycleHookNames).join(
-                            ', '
-                          )} whitelisted lifecycle hooks were not executed. ` +
-                            'Ensure to enforce desired serverless command via `cliArgs` option.'
-                        );
-                      }
                       if (hooks.after) return hooks.after(serverless);
                       return null;
                     })

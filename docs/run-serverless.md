@@ -1,6 +1,6 @@
 # run-serverless
 
-Runs complete serverless instance in preconfigured environment, limited to predefined plugins and hook events.
+Runs complete serverless instance in preconfigured environment, optionally with some plugins and/or lifecycle engine hooks disabled.
 
 Optionally serverless instance can be freshly required with specifc modules mocked
 
@@ -52,17 +52,15 @@ Eventual environment variables (e.g. `{ SLS_DEBUG: '*' }`)
 
 If there's a need to expose some env vars from original env, provide this option with expected var names to expose
 
-#### `pluginPathsWhiteList`
+#### `pluginPathsBlacklist`
 
-Paths to plugins of which registered hooks should be invoked.  
-Note: All other plugins will be naturally initialized but no hooks they registered will be invoked.
+Paths to plugins of which registered hooks should not be invoked (note plugin will remain initialized)
 
 Path can be absolute or relative against `serverlessPath`.
 
-#### `lifecycleHookNamesWhitelist`
+#### `lifecycleHookNamesBlacklist`
 
-List of lifecycle hooks for which callbacks should be run.
-Registered callbacks for all other scheduled hooks will be ignored
+List of lifecycle hooks for which callbacks should not be run.
 
 #### `modulesCacheStup` (optional)
 
