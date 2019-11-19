@@ -2,7 +2,7 @@
 
 Runs complete serverless instance in preconfigured environment, optionally with some plugins and/or lifecycle engine hooks disabled.
 
-Optionally serverless instance can be freshly required with specifc modules mocked
+Optionally serverless instance can be freshly required with specific modules mocked
 
 ## Usage
 
