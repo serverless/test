@@ -33,10 +33,10 @@
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
     "glob-exec": "^0.1.1",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.4.3",
     "mocha": "^6.2.2",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "standard-version": "^6.0.1"
   },
   "peerDependencies": {
