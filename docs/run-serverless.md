@@ -75,10 +75,12 @@ Optional hooks, to be run in prepared mocked environemnt.
 
 Supported hooks:
 
-##### `before`
+##### `before()`
 
 Run as first step of evaluation (before `Serverless` instance is initialized, but after constructor is loaded)
 
-##### `after`
+##### `after(serverless)`
 
-Run as last step of evaluation (after `serverless.run()` resolves)
+Run as last step of evaluation (after `serverless.run()` resolves).
+
+It's invoked with `serverless` instance passed as first argument
