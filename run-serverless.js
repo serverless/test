@@ -65,6 +65,7 @@ module.exports = (
     envWhitelist,
     pluginPathsBlacklist,
     lifecycleHookNamesBlacklist,
+    lastLifecycleHookName,
     modulesCacheStub,
     hooks = {},
   }
@@ -111,6 +112,7 @@ module.exports = (
     ensureItem: ensureString,
     errorMessage: 'Expected `lifecycleHookNamesBlacklist` to be a string collection, received %v',
   });
+  lastLifecycleHookName = ensureString(lastLifecycleHookName, { isOptional: true });
   ensurePlainObject(hooks, {
     default: {},
     allowedKeys: ['after', 'before'],
@@ -176,6 +178,44 @@ module.exports = (
                         ', '
                       )} blacklisted lifecycle hook names were not recognized.`
                     );
+                  }
+
+                  if (lastLifecycleHookName) {
+                    const { getHooks } = pluginManager;
+                    let hasLastHookFinalized = null;
+                    pluginManager.getHooks = function (events) {
+                      if (hasLastHookFinalized) return [];
+                      if (hasLastHookFinalized === false) return getHooks.call(this, events);
+                      const lastEventIndex = events.indexOf(lastLifecycleHookName);
+                      if (lastEventIndex === -1) return getHooks.call(this, events);
+                      events = events.slice(0, lastEventIndex + 1);
+                      const eventHooks = getHooks.call(this, events);
+                      if (!eventHooks.length) {
+                        hasLastHookFinalized = true;
+                        return eventHooks;
+                      }
+                      hasLastHookFinalized = false;
+                      const lastHook = eventHooks[eventHooks.length - 1];
+                      const hookFunction = lastHook.hook;
+                      lastHook.hook = function () {
+                        try {
+                          return Promise.resolve(hookFunction.call(this)).then(
+                            (result) => {
+                              hasLastHookFinalized = true;
+                              return result;
+                            },
+                            (error) => {
+                              hasLastHookFinalized = true;
+                              throw error;
+                            }
+                          );
+                        } catch (error) {
+                          hasLastHookFinalized = true;
+                          throw error;
+                        }
+                      };
+                      return eventHooks;
+                    };
                   }
 
                   // Run plugin manager hooks

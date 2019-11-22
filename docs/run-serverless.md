@@ -62,6 +62,10 @@ Path can be absolute or relative against `serverlessPath`.
 
 List of lifecycle hooks for which callbacks should not be run.
 
+#### `lastLifecycleHookName`
+
+Name of the last lifecycle hook to be run. Registered hooks for all following evens will be discarded
+
 #### `modulesCacheStup` (optional)
 
 When provided, serverless instance will be created out of freshly required module,
