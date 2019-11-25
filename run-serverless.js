@@ -13,6 +13,7 @@ const overrideArgv = require('process-utils/override-argv');
 const resolveEnv = require('./resolve-env');
 const disableServerlessStatsRequests = require('./disable-serverless-stats-requests');
 const provisionTmpDir = require('./provision-tmp-dir');
+const configureAwsRequestStub = require('./configure-aws-request-stub');
 
 const resolveServerless = (serverlessPath, modulesCacheStub, callback) => {
   if (!modulesCacheStub) {
@@ -66,6 +67,7 @@ module.exports = (
     pluginPathsBlacklist,
     lifecycleHookNamesBlacklist,
     lastLifecycleHookName,
+    awsRequestStubMap,
     modulesCacheStub,
     hooks = {},
   }
@@ -130,6 +132,7 @@ module.exports = (
     ensureItem: ensureString,
     errorMessage: 'Expected `envWhitelist` to be a var names collection, received %v',
   });
+  awsRequestStubMap = ensurePlainObject(awsRequestStubMap, { isOptional: true });
   return resolveCwd({ cwd, config }).then((confirmedCwd) =>
     overrideEnv({ variables: Object.assign(resolveEnv(), env), whitelist: envWhitelist }, () => {
       return overrideCwd(confirmedCwd, () =>
@@ -216,6 +219,10 @@ module.exports = (
                       };
                       return eventHooks;
                     };
+                  }
+
+                  if (awsRequestStubMap) {
+                    configureAwsRequestStub(serverless.getProvider('aws'), awsRequestStubMap);
                   }
 
                   // Run plugin manager hooks

@@ -66,6 +66,12 @@ List of lifecycle hooks for which callbacks should not be run.
 
 Name of the last lifecycle hook to be run. Registered hooks for all following evens will be discarded
 
+#### `awsRequestStubMap`
+
+When provided, then `serverless.getProvider('aws').request` will be stubbed, and provided response map will ensure expected responses.
+
+See [configure-aws-request-stub](./configure-aws-request-stub.md) for more info
+
 #### `modulesCacheStup` (optional)
 
 When provided, serverless instance will be created out of freshly required module,
