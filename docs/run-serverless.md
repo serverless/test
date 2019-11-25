@@ -72,6 +72,14 @@ When provided, then `serverless.getProvider('aws').request` will be stubbed, and
 
 See [configure-aws-request-stub](./configure-aws-request-stub.md) for more info
 
+#### `shouldStubSpawn`
+
+Whether spawn command executions (as configured through `child-process-ext/spawn`) should be stubbed (so not really executed).
+
+Stub is preconfigured to resolve successfully with `{}` (an empty object).
+
+Note: It implies relying on `modulesCacheStub`, so all serverless framework modules will be freshly required.
+
 #### `modulesCacheStub` (optional)
 
 When provided, serverless instance will be created out of freshly required module,
