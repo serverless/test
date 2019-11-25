@@ -72,7 +72,7 @@ When provided, then `serverless.getProvider('aws').request` will be stubbed, and
 
 See [configure-aws-request-stub](./configure-aws-request-stub.md) for more info
 
-#### `modulesCacheStup` (optional)
+#### `modulesCacheStub` (optional)
 
 When provided, serverless instance will be created out of freshly required module,
 and provided cache map will be used as stub for underlying required modules.
