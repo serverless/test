@@ -4,12 +4,14 @@ const ensureString = require('type/string/ensure');
 const ensureIterable = require('type/iterable/ensure');
 const ensurePlainObject = require('type/plain-object/ensure');
 const ensurePlainFunction = require('type/plain-function/ensure');
+const cjsResolveSync = require('ncjsm/resolve/sync');
 const { writeJson } = require('fs-extra');
 const { entries, values } = require('lodash');
 const path = require('path');
 const overrideEnv = require('process-utils/override-env');
 const overrideCwd = require('process-utils/override-cwd');
 const overrideArgv = require('process-utils/override-argv');
+const sinon = require('sinon');
 const resolveEnv = require('./resolve-env');
 const disableServerlessStatsRequests = require('./disable-serverless-stats-requests');
 const provisionTmpDir = require('./provision-tmp-dir');
@@ -69,6 +71,7 @@ module.exports = (
     lastLifecycleHookName,
     awsRequestStubMap,
     modulesCacheStub,
+    shouldStubSpawn,
     hooks = {},
   }
 ) => {
@@ -133,6 +136,12 @@ module.exports = (
     errorMessage: 'Expected `envWhitelist` to be a var names collection, received %v',
   });
   awsRequestStubMap = ensurePlainObject(awsRequestStubMap, { isOptional: true });
+  if (shouldStubSpawn) {
+    if (!modulesCacheStub) modulesCacheStub = {};
+    modulesCacheStub[
+      cjsResolveSync(serverlessPath, 'child-process-ext/spawn').realPath
+    ] = sinon.stub().resolves({});
+  }
   return resolveCwd({ cwd, config }).then((confirmedCwd) =>
     overrideEnv({ variables: Object.assign(resolveEnv(), env), whitelist: envWhitelist }, () => {
       return overrideCwd(confirmedCwd, () =>
