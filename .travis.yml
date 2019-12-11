@@ -31,10 +31,17 @@ env:
 
 # Ensure to install dependencies at their latest versions
 install:
-  # Note: with `npm update` there seems no way to update all project dependency groups in one run
-  - npm update --no-save # Updates just dependencies
-  # Note: npm documents --dev option for dev dependencies update, but it's only --save-dev that works
-  - npm update --save-dev --no-save # Updates just devDependencies
+  # Note: `npm update` has issues which we need to workaround:
+  # - There seems no way to update all project dependency groups in one run
+  #   Hence different calls for prod and dev dependencies
+  # - The bigger depth, the longer update takes (-9999 as proposed in npm docs hangs the process).
+  #   Therefore we keep at 3 which should ensure most of dependencies are at latest versions
+  # - Depth setting makes optional dependencies not optional (install error crashes process)
+  #   Hence we skip install of optional dependencies completely, with --no-optional
+  #   Note: this patch works only for npm@5+
+  # - npm documents --dev option for dev dependencies update, but it's only --save-dev that works
+  - npm update --depth 3 --no-optional --no-save
+  - npm update --depth 3 --save-dev --no-save
 
 before_script:
   # Fail build right after first script fails. Travis doesn't ensure that: https://github.com/travis-ci/travis-ci/issues/1066
