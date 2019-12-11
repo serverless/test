@@ -14,8 +14,10 @@ cache:
     - node_modules
 
 branches:
-  only:
-    - master # Do not build PR branches
+  only: # Do not build PR branches
+    # Release branches
+    - master
+    # Release tags
     - /^v\d+\.\d+\.\d+$/ # Ensure to build release tags
 
 stages:
