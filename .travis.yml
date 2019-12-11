@@ -103,6 +103,9 @@ jobs:
             git push -q https://$GITHUB_TOKEN@github.com/serverless/test --tags
           fi
 
+    - name: 'Test - Node.js v13'
+      node_js: 13
+
     - name: 'Test - Node.js v10'
       node_js: 10
 
