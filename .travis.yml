@@ -50,18 +50,6 @@ before_script:
   - git config --global user.email "platform@serverless.com"
   - git config --global user.name "Serverless CI"
 
-# Ensure to fail build if deploy fails, Travis doesn't ensure that: https://github.com/travis-ci/travis-ci/issues/921
-before_deploy:
-  # Remove eventual old npm logs
-  - rm -rf ~/.npm/_logs
-after_deploy:
-  - |
-    # npm creates log only on failure
-    if [ -d ~/.npm/_logs ]; then
-      # Undocumented way to force Travis build to fail
-      travis_terminate 1
-    fi
-
 jobs:
   include:
     # In most cases it's best to configure one job per platform & Node.js version combination
@@ -131,6 +119,20 @@ jobs:
         - secure: nNfyiLgDBOD8M71EdKv4/0JK0i0VDe2cZc2AMazfTZkkp7hPDgtrVLBumGCtTpKvv5VJbOO3KAuDoB+NTAqLg87Y/K4+AigQpzHkugrj3N1XTCH+7BR/Rx0TFqcIO+YYuIp5fUAIofYg3BhY3w81P10WTuPm77C1b5bFg9UA9YLwapoZEDf0O1JBLV18Ss1/a3AlO/710CL9/ab6dQyHhM5T069nFlu7JaDdR0N6Z2VWEZMqeclI8+gB6uYLMpa4PvvqSHmyFH2lC7rf1nbBwFQ2RBhPgRvfG40Dwy968iLPmWKz9fX09N4VE2nmEtq+UVvorTcffbzml2tjUhmXFHjBGNDrtS1sBPFGMQXGE+p/oy0xIkY1McoxhnECLsLWYt57B2wuP/NM9fexFJbKAAzrri3hXyJWUWmHGJaaAfrE+OvXjAm4g7l5K/qBOmlYdDsbo4e55ISPTn8/LlpFg6JuTRiTl/eOkYDFKjJN9DpqOHGGmAxZmzXaoRux3ZxRQrBhZJrOpV8iR4bf+NNVwag35J9n42om5XLEusGHsib9hqq7wb/YAXjCRZ9/XrLwkJH9DPiOUaMk4XJS6VTH0WhZj3TBEpfk86KmiTx5EuLeRzid+QUOhgyW8HWbsVdbGBSP3NicxsjfDAU53MASmBNKluwNaLp5z+MbVv7x/rc=
       node_js: 12
       script: skip
+      # Ensure to fail build if deploy fails, Travis doesn't ensure that: https://github.com/travis-ci/travis-ci/issues/921
+      before_deploy:
+        - set -e
+        # Remove eventual old npm logs
+        - rm -rf ~/.npm/_logs
+      after_deploy:
+        - |
+          # npm creates log only on failure
+          if [ -d ~/.npm/_logs ]
+          then
+            # Undocumented way to force Travis build to fail
+            travis_terminate 1
+          fi
+        - npx github-release-from-cc-changelog $TRAVIS_TAG
       deploy:
         provider: npm
         email: services@serverless.com
@@ -138,4 +140,3 @@ jobs:
           tags: true
         api_key:
           secure: N1dW91azEh9b0RUkpcQJJ3TOiGXJ1iI1JzKLzesMZXXkvgnu6+pcDzlBy1sBaAnI3kMrVe0Q7FUah53UKEjIu/ruQ7parSjTZNr2WyRrfvWfwEpuzsNF/iUcFF/KwPbih30nPmJ4QhSQdGIi+nCQJdWcy9JXJkOG+FTqzQe08rd/pxHUsWkhVXmeuj2YtE7D02Ay7a8DySsWJ0LK3SKE/jrOE+bJm3M6Kf+LsySx/8ea4+ii24s+wWdiqx9uQex8wtXuMRL9eOIa70WrW0DTClt1c7K5pM8pUZwJR8aLNv90kH/3xju+luldLw1VE3LjG0SzEqSIHwWveTii6I82dnCTFyzK76YaAV2h+iRT2UJMBEOsI3mm44t3+XfQAQT5FMS+I+fN7TsOREPci/Z6i9/ns86I05mMo8wTDDHJvrIfAYx71MmknRnbHNPMEhvbOj9cgPYDr6vk4AKoUQxweAtcyTCy9vbScp+N39eFp27HD+6VsCZsRtwPU+G+ppP5nNR/2wBN8YxkjvKayrmG4W2S5P5SzjQJhUPeij2SqnzN5Tf3ri2LKzVe9DxIjlXD2Sztboddz8LDGJkLzt/5SGLPOi94CE1jfH8oFq2MQoFSdF95ZiWLtk6WFEDxIMWMCQ9Y/FOcjYMadsAT2buG5icYztSjFPF9VI6OavA9+mE=
-      after_deploy: npx github-release-from-cc-changelog $TRAVIS_TAG
