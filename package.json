@@ -20,6 +20,7 @@
     "lodash": "^4.17.15",
     "log": "^6.0.0",
     "log-node": "^7.0.0",
+    "minimist": "^1.2.0",
     "p-limit": "^2.2.1",
     "process-utils": "^3.0.1",
     "sinon": "^7.5.0",

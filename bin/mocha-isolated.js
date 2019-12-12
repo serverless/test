@@ -4,32 +4,55 @@
 
 require('essentials');
 
-const spawn = require('child-process-ext/spawn');
 const chalk = require('chalk');
+const argv = require('minimist')(process.argv.slice(2), {
+  boolean: [
+    'bail',
+    'help',
+    'pass-through-aws-creds',
+    'recursive',
+    'skip-fs-cleanup-check',
+    'version',
+  ],
+  alias: { help: 'h', version: 'v' },
+  unknown: arg => {
+    process.stdout.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
+    process.exit(1);
+  },
+});
+
+const usage = `Usage: mocha-isolated [<options>...] [<spec>...]
+
+Runs tests with mocha, each test is run in individual Node.js process
+
+Options:
+
+  --help,                   -h  Show this message
+  --version,                -v  Print the version and exit
+
+  --bail,                   -b  Bail gently after first approached test fail
+  --pass-through-aws-creds      Pass through AWS env credentials
+  --recursive                   Look for tests in subdirectories
+  --skip-fs-cleanup-check       Do not check on modified files (allows parallel runs)
+`;
+
+if (argv.help) {
+  process.stdout.write(usage);
+  return;
+}
+
+if (argv.version) {
+  process.stdout.write(`${require('../package').version}\n`);
+  return;
+}
+
+const spawn = require('child-process-ext/spawn');
 const pLimit = require('p-limit');
 const mochaCollectFiles = require('mocha/lib/cli/collect-files');
 const resolveEnv = require('../resolve-env');
 const resolveAwsEnv = require('../resolve-aws-env');
 
-const inputOptions = {};
-const filePatterns = process.argv.slice(2).filter(arg => {
-  if (!arg.startsWith('-')) return true;
-  switch (arg) {
-    case '--bail':
-      inputOptions.bail = true;
-      break;
-    case '--pass-through-aws-creds':
-      inputOptions.passThroughAwsCreds = true;
-      break;
-    case '--skip-fs-cleanup-check':
-      inputOptions.skipFsCleanupCheck = true;
-      break;
-    default:
-      process.stdout.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
-      process.exit(1);
-  }
-  return false;
-});
+const filePatterns = argv._;
 if (!filePatterns.length) filePatterns.push('!(node_modules)/**/*.test.js', '*.test.js');
 
 const resolveGitStatus = () =>
@@ -41,9 +64,9 @@ const resolveGitStatus = () =>
     }
   );
 
-const initialGitStatusDeferred = !inputOptions.skipFsCleanupCheck ? resolveGitStatus() : null;
+const initialGitStatusDeferred = !argv['skip-fs-cleanup-check'] ? resolveGitStatus() : null;
 
-const initialSetupDeferred = !inputOptions.skipFsCleanupCheck
+const initialSetupDeferred = !argv['skip-fs-cleanup-check']
   ? initialGitStatusDeferred
   : Promise.resolve();
 
@@ -52,7 +75,7 @@ const paths = mochaCollectFiles({
   ignore: [],
   extension: ['js'],
   file: [],
-  recursive: process.argv.includes('--recursive'),
+  recursive: argv.recursive,
   spec: filePatterns,
 }).map(filename => filename.slice(cwdPathLength));
 
@@ -61,7 +84,7 @@ if (!paths.length) {
   process.exit(1);
 }
 
-const processesCount = !inputOptions.skipFsCleanupCheck
+const processesCount = !argv['skip-fs-cleanup-check']
   ? 1
   : Math.max(require('os').cpus().length - 1, 1);
 
@@ -96,7 +119,7 @@ const run = path => {
         return Promise.resolve();
       };
     }
-    if (inputOptions.skipFsCleanupCheck) return () => Promise.resolve();
+    if (argv['skip-fs-cleanup-check']) return () => Promise.resolve();
     return () =>
       Promise.all([initialGitStatusDeferred, resolveGitStatus()]).then(
         ([initialStatus, currentStatus]) => {
@@ -112,7 +135,7 @@ const run = path => {
       );
   })();
 
-  const env = inputOptions.passThroughAwsCreds ? resolveAwsEnv() : resolveEnv();
+  const env = argv['pass-through-aws-creds'] ? resolveAwsEnv() : resolveEnv();
   env.FORCE_COLOR = '1';
   return spawn('node', ['node_modules/.bin/_mocha', path], {
     stdio: isMultiProcessRun ? null : 'inherit',
@@ -123,7 +146,7 @@ const run = path => {
       process.stdout.write(chalk.red.bold(`${path} failed\n\n`));
       if (error.code > 2) throw error;
       process.exitCode = 1;
-      if (inputOptions.bail) shouldAbort = true;
+      if (argv.bail) shouldAbort = true;
     })
   );
 };
