@@ -2,9 +2,7 @@
 
 'use strict';
 
-process.on('unhandledRejection', err => {
-  throw err;
-});
+require('essentials');
 
 const spawn = require('child-process-ext/spawn');
 const chalk = require('chalk');
