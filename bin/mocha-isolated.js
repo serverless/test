@@ -14,7 +14,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     'skip-fs-cleanup-check',
     'version',
   ],
-  alias: { help: 'h', version: 'v' },
+  alias: { 'help': 'h', 'version': 'v', 'max-workers': 'w' },
   unknown: arg => {
     process.stdout.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
     process.exit(1);
@@ -32,6 +32,7 @@ Options:
 
   --bail,                   -b  Bail gently after first approached test fail
   --pass-through-aws-creds      Pass through AWS env credentials
+  --max-workers             -w  Maximum allowed number of workers for concurrent run
   --recursive                   Look for tests in subdirectories
   --skip-fs-cleanup-check       Do not check on modified files (allows parallel runs)
 `;
@@ -84,9 +85,12 @@ if (!paths.length) {
   process.exit(1);
 }
 
-const processesCount = !argv['skip-fs-cleanup-check']
-  ? 1
-  : Math.max(require('os').cpus().length - 1, 1);
+const processesCount = (() => {
+  if (!argv['skip-fs-cleanup-check']) return 1;
+  const forced = Number(argv.w);
+  if (forced > 0) return forced;
+  return Math.max(require('os').cpus().length - 1, 1);
+})();
 
 const isMultiProcessRun = processesCount > 1;
 

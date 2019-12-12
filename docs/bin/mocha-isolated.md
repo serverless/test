@@ -8,6 +8,10 @@ _Note: it doesn't support or passes through any options to Mocha. it is expected
 
 Gently bail after first test fail
 
+##### _`--max-workers` or `-w`_
+
+Maximum allowed number of workers for concurrent run
+
 ##### _`--pass-through-aws-creds`_
 
 Isolated tests by default are run with no (but mandatory a `PATH`) env variables, and that also includes eventual `AWS_*` env vars. This setting will ensure they're passed through
