@@ -16,6 +16,7 @@ const argv = require('minimist')(process.argv.slice(2), {
   ],
   alias: { 'help': 'h', 'version': 'v', 'max-workers': 'w' },
   unknown: arg => {
+    if (arg[0] !== '-') return;
     process.stdout.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
     process.exit(1);
   },
