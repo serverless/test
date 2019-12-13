@@ -148,7 +148,7 @@ const run = path => {
   }).then(onFinally, error =>
     onFinally(error).then(() => {
       failed.push(path);
-      process.stdout.write(chalk.red.bold(`${path} failed\n\n`));
+      process.stdout.write(`${chalk.red.bold(`${path} failed`)}\n\n`);
       if (error.code > 2) throw error;
       process.exitCode = 1;
       if (argv.bail) shouldAbort = true;
