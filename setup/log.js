@@ -1,5 +1,7 @@
 'use strict';
 
+if (!process.env.LOG_TIME) process.env.LOG_TIME = 'abs';
+
 const log = require('log').get('mocha');
 const initializeLogWriter = require('log-node');
 const { deferredRunner } = require('./mocha-reporter');
