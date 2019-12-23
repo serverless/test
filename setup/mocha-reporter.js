@@ -32,7 +32,7 @@ class ServerlessSpec extends Spec {
         if (runner.currentRunnable.isPending() || runner._abort) throw err; // eslint-disable-line no-underscore-dangle
         return;
       }
-      // If there's an uncaught exception after rest runner wraps up
+      // If there's an uncaught exception after test runner wraps up
       // Mocha reports it with success exit code: https://github.com/mochajs/mocha/issues/3917
       // Workaround that (otherwise we may end with green CI for failed builds):
       process.removeAllListeners('exit');
