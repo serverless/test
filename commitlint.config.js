@@ -8,7 +8,11 @@ module.exports = {
     'footer-max-line-length': [2, 'always', 72],
     'header-max-length': [2, 'always', 72],
     'scope-case': [2, 'always', 'start-case'],
-    'scope-enum': [2, 'always', ['', 'Inquirer Stub', 'Log', 'Mocha Isolated', 'Run Serverless']],
+    'scope-enum': [
+      2,
+      'always',
+      ['', 'Inquirer Stub', 'Log', 'Mocha Fixes', 'Mocha Isolated', 'Run Serverless'],
+    ],
     'subject-case': [2, 'always', 'sentence-case'],
     'subject-empty': [2, 'never'],
     'subject-full-stop': [2, 'never', '.'],
