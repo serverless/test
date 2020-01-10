@@ -23,7 +23,7 @@
     "minimist": "^1.2.0",
     "p-limit": "^2.2.2",
     "process-utils": "^3.0.1",
-    "sinon": "^7.5.0",
+    "sinon": "^8.0.4",
     "type": "^2.0.0"
   },
   "devDependencies": {
