@@ -8,6 +8,7 @@ module.exports = (options = {}) => {
     whitelist: [
       'APPDATA',
       'HOME',
+      'LOCAL_SERVERLESS_LINK_PATH',
       'PATH',
       'SERVERLESS_BINARY_PATH',
       'TMPDIR',
