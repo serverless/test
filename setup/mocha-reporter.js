@@ -21,7 +21,11 @@ class ServerlessSpec extends Spec {
     resolveRunner(runner);
 
     process.on('uncaughtException', err => {
-      if (!process.listenerCount('exit')) {
+      if (
+        !process
+          .listeners('exit')
+          .find(listener => String(listener).includes('process.exitCode = Math.min(code, 255)'))
+      ) {
         if (process.listenerCount('uncaughtException') === 1) {
           // Mocha didn't setup listeners yet, ensure error is exposed
           throw err;
