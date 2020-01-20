@@ -95,9 +95,9 @@ const processesCount = (() => {
 
 const isMultiProcessRun = processesCount > 1;
 
-const { ongoing, cliFooter } = (() => {
+const { ongoingPaths, cliFooter } = (() => {
   if (!isMultiProcessRun) return {};
-  return { ongoing: new Set(), cliFooter: require('cli-progress-footer')() };
+  return { ongoingPaths: new Set(), cliFooter: require('cli-progress-footer')() };
 })();
 
 const failed = [];
@@ -111,15 +111,15 @@ let shouldAbort = false;
 const run = path => {
   if (shouldAbort) return null;
   if (isMultiProcessRun) {
-    ongoing.add(path);
-    cliFooter.updateProgress(Array.from(ongoing));
+    ongoingPaths.add(path);
+    cliFooter.updateProgress(Array.from(ongoingPaths));
   }
 
   const onFinally = (() => {
     if (isMultiProcessRun) {
       return ({ stdBuffer }) => {
-        ongoing.delete(path);
-        cliFooter.updateProgress(Array.from(ongoing));
+        ongoingPaths.delete(path);
+        cliFooter.updateProgress(Array.from(ongoingPaths));
         process.stdout.write(stdBuffer);
         return Promise.resolve();
       };
