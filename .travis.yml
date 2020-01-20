@@ -140,6 +140,7 @@ jobs:
           fi
         - npx github-release-from-cc-changelog $TRAVIS_TAG
       deploy:
+        edge: true # Workaorund Travis regression: https://travis-ci.community/t/missing-api-key-when-deploying-to-github-releases/5761
         provider: npm
         email: services@serverless.com
         on:
