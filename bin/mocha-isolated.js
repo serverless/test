@@ -108,19 +108,38 @@ process.on('exit', () => {
 });
 
 let shouldAbort = false;
+let pendingCount = paths.length;
+const ongoingProcesses = new Set();
 const run = path => {
+  --pendingCount;
   if (shouldAbort) return null;
+
+  const env = argv['pass-through-aws-creds'] ? resolveAwsEnv() : resolveEnv();
+  env.FORCE_COLOR = '1';
+  const testPromise = spawn('node', ['node_modules/.bin/_mocha', path], {
+    stdio: isMultiProcessRun ? null : 'inherit',
+    env,
+  });
+
   if (isMultiProcessRun) {
     ongoingPaths.add(path);
     cliFooter.updateProgress(Array.from(ongoingPaths));
+    ongoingProcesses.add(testPromise);
   }
 
   const onFinally = (() => {
     if (isMultiProcessRun) {
       return ({ stdBuffer }) => {
+        ongoingProcesses.delete(testPromise);
         ongoingPaths.delete(path);
         cliFooter.updateProgress(Array.from(ongoingPaths));
+        if (!pendingCount && !ongoingProcesses.size) return Promise.resolve();
         process.stdout.write(stdBuffer);
+        if (!pendingCount && ongoingProcesses.size === 1) {
+          const lastProcess = ongoingProcesses[Symbol.iterator]().next().value;
+          process.stdout.write(lastProcess.stdBuffer);
+          lastProcess.std.pipe(process.stdout);
+        }
         return Promise.resolve();
       };
     }
@@ -140,12 +159,7 @@ const run = path => {
       );
   })();
 
-  const env = argv['pass-through-aws-creds'] ? resolveAwsEnv() : resolveEnv();
-  env.FORCE_COLOR = '1';
-  return spawn('node', ['node_modules/.bin/_mocha', path], {
-    stdio: isMultiProcessRun ? null : 'inherit',
-    env,
-  }).then(onFinally, error =>
+  return testPromise.then(onFinally, error =>
     onFinally(error).then(() => {
       failed.push(path);
       process.stdout.write(`${chalk.red.bold(error.message)}\n\n`);
