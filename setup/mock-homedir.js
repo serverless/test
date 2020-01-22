@@ -19,7 +19,10 @@ deferredRunner.then(runner => {
       emptyDirSync(processTmpDir);
     } catch (error) {
       if (rmTmpDirIgnorableErrorCodes.has(error.code)) return;
-      throw error;
+      process.nextTick(() => {
+        // Crash in next tick, as otherwise Mocha goes bonkers
+        throw error;
+      });
     }
   });
 });
