@@ -1,5 +1,7 @@
 'use strict';
 
+const { inspect } = require('util');
+
 // Unhandled rejections are not exposed in Mocha, enforce it
 // https://github.com/mochajs/mocha/issues/2640
 process.on('unhandledRejection', err => {
@@ -34,6 +36,10 @@ class ServerlessSpec extends Spec {
         // Mocha ignores uncaught exceptions if they happen in conext of skipped test, expose them
         // https://github.com/mochajs/mocha/issues/3938
         if (runner.currentRunnable.isPending() || runner._abort) throw err; // eslint-disable-line no-underscore-dangle
+        if (runner.currentRunnable.isFailed()) {
+          // Process is guaranteed to fail, still given uncaught exception is not exposed;
+          process.stdout.write(`Uncaught exception: ${inspect(err, { colors: true })}`);
+        }
         return;
       }
       // If there's an uncaught exception after test runner wraps up
