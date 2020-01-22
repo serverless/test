@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.606.0",
+    "aws-sdk": "^2.608.0",
     "chalk": "^2.4.2",
     "child-process-ext": "^2.1.0",
     "cli-progress-footer": "^1.1.1",
@@ -23,8 +23,8 @@
     "log-node": "^7.0.0",
     "minimist": "^1.2.0",
     "p-limit": "^2.2.2",
-    "process-utils": "^3.0.1",
-    "sinon": "^8.1.0",
+    "process-utils": "^3.1.0",
+    "sinon": "^8.1.1",
     "timers-ext": "^0.1.7",
     "type": "^2.0.0"
   },
@@ -37,11 +37,11 @@
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
     "glob-exec": "^0.1.1",
-    "husky": "^4.0.10",
-    "lint-staged": "^10.0.0",
+    "husky": "^4.2.0",
+    "lint-staged": "^10.0.2",
     "mocha": "^6.2.2",
     "prettier": "^1.19.1",
-    "standard-version": "^7.0.1"
+    "standard-version": "^7.1.0"
   },
   "peerDependencies": {
     "mocha": "6"
