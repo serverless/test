@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.5.3](https://github.com/serverless/test/compare/v3.5.2...v3.5.3) (2020-02-20)
+
+### Bug Fixes
+
+- **Async Leaks Detector:** Bump timeout to avoid false positives ([9d51af2](https://github.com/serverless/test/commit/9d51af27680a8e34cf839d490b77ab43b06a929b))
+
 ### [3.5.2](https://github.com/serverless/test/compare/v3.5.1...v3.5.2) (2020-02-12)
 
 ### [3.5.1](https://github.com/serverless/test/compare/v3.5.0...v3.5.1) (2020-01-22)
