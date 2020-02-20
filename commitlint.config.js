@@ -11,7 +11,15 @@ module.exports = {
     'scope-enum': [
       2,
       'always',
-      ['', 'Inquirer Stub', 'Log', 'Mocha Fixes', 'Mocha Isolated', 'Run Serverless'],
+      [
+        '',
+        'Async Leaks Detector',
+        'Inquirer Stub',
+        'Log',
+        'Mocha Fixes',
+        'Mocha Isolated',
+        'Run Serverless',
+      ],
     ],
     'subject-case': [2, 'always', 'sentence-case'],
     'subject-empty': [2, 'never'],
