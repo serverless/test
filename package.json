@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.623.0",
+    "aws-sdk": "^2.642.0",
     "chalk": "^2.4.2",
     "child-process-ext": "^2.1.0",
     "cli-progress-footer": "^1.1.1",
@@ -21,7 +21,7 @@
     "lodash": "^4.17.15",
     "log": "^6.0.0",
     "log-node": "^7.0.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "p-limit": "^2.2.2",
     "process-utils": "^3.1.0",
     "sinon": "^8.1.1",
@@ -38,7 +38,7 @@
     "github-release-from-cc-changelog": "^2.2.0",
     "glob-exec": "^0.1.1",
     "husky": "^4.2.3",
-    "lint-staged": "^10.0.7",
+    "lint-staged": "^10.0.8",
     "mocha": "^6.2.2",
     "prettier": "^1.19.1",
     "standard-version": "^7.1.0"
