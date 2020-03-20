@@ -136,6 +136,7 @@ const run = path => {
         if (!pendingCount && !ongoingProcesses.size) return Promise.resolve();
         process.stdout.write(stdBuffer);
         if (!pendingCount && ongoingProcesses.size === 1) {
+          cliFooter.updateProgress();
           const lastProcess = ongoingProcesses[Symbol.iterator]().next().value;
           process.stdout.write(lastProcess.stdBuffer);
           lastProcess.std.pipe(process.stdout);
