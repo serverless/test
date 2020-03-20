@@ -89,6 +89,7 @@ jobs:
 
     # master branch
     - name: 'Test - Node.js v12'
+      if: type != pull_request
       node_js: 12
 
     - name: 'Test - Node.js v13'
