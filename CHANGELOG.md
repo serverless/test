@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.5.4](https://github.com/serverless/test/compare/v3.5.3...v3.5.4) (2020-03-20)
+
+### Bug Fixes
+
+- **Mocha Isolated:** Do not output progress list on lone test run ([1051a88](https://github.com/serverless/test/commit/1051a884507780814300a821694f82b09aaa41e5))
+
 ### [3.5.3](https://github.com/serverless/test/compare/v3.5.2...v3.5.3) (2020-02-20)
 
 ### Bug Fixes
