@@ -4,7 +4,7 @@
 
 const path = require('path');
 
-module.exports = serverlessPath => {
+module.exports = (serverlessPath) => {
   const modulePath = path.join(serverlessPath, 'lib/utils/isTrackingDisabled');
   // eslint-disable-next-line import/no-unresolved
   const isTrackingDisabled = require(modulePath);

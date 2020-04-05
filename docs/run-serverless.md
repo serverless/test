@@ -10,10 +10,10 @@ Optionally serverless instance can be freshly required with specific modules moc
 const runServerless = require('@serverless/test/run-serverless');
 
 describe('Some suite', () => {
-  it('Some test that involves creation of serverless instance', function() {
+  it('Some test that involves creation of serverless instance', function () {
     runServerless(serverlessPath, {
       // Options, see below documentation
-    }).then(serverless => {
+    }).then((serverless) => {
       // Resolved after serverless.run() finalizes.
       // Examine here expected outcome
     });

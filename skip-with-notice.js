@@ -26,12 +26,12 @@ module.exports = (context, reason, afterCallback) => {
   context.skip();
 };
 
-deferredRunner.then(runner =>
+deferredRunner.then((runner) =>
   runner.on('end', () => {
     // Output eventual skip notices
     if (!skippedWithNotice.length) return;
 
-    const resolveTestName = test => {
+    const resolveTestName = (test) => {
       const names = [test.title];
       let parent = test.parent;
       while (parent) {
@@ -46,7 +46,7 @@ deferredRunner.then(runner =>
     process.stdout.write(
       ' Notice: Some tests were skipped due to following environment issues:' +
         `\n\n - ${skippedWithNotice
-          .map(meta => `${resolveTestName(meta.context.test)}\n\n   ${chalk.red(meta.reason)}\n`)
+          .map((meta) => `${resolveTestName(meta.context.test)}\n\n   ${chalk.red(meta.reason)}\n`)
           .join('\n - ')}\n\n`
     );
   })

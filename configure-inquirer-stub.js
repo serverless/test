@@ -5,19 +5,19 @@ const sinon = require('sinon');
 const validatedTypes = new Set(['input', 'password']);
 
 module.exports = (inquirer, config) => {
-  const resolveAnswer = promptConfig => {
-    return new Promise(resolve => {
+  const resolveAnswer = (promptConfig) => {
+    return new Promise((resolve) => {
       const configType = promptConfig.type || 'input';
       const questions = config[configType];
       if (!questions) throw new Error(`Unexpected config type: ${configType}`);
       const answer = questions[promptConfig.name];
       if (answer == null) throw new Error(`Unexpected config name: ${promptConfig.name}`);
       resolve(
-        new Promise(resolveValidation => {
+        new Promise((resolveValidation) => {
           if (!validatedTypes.has(promptConfig.type)) return resolveValidation(true);
           if (!promptConfig.validate) return resolveValidation(true);
           return resolveValidation(promptConfig.validate(answer));
-        }).then(validationResult => {
+        }).then((validationResult) => {
           if (validationResult !== true) {
             throw Object.assign(new Error(validationResult), { code: 'INVALID_ANSWER' });
           }
@@ -30,12 +30,12 @@ module.exports = (inquirer, config) => {
   if (inquirer.prompt.restore) inquirer.prompt.restore();
   if (inquirer.createPromptModule.restore) inquirer.createPromptModule.restore();
 
-  sinon.stub(inquirer, 'prompt').callsFake(promptConfig => {
+  sinon.stub(inquirer, 'prompt').callsFake((promptConfig) => {
     if (!Array.isArray(promptConfig)) return resolveAnswer(promptConfig);
     const result = {};
     return promptConfig.reduce(
       (previusPromptDeferred, nextPromptConfig) =>
-        previusPromptDeferred.then(answer => {
+        previusPromptDeferred.then((answer) => {
           Object.assign(result, answer);
           return resolveAnswer(nextPromptConfig);
         }),

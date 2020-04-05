@@ -4,7 +4,7 @@ if (process.version.match(/\d+/)[0] < 8) return; // Async leaks detector is not 
 
 const chalk = require('chalk');
 
-require('../mocha-reporter').deferredRunner.then(runner =>
+require('../mocha-reporter').deferredRunner.then((runner) =>
   runner.on('end', () => {
     // Async leaks detection
     setTimeout(() => {

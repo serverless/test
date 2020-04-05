@@ -15,7 +15,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     'version',
   ],
   alias: { 'help': 'h', 'version': 'v', 'max-workers': 'w' },
-  unknown: arg => {
+  unknown: (arg) => {
     if (arg[0] !== '-') return;
     process.stdout.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
     process.exit(1);
@@ -60,7 +60,7 @@ if (!filePatterns.length) filePatterns.push('!(node_modules)/**/*.test.js', '*.t
 const resolveGitStatus = () =>
   spawn('git', ['status', '--porcelain']).then(
     ({ stdoutBuffer }) => String(stdoutBuffer),
-    error => {
+    (error) => {
       process.stdout.write(error.stdBuffer);
       throw error;
     }
@@ -79,7 +79,7 @@ const paths = mochaCollectFiles({
   file: [],
   recursive: argv.recursive,
   spec: filePatterns,
-}).map(filename => filename.slice(cwdPathLength));
+}).map((filename) => filename.slice(cwdPathLength));
 
 if (!paths.length) {
   process.stdout.write(chalk.red.bold('No test files matched\n\n'));
@@ -110,7 +110,7 @@ process.on('exit', () => {
 let shouldAbort = false;
 let pendingCount = paths.length;
 const ongoingProcesses = new Set();
-const run = path => {
+const run = (path) => {
   --pendingCount;
   if (shouldAbort) return null;
 
@@ -160,7 +160,7 @@ const run = path => {
       );
   })();
 
-  return testPromise.then(onFinally, error =>
+  return testPromise.then(onFinally, (error) =>
     onFinally(error).then(() => {
       failed.push(path);
       process.stdout.write(`${chalk.red.bold(error.message)}\n\n`);
@@ -172,4 +172,4 @@ const run = path => {
 };
 
 const limit = pLimit(processesCount);
-initialSetupDeferred.then(() => Promise.all(paths.map(path => limit(() => run(path)))));
+initialSetupDeferred.then(() => Promise.all(paths.map((path) => limit(() => run(path)))));

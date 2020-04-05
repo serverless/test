@@ -30,11 +30,11 @@ const resolveServerless = (serverlessPath, modulesCacheStub, callback) => {
   };
   try {
     return callback(require(serverlessPath)).then(
-      result => {
+      (result) => {
         restore();
         return result;
       },
-      error => {
+      (error) => {
         restore();
         throw error;
       }
@@ -46,10 +46,10 @@ const resolveServerless = (serverlessPath, modulesCacheStub, callback) => {
 };
 
 const resolveCwd = ({ cwd, config }) =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     if (cwd) return resolve(cwd);
     return resolve(
-      provisionTmpDir().then(tmpDirPath =>
+      provisionTmpDir().then((tmpDirPath) =>
         writeJson(path.join(tmpDirPath, 'serverless.json'), config).then(() => tmpDirPath)
       )
     );
@@ -101,7 +101,7 @@ module.exports = (
   });
   pluginPathsBlacklist = ensureIterable(pluginPathsBlacklist, {
     default: [],
-    ensureItem: pluginPath =>
+    ensureItem: (pluginPath) =>
       require.resolve(path.resolve(serverlessPath, ensureString(pluginPath))),
     errorMessage:
       'Expected `pluginPathsBlacklist` to be a valid plugin paths collection, received %v',
@@ -128,26 +128,26 @@ module.exports = (
     ensureItem: ensureString,
     errorMessage: 'Expected `envWhitelist` to be a var names collection, received %v',
   });
-  return resolveCwd({ cwd, config }).then(confirmedCwd =>
+  return resolveCwd({ cwd, config }).then((confirmedCwd) =>
     overrideEnv({ variables: Object.assign(resolveEnv(), env), whitelist: envWhitelist }, () => {
       return overrideCwd(confirmedCwd, () =>
         overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
-          resolveServerless(serverlessPath, modulesCacheStub, Serverless =>
+          resolveServerless(serverlessPath, modulesCacheStub, (Serverless) =>
             Promise.resolve(hooks.before && hooks.before(Serverless, { cwd: confirmedCwd })).then(
               () => {
                 // Intialize serverless instances in preconfigured environment
                 const serverless = new Serverless();
-                const pluginConstructorsBlacklist = pluginPathsBlacklist.map(pluginPath =>
+                const pluginConstructorsBlacklist = pluginPathsBlacklist.map((pluginPath) =>
                   require(pluginPath)
                 );
                 return serverless.init().then(() => {
                   const { pluginManager } = serverless;
                   // Strip registered hooks, so only those intended are executed
-                  const blacklistedPlugins = pluginManager.plugins.filter(plugin =>
-                    pluginConstructorsBlacklist.some(Plugin => plugin instanceof Plugin)
+                  const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
+                    pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
                   );
                   for (const [index, Plugin] of pluginConstructorsBlacklist.entries()) {
-                    if (!blacklistedPlugins.some(plugin => plugin instanceof Plugin)) {
+                    if (!blacklistedPlugins.some((plugin) => plugin instanceof Plugin)) {
                       throw new Error(
                         `Didn't resolve a plugin instance for ${pluginPathsBlacklist[index]}`
                       );
@@ -164,8 +164,8 @@ module.exports = (
                     }
 
                     lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(
-                      hookData =>
-                        !blacklistedPlugins.some(blacklistedPlugin =>
+                      (hookData) =>
+                        !blacklistedPlugins.some((blacklistedPlugin) =>
                           values(blacklistedPlugin.hooks).includes(hookData.hook)
                         )
                     );
