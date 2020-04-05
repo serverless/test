@@ -10,8 +10,8 @@ os.homedir = () => processTmpDir;
 if (process.env.USERPROFILE) process.env.USERPROFILE = processTmpDir;
 if (process.env.HOME) process.env.HOME = processTmpDir;
 
-deferredRunner.then(runner => {
-  runner.on('suite end', suite => {
+deferredRunner.then((runner) => {
+  runner.on('suite end', (suite) => {
     if (!suite.parent || !suite.parent.root) return;
 
     // Cleanup temp homedir after each top level test run

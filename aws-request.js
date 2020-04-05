@@ -6,13 +6,13 @@ const awsLog = require('log').get('aws');
 const wait = require('timers-ext/promise/sleep');
 
 const getServiceInstance = _.memoize(
-  nameInput => {
+  (nameInput) => {
     const params = Object.assign({ region: 'us-east-1' }, nameInput.params);
     const name = typeof nameInput === 'string' ? nameInput : nameInput.name;
     const Service = _.get(AWS, name);
     return new Service(params);
   },
-  nameInput => {
+  (nameInput) => {
     return typeof nameInput === 'string' ? nameInput : JSON.stringify(nameInput);
   }
 );
@@ -25,11 +25,11 @@ module.exports = function awsRequest(service, method, ...args) {
   return instance[method](...args)
     .promise()
     .then(
-      result => {
+      (result) => {
         awsLog.debug('[%d] %O', requestId, result);
         return result;
       },
-      error => {
+      (error) => {
         awsLog.debug('[%d] %O', requestId, error);
         if (error.statusCode !== 403 && error.retryable) {
           awsLog.debug('[%d] retry', requestId);

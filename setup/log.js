@@ -8,7 +8,7 @@ const { deferredRunner } = require('./mocha-reporter');
 
 const logWriter = initializeLogWriter();
 
-const logSuiteTitle = suite => {
+const logSuiteTitle = (suite) => {
   let message = '%s';
   const args = [suite.title];
   while (suite.parent) {
@@ -21,7 +21,7 @@ const logSuiteTitle = suite => {
   log.debug(message, ...args);
 };
 
-deferredRunner.then(runner => {
+deferredRunner.then((runner) => {
   runner.on('suite', logSuiteTitle);
   runner.on('test', logSuiteTitle);
 });
@@ -35,8 +35,8 @@ const logEmitter = require('log/lib/emitter');
 const logsBuffer = [];
 const flushLogs = () => {
   // Write, only if there are some non-mocha log events
-  if (logsBuffer.some(event => event.logger.namespace !== 'mocha')) {
-    logsBuffer.forEach(event => {
+  if (logsBuffer.some((event) => event.logger.namespace !== 'mocha')) {
+    logsBuffer.forEach((event) => {
       if (!event.message) logWriter.resolveMessage(event);
       logWriter.writeMessage(event);
     });
@@ -44,12 +44,12 @@ const flushLogs = () => {
   logsBuffer.length = 0; // Empty array
 };
 
-logEmitter.on('log', event => {
+logEmitter.on('log', (event) => {
   logsBuffer.push(event);
   if (!event.message) logWriter.resolveMessageTokens(event);
 });
-deferredRunner.then(runner => {
-  runner.on('suite end', suite => {
+deferredRunner.then((runner) => {
+  runner.on('suite end', (suite) => {
     if (!suite.parent || !suite.parent.root) return;
 
     logsBuffer.length = 0; // Empty array

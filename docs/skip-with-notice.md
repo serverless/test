@@ -8,8 +8,8 @@ Example usage:
 const skipWithNotice = require('@serverless/test/skip-with-notice');
 
 describe('Some suite', () => {
-  it('Some test that involves optional runtime', function() {
-    invokePython().catch(error => {
+  it('Some test that involves optional runtime', function () {
+    invokePython().catch((error) => {
       if (error.code === 'ENOENT' && error.path === 'python2') {
         skipWithNotice(this, 'Python runtime is not installed');
       }

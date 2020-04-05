@@ -26,7 +26,7 @@ Releases are issued by preparing a release PR's as follows
 5. If needed improve generated changelog entry in `CHANGELOG.md`
 6. Commit `package.json` and `CHANGELOG.md` changes with  
    `chore: Release`  
-   message (__Note: for automation purposes it is important, it's the last commit in the PR__)
+   message (**Note: for automation purposes it is important, it's the last commit in the PR**)
 7. Push branch upstream and create a PR.  
    _Release PR's are automatically detected in CI by fact of `version` in `package.json` file being changed. In context of that build, existence of new version changelog entry (in `CHANGELOG.md`) is validated._
 8. After PR is accepted by CI and one of the reviewers, merge it via _"Rebase and merge"_ option

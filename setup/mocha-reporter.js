@@ -4,7 +4,7 @@ const { inspect } = require('util');
 
 // Unhandled rejections are not exposed in Mocha, enforce it
 // https://github.com/mochajs/mocha/issues/2640
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   throw err;
 });
 
@@ -22,11 +22,11 @@ class ServerlessSpec extends Spec {
     super(runner);
     resolveRunner(runner);
 
-    process.on('uncaughtException', err => {
+    process.on('uncaughtException', (err) => {
       if (
         !process
           .listeners('exit')
-          .find(listener => String(listener).includes('process.exitCode = Math.min(code, 255)'))
+          .find((listener) => String(listener).includes('process.exitCode = Math.min(code, 255)'))
       ) {
         if (process.listenerCount('uncaughtException') === 1) {
           // Mocha didn't setup listeners yet, ensure error is exposed
@@ -50,6 +50,6 @@ class ServerlessSpec extends Spec {
     });
   }
 }
-ServerlessSpec.deferredRunner = new Promise(resolve => (resolveRunner = resolve));
+ServerlessSpec.deferredRunner = new Promise((resolve) => (resolveRunner = resolve));
 
 module.exports = ServerlessSpec;
