@@ -161,7 +161,6 @@ module.exports = (
                     );
                     return serverless.init().then(() => {
                       const { pluginManager } = serverless;
-                      // Strip registered hooks, so only those intended are executed
                       const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
                         pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
                       );
