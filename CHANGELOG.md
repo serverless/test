@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/serverless/test/compare/v3.5.5...v3.6.0) (2020-04-15)
+
+### Features
+
+- `configureAwsRequestStub` util ([#26](https://github.com/serverless/test/pull/26)) ([40c0f57](https://github.com/serverless/test/commit/40c0f578dc3bece533bbdaa114b5089dc0e9a573)) ([Mariusz Nowak](https://github.com/medikoo))
+- **Run Serverless:**
+  - `awsRequestStubMap` option ([#26](https://github.com/serverless/test/pull/26)) ([859f97c](https://github.com/serverless/test/commit/859f97cd2d0d8a425b4fbe5ca7952988cdf555ba)) ([Mariusz Nowak](https://github.com/medikoo))
+  - `lastLifecycleHookName` option ([#26](https://github.com/serverless/test/pull/26)) ([24b4bd3](https://github.com/serverless/test/commit/24b4bd330ab862879042401a7e7c9344f9eff18f)) ([Mariusz Nowak](https://github.com/medikoo))
+  - `shouldStubSpawn` option ([#26](https://github.com/serverless/test/pull/26)) ([f6e3581](https://github.com/serverless/test/commit/f6e3581b1ef7b39a9fa9a06a3dda8a2689a349a1)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [3.5.5](https://github.com/serverless/test/compare/v3.5.4...v3.5.5) (2020-04-05)
 
 ### [3.5.4](https://github.com/serverless/test/compare/v3.5.3...v3.5.4) (2020-03-20)
