@@ -42,7 +42,7 @@
     "lint-staged": "^10.2.2",
     "mocha": "^6.2.3",
     "prettier": "^2.0.5",
-    "standard-version": "^7.1.0"
+    "standard-version": "^8.0.0"
   },
   "peerDependencies": {
     "mocha": "6"
