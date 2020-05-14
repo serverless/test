@@ -16,12 +16,15 @@ const resolveEnv = require('./resolve-env');
 const disableServerlessStatsRequests = require('./disable-serverless-stats-requests');
 const provisionTmpDir = require('./provision-tmp-dir');
 const configureAwsRequestStub = require('./configure-aws-request-stub');
+const preventCircularDepPropertyWarning = require('./prevent-circular-dep-property-warning');
 
 const resolveServerless = (serverlessPath, modulesCacheStub, callback) => {
   if (!modulesCacheStub) {
     disableServerlessStatsRequests(serverlessPath);
     return callback(require(serverlessPath));
   }
+
+  const { restore: restoreProcessWarnings } = preventCircularDepPropertyWarning();
   const originalCache = Object.assign({}, require.cache);
   for (const key of Object.keys(require.cache)) delete require.cache[key];
   disableServerlessStatsRequests(serverlessPath);
@@ -30,6 +33,7 @@ const resolveServerless = (serverlessPath, modulesCacheStub, callback) => {
   const restore = () => {
     for (const key of Object.keys(require.cache)) delete require.cache[key];
     Object.assign(require.cache, originalCache);
+    restoreProcessWarnings();
   };
   try {
     return callback(require(serverlessPath)).then(

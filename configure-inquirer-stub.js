@@ -1,6 +1,7 @@
 'use strict';
 
 const sinon = require('sinon');
+const preventCircularDepPropertyWarning = require('./prevent-circular-dep-property-warning');
 
 const validatedTypes = new Set(['input', 'password']);
 
@@ -30,6 +31,7 @@ module.exports = (inquirer, config) => {
   if (inquirer.prompt.restore) inquirer.prompt.restore();
   if (inquirer.createPromptModule.restore) inquirer.createPromptModule.restore();
 
+  const { restore: restoreProcessWarnings } = preventCircularDepPropertyWarning();
   sinon.stub(inquirer, 'prompt').callsFake((promptConfig) => {
     if (!Array.isArray(promptConfig)) return resolveAnswer(promptConfig);
     const result = {};
@@ -44,6 +46,6 @@ module.exports = (inquirer, config) => {
   });
 
   sinon.stub(inquirer, 'createPromptModule').callsFake(() => inquirer.prompt);
-
+  restoreProcessWarnings();
   return inquirer;
 };
