@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/serverless/test/compare/v3.6.0...v3.7.0) (2020-05-14)
+
+### Features
+
+- Introduce `preventCircularDepPropertyWarning` util ([8482eb6](https://github.com/serverless/test/commit/8482eb69ceeb8348cd2c1df4794ccaa9aeca5054)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Bug Fixes
+
+- Ensure no buggy Node.js v14 warnings where mocks are processed ([dedaa64](https://github.com/serverless/test/commit/dedaa64935a4e2d6165481dfa13fd2fdbf70fb0e)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [3.6.0](https://github.com/serverless/test/compare/v3.5.5...v3.6.0) (2020-04-15)
 
 ### Features
