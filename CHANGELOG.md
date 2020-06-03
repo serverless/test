@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0](https://github.com/serverless/test/compare/v3.7.0...v3.8.0) (2020-06-03)
+
+### Features
+
+- Handle internal rename in `serverless` of `lib/utils/isTrackingDisabled.js` into `lib/utils/anallytics/areDisabled.js` ([90d71a1](https://github.com/serverless/test/commit/90d71a1cb3cd7d4a72b30214a5626a718578fef3)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [3.7.0](https://github.com/serverless/test/compare/v3.6.0...v3.7.0) (2020-05-14)
 
 ### Features
