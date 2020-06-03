@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.676.0",
+    "aws-sdk": "^2.688.0",
     "chalk": "^2.4.2",
     "child-process-ext": "^2.1.1",
     "cli-progress-footer": "^1.1.1",
@@ -33,13 +33,13 @@
     "@commitlint/cli": "^8.3.5",
     "@serverless/eslint-config": "^1.2.1",
     "bluebird": "^3.7.2",
-    "eslint": "^7.0.0",
+    "eslint": "^7.1.0",
     "eslint-plugin-import": "^2.20.2",
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
     "glob-exec": "^0.1.1",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.2",
+    "lint-staged": "^10.2.7",
     "mocha": "^6.2.3",
     "prettier": "^2.0.5",
     "standard-version": "^8.0.0"
