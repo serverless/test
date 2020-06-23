@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.1](https://github.com/serverless/test/compare/v3.8.0...v3.8.1) (2020-06-23)
+
+### Bug Fixes
+
+- **Mocha Isolated:** Support documented -b option ([e8c1c25](https://github.com/serverless/test/commit/e8c1c25c84245d4f0e7b5c921f559f615def53d5)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [3.8.0](https://github.com/serverless/test/compare/v3.7.0...v3.8.0) (2020-06-03)
 
 ### Features
