@@ -14,7 +14,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     'skip-fs-cleanup-check',
     'version',
   ],
-  alias: { 'help': 'h', 'version': 'v', 'max-workers': 'w' },
+  alias: { 'help': 'h', 'version': 'v', 'max-workers': 'w', 'bail': 'b' },
   unknown: (arg) => {
     if (arg[0] !== '-') return;
     process.stdout.write(chalk.red.bold(`Unrecognized option ${arg}\n\n`));
