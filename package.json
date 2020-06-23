@@ -30,7 +30,7 @@
     "type": "^2.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
+    "@commitlint/cli": "^9.0.1",
     "@serverless/eslint-config": "^1.2.1",
     "bluebird": "^3.7.2",
     "eslint": "^7.3.1",
