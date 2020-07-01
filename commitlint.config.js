@@ -16,6 +16,7 @@ module.exports = {
         'Async Leaks Detector',
         'Inquirer Stub',
         'Log',
+        'Mocha',
         'Mocha Fixes',
         'Mocha Isolated',
         'Run Serverless',
