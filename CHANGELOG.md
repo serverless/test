@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://github.com/serverless/test/compare/v3.8.1...v3.9.0) (2020-07-01)
+
+### Features
+
+- **Mocha:** `hasFailed` util ([#48](https://github.com/serverless/test/pull/48)) ([8a7f4ad](https://github.com/serverless/test/commit/8a7f4ad1980975d0449d6a72a00524d91f6b0e6d)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [3.8.1](https://github.com/serverless/test/compare/v3.8.0...v3.8.1) (2020-06-23)
 
 ### Bug Fixes
