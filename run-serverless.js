@@ -261,12 +261,16 @@ module.exports = (
                               if (hooks.after) return hooks.after(serverless);
                               return null;
                             })
-                            .then(() => ({
-                              serverless,
-                              stdoutData,
-                              cfTemplate:
-                                serverless.service.provider.compiledCloudFormationTemplate,
-                            }));
+                            .then(() => {
+                              const awsProvider = serverless.getProvider('aws');
+                              return {
+                                serverless,
+                                stdoutData,
+                                cfTemplate:
+                                  serverless.service.provider.compiledCloudFormationTemplate,
+                                awsNaming: awsProvider && awsProvider.naming,
+                              };
+                            });
                         });
                       })
                     )

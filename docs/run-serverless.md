@@ -108,3 +108,4 @@ It's invokved with `serverless` instance passed as first argument
 - `serverless` - Instance of Serverless Framework
 - `stdoutData` - Written data to `process.stdout`
 - `cfTemplate` - (only if it was generated) CloudFormation template
+- `awsNaming` - AWS provider naming instance
