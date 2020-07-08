@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/serverless/test/compare/v4.0.0...v4.1.0) (2020-07-08)
+
+### Features
+
+- **Run Serverless:** Provide access to generated CloudFormation template on result object ([7b25ceb](https://github.com/serverless/test/commit/7b25ceb1ea39068319eeabc6233904bd78b548c3)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.0.0](https://github.com/serverless/test/compare/v3.9.0...v4.0.0) (2020-07-08)
 
 ### ⚠ BREAKING CHANGES
