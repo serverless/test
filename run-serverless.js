@@ -11,6 +11,7 @@ const path = require('path');
 const overrideEnv = require('process-utils/override-env');
 const overrideCwd = require('process-utils/override-cwd');
 const overrideArgv = require('process-utils/override-argv');
+const overrideStdoutWrite = require('process-utils/override-stdout-write');
 const sinon = require('sinon');
 const resolveEnv = require('./resolve-env');
 const disableServerlessStatsRequests = require('./disable-serverless-stats-requests');
@@ -152,106 +153,121 @@ module.exports = (
         overrideEnv(
           { variables: Object.assign(resolveEnv(), env), whitelist: envWhitelist },
           () => {
+            let stdoutData = '';
             return overrideCwd(confirmedCwd, () =>
               overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
-                resolveServerless(serverlessPath, modulesCacheStub, (Serverless) =>
-                  Promise.resolve(
-                    hooks.before && hooks.before(Serverless, { cwd: confirmedCwd })
-                  ).then(() => {
-                    // Intialize serverless instances in preconfigured environment
-                    const serverless = new Serverless();
-                    const pluginConstructorsBlacklist = pluginPathsBlacklist.map((pluginPath) =>
-                      require(pluginPath)
-                    );
-                    return serverless.init().then(() => {
-                      const { pluginManager } = serverless;
-                      const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
-                        pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
-                      );
-                      for (const [index, Plugin] of pluginConstructorsBlacklist.entries()) {
-                        if (!blacklistedPlugins.some((plugin) => plugin instanceof Plugin)) {
-                          throw new Error(
-                            `Didn't resolve a plugin instance for ${pluginPathsBlacklist[index]}`
+                overrideStdoutWrite(
+                  (data) => (stdoutData += data),
+                  () =>
+                    resolveServerless(serverlessPath, modulesCacheStub, (Serverless) =>
+                      Promise.resolve(
+                        hooks.before && hooks.before(Serverless, { cwd: confirmedCwd })
+                      ).then(() => {
+                        // Intialize serverless instances in preconfigured environment
+                        const serverless = new Serverless();
+                        const pluginConstructorsBlacklist = pluginPathsBlacklist.map((pluginPath) =>
+                          require(pluginPath)
+                        );
+                        return serverless.init().then(() => {
+                          const { pluginManager } = serverless;
+                          const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
+                            pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
                           );
-                        }
-                      }
-
-                      const { hooks: lifecycleHooks } = pluginManager;
-                      const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesBlacklist);
-                      for (const hookName of Object.keys(lifecycleHooks)) {
-                        unconfirmedLifecycleHookNames.delete(hookName);
-                        if (lifecycleHookNamesBlacklist.includes(hookName)) {
-                          delete lifecycleHooks[hookName];
-                          continue;
-                        }
-
-                        lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(
-                          (hookData) =>
-                            !blacklistedPlugins.some((blacklistedPlugin) =>
-                              values(blacklistedPlugin.hooks).includes(hookData.hook)
-                            )
-                        );
-                      }
-                      if (unconfirmedLifecycleHookNames.size) {
-                        throw new Error(
-                          `${Array.from(unconfirmedLifecycleHookNames).join(
-                            ', '
-                          )} blacklisted lifecycle hook names were not recognized.`
-                        );
-                      }
-
-                      if (lastLifecycleHookName) {
-                        const { getHooks } = pluginManager;
-                        let hasLastHookFinalized = null;
-                        pluginManager.getHooks = function (events) {
-                          if (hasLastHookFinalized) return [];
-                          if (hasLastHookFinalized === false) return getHooks.call(this, events);
-                          const lastEventIndex = events.indexOf(lastLifecycleHookName);
-                          if (lastEventIndex === -1) return getHooks.call(this, events);
-                          events = events.slice(0, lastEventIndex + 1);
-                          const eventHooks = getHooks.call(this, events);
-                          if (!eventHooks.length) {
-                            hasLastHookFinalized = true;
-                            return eventHooks;
+                          for (const [index, Plugin] of pluginConstructorsBlacklist.entries()) {
+                            if (!blacklistedPlugins.some((plugin) => plugin instanceof Plugin)) {
+                              throw new Error(
+                                `Didn't resolve a plugin instance for ${pluginPathsBlacklist[index]}`
+                              );
+                            }
                           }
-                          hasLastHookFinalized = false;
-                          const lastHook = eventHooks[eventHooks.length - 1];
-                          const hookFunction = lastHook.hook;
-                          lastHook.hook = function () {
-                            try {
-                              return Promise.resolve(hookFunction.call(this)).then(
-                                (result) => {
-                                  hasLastHookFinalized = true;
-                                  return result;
-                                },
-                                (error) => {
+
+                          const { hooks: lifecycleHooks } = pluginManager;
+                          const unconfirmedLifecycleHookNames = new Set(
+                            lifecycleHookNamesBlacklist
+                          );
+                          for (const hookName of Object.keys(lifecycleHooks)) {
+                            unconfirmedLifecycleHookNames.delete(hookName);
+                            if (lifecycleHookNamesBlacklist.includes(hookName)) {
+                              delete lifecycleHooks[hookName];
+                              continue;
+                            }
+
+                            lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(
+                              (hookData) =>
+                                !blacklistedPlugins.some((blacklistedPlugin) =>
+                                  values(blacklistedPlugin.hooks).includes(hookData.hook)
+                                )
+                            );
+                          }
+                          if (unconfirmedLifecycleHookNames.size) {
+                            throw new Error(
+                              `${Array.from(unconfirmedLifecycleHookNames).join(
+                                ', '
+                              )} blacklisted lifecycle hook names were not recognized.`
+                            );
+                          }
+
+                          if (lastLifecycleHookName) {
+                            const { getHooks } = pluginManager;
+                            let hasLastHookFinalized = null;
+                            pluginManager.getHooks = function (events) {
+                              if (hasLastHookFinalized) return [];
+                              if (hasLastHookFinalized === false) {
+                                return getHooks.call(this, events);
+                              }
+                              const lastEventIndex = events.indexOf(lastLifecycleHookName);
+                              if (lastEventIndex === -1) return getHooks.call(this, events);
+                              events = events.slice(0, lastEventIndex + 1);
+                              const eventHooks = getHooks.call(this, events);
+                              if (!eventHooks.length) {
+                                hasLastHookFinalized = true;
+                                return eventHooks;
+                              }
+                              hasLastHookFinalized = false;
+                              const lastHook = eventHooks[eventHooks.length - 1];
+                              const hookFunction = lastHook.hook;
+                              lastHook.hook = function () {
+                                try {
+                                  return Promise.resolve(hookFunction.call(this)).then(
+                                    (result) => {
+                                      hasLastHookFinalized = true;
+                                      return result;
+                                    },
+                                    (error) => {
+                                      hasLastHookFinalized = true;
+                                      throw error;
+                                    }
+                                  );
+                                } catch (error) {
                                   hasLastHookFinalized = true;
                                   throw error;
                                 }
-                              );
-                            } catch (error) {
-                              hasLastHookFinalized = true;
-                              throw error;
-                            }
-                          };
-                          return eventHooks;
-                        };
-                      }
+                              };
+                              return eventHooks;
+                            };
+                          }
 
-                      if (awsRequestStubMap) {
-                        configureAwsRequestStub(serverless.getProvider('aws'), awsRequestStubMap);
-                      }
+                          if (awsRequestStubMap) {
+                            configureAwsRequestStub(
+                              serverless.getProvider('aws'),
+                              awsRequestStubMap
+                            );
+                          }
 
-                      // Run plugin manager hooks
-                      return serverless
-                        .run()
-                        .then(() => {
-                          if (hooks.after) return hooks.after(serverless);
-                          return null;
-                        })
-                        .then(() => serverless);
-                    });
-                  })
+                          // Run plugin manager hooks
+                          return serverless
+                            .run()
+                            .then(() => {
+                              if (hooks.after) return hooks.after(serverless);
+                              return null;
+                            })
+                            .then(() => ({
+                              serverless,
+                              stdoutData,
+                            }));
+                        });
+                      })
+                    )
                 )
               )
             );

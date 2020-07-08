@@ -13,7 +13,7 @@ describe('Some suite', () => {
   it('Some test that involves creation of serverless instance', function () {
     runServerless(serverlessPath, {
       // Options, see below documentation
-    }).then((serverless) => {
+    }).then(({ serverless, stdoutData }) => {
       // Resolved after serverless.run() finalizes.
       // Examine here expected outcome
     });
@@ -102,3 +102,8 @@ It's invoked with `Serverless` constructor and resolved `cwd` as meta data in ar
 Run as last step of evaluation (after `serverless.run()` resolves).
 
 It's invokved with `serverless` instance passed as first argument
+
+### Result values
+
+- `serverless` - Instance of Serverless Framework
+- `stdoutData` - Written data to `process.stdout`
