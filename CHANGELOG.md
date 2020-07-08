@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/serverless/test/compare/v4.1.0...v4.2.0) (2020-07-08)
+
+### Features
+
+- **Run Serverless:** Provide access to aws naming on result object ([2578648](https://github.com/serverless/test/commit/25786480ca5216754ecab120b538b9d24a84d76d)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.1.0](https://github.com/serverless/test/compare/v4.0.0...v4.1.0) (2020-07-08)
 
 ### Features
