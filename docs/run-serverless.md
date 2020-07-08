@@ -13,7 +13,7 @@ describe('Some suite', () => {
   it('Some test that involves creation of serverless instance', function () {
     runServerless(serverlessPath, {
       // Options, see below documentation
-    }).then(({ serverless, stdoutData }) => {
+    }).then(({ serverless, stdoutData, cfTemplate }) => {
       // Resolved after serverless.run() finalizes.
       // Examine here expected outcome
     });
@@ -107,3 +107,4 @@ It's invokved with `serverless` instance passed as first argument
 
 - `serverless` - Instance of Serverless Framework
 - `stdoutData` - Written data to `process.stdout`
+- `cfTemplate` - (only if it was generated) CloudFormation template

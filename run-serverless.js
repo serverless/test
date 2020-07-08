@@ -264,6 +264,8 @@ module.exports = (
                             .then(() => ({
                               serverless,
                               stdoutData,
+                              cfTemplate:
+                                serverless.service.provider.compiledCloudFormationTemplate,
                             }));
                         });
                       })
