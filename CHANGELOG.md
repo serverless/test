@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/serverless/test/compare/v3.9.0...v4.0.0) (2020-07-08)
+
+### ⚠ BREAKING CHANGES
+
+- **Run Serverless:** `runServerless` no longer resolves with `serverless` instance directly. Now data object is returned with `serverless` and `stdoutData` properties
+
+### Features
+
+- **Run Serverless:** Mute stdout and expose its content at `stdoutData` ([028c99c](https://github.com/serverless/test/commit/028c99ccd1ca360c11536c016434bb8d40d074f4))
+
 ## [3.9.0](https://github.com/serverless/test/compare/v3.8.1...v3.9.0) (2020-07-01)
 
 ### Features
