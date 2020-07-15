@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/serverless/test/compare/v4.2.0...v4.3.0) (2020-07-15)
+
+### Features
+
+- Ensure to whitelist SLS_AWS_REQUEST_MAX_RETRIES env var ([59262e6](https://github.com/serverless/test/commit/59262e65c991bb4a2d58fe6137fed31ac870d74e)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.2.0](https://github.com/serverless/test/compare/v4.1.0...v4.2.0) (2020-07-08)
 
 ### Features
