@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.3.1](https://github.com/serverless/test/compare/v4.3.0...v4.3.1) (2020-07-16)
+
+### Bug Fixes
+
+- **Async Leaks Detector:** Increase timeout to avoid false positives ([6f310e3](https://github.com/serverless/test/commit/6f310e34b9c9cd2ed70fd08d043b8c058a0cb75d)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.3.0](https://github.com/serverless/test/compare/v4.2.0...v4.3.0) (2020-07-15)
 
 ### Features
