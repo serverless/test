@@ -12,8 +12,8 @@ require('../mocha-reporter').deferredRunner.then((runner) =>
       // It's a signal there's some promise chain (or in general async flow) misconfiguration
       process.stdout.write(chalk.red('Error: Test ended with unfinished async jobs\n'));
       process.on('exit', () => (process.exitCode = 1));
-      // Timeout '10' to ensure no false positives, with lower values there are observable rare
+      // Timeout '20' to ensure no false positives, with lower values there are observable rare
       // scenarios of possibly a garbage collector delaying process exit being picked up
-    }, 10).unref();
+    }, 20).unref();
   })
 );
