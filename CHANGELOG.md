@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.3.2](https://github.com/serverless/test/compare/v4.3.1...v4.3.2) (2020-07-22)
+
+### Bug Fixes
+
+- **Mocha Fixes:** Ensure to expose eventual uncaught exception ([4f9f47e](https://github.com/serverless/test/commit/4f9f47ed30dcb6c774ccd1cf99f3ba26f351c584)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [4.3.1](https://github.com/serverless/test/compare/v4.3.0...v4.3.1) (2020-07-16)
 
 ### Bug Fixes
