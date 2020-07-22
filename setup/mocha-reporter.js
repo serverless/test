@@ -36,10 +36,9 @@ class ServerlessSpec extends Spec {
         // Mocha ignores uncaught exceptions if they happen in conext of skipped test, expose them
         // https://github.com/mochajs/mocha/issues/3938
         if (runner.currentRunnable.isPending() || runner._abort) throw err; // eslint-disable-line no-underscore-dangle
-        if (runner.currentRunnable.isFailed()) {
-          // Process is guaranteed to fail, still given uncaught exception is not exposed;
-          process.stdout.write(`Uncaught exception: ${inspect(err, { colors: true })}`);
-        }
+
+        // Uncaught exception may not be exposed, ensure it is
+        process.stderr.write(`Uncaught exception: ${inspect(err, { colors: true })}\n`);
         return;
       }
       // If there's an uncaught exception after test runner wraps up
