@@ -19,6 +19,9 @@ deferredRunner.then((runner) => {
       emptyDirSync(processTmpDir);
     } catch (error) {
       if (rmTmpDirIgnorableErrorCodes.has(error.code)) return;
+      // If some of the tests timed out, error could be caused by ongoing operation
+      // which still writse to temp dir, ignore it.
+      if (suite.tests.some((test) => test.timedOut)) return;
       process.nextTick(() => {
         // Crash in next tick, as otherwise Mocha goes bonkers
         throw error;
