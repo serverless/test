@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.5.0](https://github.com/serverless/test/compare/v4.4.0...v4.5.0) (2020-08-18)
+
+### Features
+
+- **Run Serverless:** Throw config validation errors for inline configs ([c4b29c5](https://github.com/serverless/test/commit/c4b29c5a89ab301cf2b087c92982cb2db3cc6c02)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Bug Fixes
+
+- Ensure to ignore mock home dir cleanup with timed out tests ([582dd34](https://github.com/serverless/test/commit/582dd343b927e2f865e50efc8f4885c5df326967)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.4.0](https://github.com/serverless/test/compare/v4.3.2...v4.4.0) (2020-08-07)
 
 ### Features
