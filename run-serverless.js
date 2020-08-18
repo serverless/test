@@ -106,6 +106,10 @@ module.exports = (
     if (cwd && config) {
       throw new TypeError("Expected either 'cwd' or 'config' options, not both of them");
     }
+    if (config) {
+      // By default expose configuration errors as crashes
+      if (!config.configValidationMode) config.configValidationMode = 'error';
+    }
     cliArgs = ensureIterable(cliArgs, {
       default: [],
       ensureItem: ensureString,
