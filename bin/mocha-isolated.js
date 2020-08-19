@@ -14,6 +14,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     'skip-fs-cleanup-check',
     'version',
   ],
+  string: ['require'],
   alias: { 'help': 'h', 'version': 'v', 'max-workers': 'w', 'bail': 'b' },
   unknown: (arg) => {
     if (arg[0] !== '-') return;
@@ -36,6 +37,7 @@ Options:
   --max-workers             -w  Maximum allowed number of workers for concurrent run
   --recursive                   Look for tests in subdirectories
   --skip-fs-cleanup-check       Do not check on modified files (allows parallel runs)
+  --require                     Mocha's "require" option (passed through to Mocha)
 `;
 
 if (argv.help) {
@@ -116,7 +118,9 @@ const run = (path) => {
 
   const env = argv['pass-through-aws-creds'] ? resolveAwsEnv() : resolveEnv();
   env.FORCE_COLOR = '1';
-  const testPromise = spawn('node', ['node_modules/.bin/_mocha', path], {
+  const mochaArgs = [];
+  if (argv.require) mochaArgs.push('--require', argv.require);
+  const testPromise = spawn('node', ['node_modules/.bin/_mocha', ...mochaArgs, path], {
     stdio: isMultiProcessRun ? null : 'inherit',
     env,
   });

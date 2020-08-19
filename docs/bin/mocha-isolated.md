@@ -23,3 +23,7 @@ Isolated tests by default are run with no (but mandatory a `PATH`) env variables
 ##### _`--skip-fs-cleanup-check`_
 
 Do not validate file system side effects (this also effectively turns on parallel test run, as file system validation to be reliable requires consecutive run)
+
+##### _`--require <path>`_
+
+Passed through to Mocha
