@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.6.0](https://github.com/serverless/test/compare/v4.5.0...v4.6.0) (2020-08-19)
+
+### Features
+
+- **Mocha Isolated:** Pass through `--require` option to Mocha ([590f330](https://github.com/serverless/test/commit/590f33076208be841c2504769575dce6a8a305b1)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.5.0](https://github.com/serverless/test/compare/v4.4.0...v4.5.0) (2020-08-18)
 
 ### Features
