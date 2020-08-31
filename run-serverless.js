@@ -169,6 +169,9 @@ module.exports = (
                       ).then(() => {
                         // Intialize serverless instances in preconfigured environment
                         const serverless = new Serverless();
+                        if (serverless.triggeredDeprecations) {
+                          serverless.triggeredDeprecations.clear();
+                        }
                         const pluginConstructorsBlacklist = pluginPathsBlacklist.map((pluginPath) =>
                           require(pluginPath)
                         );
