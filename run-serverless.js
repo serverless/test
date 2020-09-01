@@ -109,6 +109,7 @@ module.exports = (
     if (config) {
       // By default expose configuration errors as crashes
       if (!config.configValidationMode) config.configValidationMode = 'error';
+      if (!config.frameworkVersion) config.frameworkVersion = '*';
     }
     cliArgs = ensureIterable(cliArgs, {
       default: [],
