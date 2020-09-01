@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.8.0](https://github.com/serverless/test/compare/v4.7.0...v4.8.0) (2020-09-01)
+
+### Features
+
+- **Run Serverless:** Ensure `frameworkVersion` to not trigger validation error ([a35fb51](https://github.com/serverless/test/commit/a35fb51f5f0809a46823bc55f025ae0cb01c0041)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.7.0](https://github.com/serverless/test/compare/v4.6.0...v4.7.0) (2020-08-31)
 
 ### Features
