@@ -62,7 +62,9 @@ module.exports = memoize((fixturesPath) => ({
       Array.from(retrievedFixturesPaths, (fixturePath) => {
         const pathsToRemove = [path.join(fixturePath, '.serverless')];
         if (options.extraPaths) {
-          pathsToRemove.push(...options.extraPaths.map((target) => path.join(fixturePath, target)));
+          pathsToRemove.push(
+            ...options.extraPaths.map((target) => path.resolve(fixturePath, target))
+          );
         }
         return Promise.all(pathsToRemove.map((pathToRemove) => fse.remove(pathToRemove))).then(() =>
           retrievedFixturesPaths.delete(fixturePath)
