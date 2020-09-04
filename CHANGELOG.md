@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.9.1](https://github.com/serverless/test/compare/v4.9.0...v4.9.1) (2020-09-04)
+
+### Bug Fixes
+
+- **Run Serverless:** Ensure to recognize fallbacks to local installation ([f741602](https://github.com/serverless/test/commit/f741602a9ebd2b25abc7b618d38a1ec2e8ed1822)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.9.0](https://github.com/serverless/test/compare/v4.8.0...v4.9.0) (2020-09-04)
 
 ### Features
