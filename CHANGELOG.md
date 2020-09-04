@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.9.2](https://github.com/serverless/test/compare/v4.9.1...v4.9.2) (2020-09-04)
+
+### Bug Fixes
+
+- **Fixture Engine:** Fix fixture setup design ([12061ce](https://github.com/serverless/test/commit/12061ce24b18eace2a9187358237654dc05ab2d3)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [4.9.1](https://github.com/serverless/test/compare/v4.9.0...v4.9.1) (2020-09-04)
 
 ### Bug Fixes
