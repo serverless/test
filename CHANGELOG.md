@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.9.0](https://github.com/serverless/test/compare/v4.8.0...v4.9.0) (2020-09-04)
+
+### Features
+
+- **Fixtures Engine:** Introduce fixtures.setup ([#53](https://github.com/serverless/test/pull/53)) ([d87f20f](https://github.com/serverless/test/commit/d87f20f88260d2ce5fb1d016f03f902ac99d109a)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Bug Fixes
+
+- **Fixtures Engine:** Support absolute paths in `extraPaths` ([#53](https://github.com/serverless/test/pull/53)) ([7990407](https://github.com/serverless/test/commit/79904078eeec24df3cfe893556d8cfc5494ad4f5)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [4.8.0](https://github.com/serverless/test/compare/v4.7.0...v4.8.0) (2020-09-01)
 
 ### Features
