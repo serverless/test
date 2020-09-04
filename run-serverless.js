@@ -169,7 +169,7 @@ module.exports = (
                         hooks.before && hooks.before(Serverless, { cwd: confirmedCwd })
                       ).then(() => {
                         // Intialize serverless instances in preconfigured environment
-                        const serverless = new Serverless();
+                        let serverless = new Serverless();
                         if (serverless.triggeredDeprecations) {
                           serverless.triggeredDeprecations.clear();
                         }
@@ -177,6 +177,7 @@ module.exports = (
                           require(pluginPath)
                         );
                         return serverless.init().then(() => {
+                          if (serverless.invokedInstance) serverless = serverless.invokedInstance;
                           const { pluginManager } = serverless;
                           const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
                             pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
