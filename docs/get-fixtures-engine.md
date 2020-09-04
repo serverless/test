@@ -35,6 +35,25 @@ const pathToExtendedHttpFixture = await fixturesEngine.extend('http', {
 });
 ```
 
+### 3. Retrieve a fixture with implied _setup_ setup
+
+In some scenarios fixture may require a setup step.
+
+In given case fixture should be created with a `_setup.js` module in its folder.
+
+Module right in its body should start a _setup_ process and export a promise that resolves once its done.
+
+Additionally module may resolve with a _cleanup instructions_ (configuration object).
+
+Currently all that's supported in there is `pathsToRemove` property, which indicates additional paths for cleanup operation
+
+```javascript
+// Generates extended fixture (in temporary path) and returns its path
+const pathToExtendedHttpFixture = await fixturesEngine.extend('http', {
+  provider: { logs: { restApi: true } },
+});
+```
+
 ### Cleanup after testing is done
 
 For proper cleanup `fixtures.cleanup` needs to be registered in `after`:
