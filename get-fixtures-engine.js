@@ -26,16 +26,13 @@ const currentlySetupFixtures = new Set();
 const retrievedFixturesCleanupInstructions = new Map();
 
 const setupFixture = memoizee(
-  (fixturePath) => {
-    return BbPromise.resolve(require(path.join(fixturePath, '_setup'))).then(
-      (cleanupInstructions) => {
-        currentlySetupFixtures.add(fixturePath);
-        if (cleanupInstructions) {
-          retrievedFixturesCleanupInstructions.set(fixturePath, cleanupInstructions);
-        }
+  (fixturePath) =>
+    BbPromise.resolve(require(path.join(fixturePath, '_setup'))()).then((cleanupInstructions) => {
+      currentlySetupFixtures.add(fixturePath);
+      if (cleanupInstructions) {
+        retrievedFixturesCleanupInstructions.set(fixturePath, cleanupInstructions);
       }
-    );
-  },
+    }),
   { promise: true }
 );
 
