@@ -6,23 +6,39 @@ Fixtures engine provides out of a box means to extend existing fixtures (enrich/
 
 ## Usage
 
+Fixture engine should be initialized by passing a path to directory that contains all fixtures (each in its own directory):
+
 ```javascript
-const fixturesEngine = require('@serverless/test/get-fixtures-engine')(fixturesPath);
+const fixtures = require('@serverless/test/get-fixtures-engine')(fixturesPath);
+```
 
-// Retrieve path "http" fixture, resolution is same as with path.join(fixturesPath, fixturePath)
-// however it additionally:
-// - Crashes immediately if fixtures is not found
-// - Registers fixtures for cleanup operation after testing is done
+### 1. Retrieve fixture as is
+
+Simply to resolve full path to existing fixture rely on `fixtures.map[fixtureDirectoryName]`.
+It'll respond with full path to fixture. However it'll additionally:
+
+- Crash immediately if fixture is not found
+- Registers fixtures for cleanup operation after testing is done
+
+```javascript
 const pathToHttpFixture = fixturesEngine.http;
+```
 
+### 2. Retrieve fixture and extend its service configuration
+
+In this case given fixture is copied to a temp dir where modified `serverless.yml` configuration is placed
+
+```javascript
 // Generates extended fixture (in temporary path) and returns its path
 const pathToExtendedHttpFixture = await fixturesEngine.extend('http', {
   provider: { logs: { restApi: true } },
 });
+```
 
-// Cleanup aafter testing is done (it'll remove eventually created .serverless folders)
-fixturesEngine.cleanup({
-  // (optional)
-  extraPaths: ['eventualExtraPathInServiceThatNeedsToBeRemoved'],
-});
+### Cleanup after testing is done
+
+For proper cleanup `fixtures.cleanup` needs to be registered in `after`:
+
+```javascript
+after(fixtures.cleanup);
 ```
