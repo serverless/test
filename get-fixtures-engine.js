@@ -6,11 +6,11 @@ const ensurePlainObject = require('type/plain-object/ensure');
 const BbPromise = require('bluebird');
 const fse = require('fs-extra');
 const memoizee = require('memoizee');
-const { memoize, merge } = require('lodash');
+const { merge } = require('lodash');
 const { load: loadYaml, dump: saveYaml } = require('js-yaml');
 const provisionTmpDir = require('./provision-tmp-dir');
 
-const isFixtureConfigured = memoize((fixturePath) => {
+const isFixtureConfigured = memoizee((fixturePath) => {
   let stats;
   try {
     stats = fse.statSync(fixturePath);
@@ -39,7 +39,7 @@ const setupFixture = memoizee(
   { promise: true }
 );
 
-module.exports = memoize((fixturesPath) => {
+module.exports = memoizee((fixturesPath) => {
   const fixturesEngine = {
     map: new Proxy(
       {},
