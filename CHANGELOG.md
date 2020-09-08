@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/serverless/test/compare/v4.9.1...v5.0.0) (2020-09-08)
+
+### ⚠ BREAKING CHANGES
+
+- **Fixtures Engine:** `fixtures.map`, `fixtures.extend` were removed and `fixtures.setup` was redesigned to address all fixture setup cases. Now each fixture is copied to temporary folder, which is retured by `fixtures.setup`
+
+### Features
+
+- **Fixtures Engine:** Reconfigure and ntroduce single `fixtures.setup `([bf856ab](https://github.com/serverless/test/commit/bf856abcc228f8dd27e171859d739192e6004848))([Mariusz Nowak](https://github.com/medikoo))
+- Set homedir as tmpdir in process tmpdir ([bba8078](https://github.com/serverless/test/commit/bba8078e40d2dd297fffbcaf1cbcac8995e73efd))([Mariusz Nowak](https://github.com/medikoo))
+
 ### [4.9.2](https://github.com/serverless/test/compare/v4.9.1...v4.9.2) (2020-09-04)
 
 ### Bug Fixes
