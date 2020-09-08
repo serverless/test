@@ -1,14 +1,30 @@
 'use strict';
 
+const path = require('path');
+const fs = require('fs');
 const os = require('os');
+const crypto = require('crypto');
 const { emptyDirSync } = require('fs-extra');
 const processTmpDir = require('../process-tmp-dir');
 const { deferredRunner } = require('./mocha-reporter');
 const rmTmpDirIgnorableErrorCodes = require('../lib/private/rm-tmp-dir-ignorable-error-codes');
 
-os.homedir = () => processTmpDir;
-if (process.env.USERPROFILE) process.env.USERPROFILE = processTmpDir;
-if (process.env.HOME) process.env.HOME = processTmpDir;
+const createTmpHomedir = () => {
+  const tmpHomeDir = path.join(processTmpDir, crypto.randomBytes(3).toString('hex'));
+  try {
+    fs.mkdirSync(tmpHomeDir);
+  } catch (error) {
+    if (error.code === 'EEXIST') return createTmpHomedir();
+    throw error;
+  }
+  return tmpHomeDir;
+};
+
+const tmpHomeDir = createTmpHomedir();
+
+os.homedir = () => tmpHomeDir;
+if (process.env.USERPROFILE) process.env.USERPROFILE = tmpHomeDir;
+if (process.env.HOME) process.env.HOME = tmpHomeDir;
 
 deferredRunner.then((runner) => {
   runner.on('suite end', (suite) => {
@@ -16,7 +32,7 @@ deferredRunner.then((runner) => {
 
     // Cleanup temp homedir after each top level test run
     try {
-      emptyDirSync(processTmpDir);
+      emptyDirSync(tmpHomeDir);
     } catch (error) {
       if (rmTmpDirIgnorableErrorCodes.has(error.code)) return;
       // If some of the tests timed out, error could be caused by ongoing operation
