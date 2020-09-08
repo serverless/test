@@ -18,6 +18,9 @@ Fixture is a simple, minimal service, configured to help test Framework function
 
 Fixture may have `_setup.js` script, which should cover an additional setup (if it's needed), before fixture is used.
 
+Fixture may have `package.json` which lists eventual dependencies to be installed.
+If `package.json` is found. Fixture setup involves `npm install`
+
 ### Resolving a fixture
 
 Through a `fixtures.setup(fixtureName, options)` we retrieve a temporary path to fully setup copied fixture.

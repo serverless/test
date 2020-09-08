@@ -4,6 +4,7 @@ const path = require('path');
 const ensureString = require('type/string/ensure');
 const ensurePlainObject = require('type/plain-object/ensure');
 const ensurePlainFunction = require('type/plain-function/ensure');
+const spawn = require('child-process-ext/spawn');
 const BbPromise = require('bluebird');
 const fse = require('fs-extra');
 const memoizee = require('memoizee');
@@ -23,31 +24,48 @@ const isFixtureConfigured = memoizee((fixturePath) => {
   return Boolean(stats.isDirectory());
 });
 
+const isFile = (filename) =>
+  fse.lstat(filename).then(
+    (stats) => {
+      if (!stats.isFile()) return false;
+      return true;
+    },
+    (error) => {
+      if (error.code === 'ENOENT') return false;
+      throw error;
+    }
+  );
+
 const setupFixture = memoizee(
   (fixturePath) =>
-    fse
-      .lstat(path.resolve(fixturePath, '_setup.js'))
-      .then(
-        (stats) => {
-          if (!stats.isFile()) return false;
-          return true;
-        },
-        (error) => {
-          if (error.code === 'ENOENT') return false;
-          throw error;
-        }
-      )
-      .then((isSetupScript) => {
-        if (!isSetupScript) return fixturePath;
-        return provisionTmpDir().then((setupFixturePath) => {
-          const setupScriptPath = path.resolve(setupFixturePath, '_setup.js');
-          return fse
-            .copy(fixturePath, setupFixturePath)
-            .then(() => ensurePlainFunction(require(setupScriptPath))(fixturePath))
-            .then(() => fse.unlink(setupScriptPath))
-            .then(() => setupFixturePath);
-        });
-      }),
+    Promise.all([
+      isFile(path.resolve(fixturePath, '_setup.js')),
+      isFile(path.resolve(fixturePath, 'package.json')),
+    ]).then(([hasSetupScript, hasNpmDependencies]) => {
+      if (!hasSetupScript && !hasNpmDependencies) return fixturePath;
+      return provisionTmpDir().then((setupFixturePath) => {
+        return fse
+          .copy(fixturePath, setupFixturePath)
+          .then(() => {
+            if (!hasNpmDependencies) return null;
+            log.notice(
+              'install dependencies for %s (at %s)',
+              path.basename(fixturePath),
+              setupFixturePath
+            );
+            return spawn('npm', ['install'], { cwd: setupFixturePath });
+          })
+          .then(() => {
+            if (!hasSetupScript) return null;
+            log.notice('run setup for %s (at %s)', path.basename(fixturePath), setupFixturePath);
+            const setupScriptPath = path.resolve(setupFixturePath, '_setup.js');
+            return Promise.resolve(
+              ensurePlainFunction(require(setupScriptPath))(fixturePath)
+            ).then(() => fse.unlink(setupScriptPath));
+          })
+          .then(() => setupFixturePath);
+      });
+    }),
   { promise: true }
 );
 
