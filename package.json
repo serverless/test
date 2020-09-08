@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.746.0",
+    "aws-sdk": "^2.747.0",
     "bluebird": "^3.7.2",
     "chalk": "^2.4.2",
     "child-process-ext": "^2.1.1",
@@ -40,7 +40,7 @@
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
     "glob-exec": "^0.1.1",
-    "husky": "^4.2.5",
+    "husky": "^4.3.0",
     "lint-staged": "^10.3.0",
     "mocha": "^6.2.3",
     "prettier": "^2.1.1",
