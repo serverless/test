@@ -19,7 +19,9 @@ module.exports = (provider, config) => {
           reject(new Error(`Missing AWS request stub configuration for ${service}.${method}`));
           return;
         }
-        resolve(config[service][method]);
+
+        const meth = config[service][method];
+        resolve(typeof meth === 'function' ? meth() : meth);
       })
   );
 };
