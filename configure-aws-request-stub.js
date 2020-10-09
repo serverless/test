@@ -13,13 +13,15 @@ module.exports = (provider, config) => {
   if (provider.request.restore) provider.request.restore();
 
   return sinon.stub(provider, 'request').callsFake(
-    (service, method) =>
+    (service, methodName, ...args) =>
       new Promise((resolve, reject) => {
-        if (!config[service] || !config[service][method]) {
-          reject(new Error(`Missing AWS request stub configuration for ${service}.${method}`));
+        if (!config[service] || !config[service][methodName]) {
+          reject(new Error(`Missing AWS request stub configuration for ${service}.${methodName}`));
           return;
         }
-        resolve(config[service][method]);
+
+        const method = config[service][methodName];
+        resolve(typeof method === 'function' ? method(...args) : method);
       })
   );
 };
