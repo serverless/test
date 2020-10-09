@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.0](https://github.com/serverless/test/compare/v5.1.0...v5.2.0) (2020-10-09)
+
+### Features
+
+- **Run Serverless:** Allow functions as AWS provider request stubs. ([#54](https://github.com/serverless/test/issues/54)) ([f065b47](https://github.com/serverless/test/commit/f065b47f166635a9b64baf5e0f7315e913fa26b2)) ([Ryan Roemer](https://github.com/ryan-roemer))
+
 ## [5.1.0](https://github.com/serverless/test/compare/v5.0.0...v5.1.0) (2020-09-08)
 
 ### Features
