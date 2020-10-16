@@ -66,18 +66,18 @@ const resolveCwd = ({ cwd, config }) =>
 module.exports = (
   serverlessPath,
   {
-    cwd,
-    config,
+    awsRequestStubMap,
     cliArgs,
+    config,
+    cwd,
     env,
     envWhitelist,
-    pluginPathsBlacklist,
-    lifecycleHookNamesBlacklist,
+    hooks,
     lastLifecycleHookName,
-    awsRequestStubMap,
+    lifecycleHookNamesBlacklist,
     modulesCacheStub,
+    pluginPathsBlacklist,
     shouldStubSpawn,
-    hooks = {},
   }
 ) =>
   new Promise((resolve) => {
@@ -129,7 +129,7 @@ module.exports = (
       errorMessage: 'Expected `lifecycleHookNamesBlacklist` to be a string collection, received %v',
     });
     lastLifecycleHookName = ensureString(lastLifecycleHookName, { isOptional: true });
-    ensurePlainObject(hooks, {
+    hooks = ensurePlainObject(hooks, {
       default: {},
       allowedKeys: ['after', 'before'],
       ensurePropertyValue: ensurePlainFunction,
