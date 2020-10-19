@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/serverless/test/compare/v5.2.0...v6.0.0) (2020-10-19)
+
+### ⚠ BREAKING CHANGES
+
+- **Mocha:** Rename `restore-cwd` extension to `mock-cwd` extension.
+  It was changed to also mock current working directory to homedir (which if `mock-homedir` is used, points temp directory)
+
+### Features
+
+- **Mocha:** Ensure current working directory points homedir intitially ([#55](https://github.com/serverless/test/issues/55)) ([195eb69](https://github.com/serverless/test/commit/195eb6915ffca75f1b0282412b6d10ff051ccbaf)) ([Mariusz Nowak](https://github.com/medikoo))
+- **Run Serverless:** `noService` option ([#55](https://github.com/serverless/test/issues/55)) ([b761218](https://github.com/serverless/test/commit/b76121882cbb2a1762b2544123a94f15632d649e)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [5.2.0](https://github.com/serverless/test/compare/v5.1.0...v5.2.0) (2020-10-09)
 
 ### Features
