@@ -18,11 +18,6 @@ const resolveAreAnalyticsDisabled = (serverlessPath) => {
 
 module.exports = (serverlessPath) => {
   const modulePath = resolveAreAnalyticsDisabled(serverlessPath);
-  // eslint-disable-next-line import/no-unresolved
-  const areAnalyticsDisabled = require(modulePath);
-
-  if (!areAnalyticsDisabled) {
-    // Ensure no tracking during tests run
-    require.cache[require.resolve(modulePath)].exports = true;
-  }
+  // Ensure no tracking during tests run
+  require.cache[require.resolve(modulePath)] = { exports: true };
 };
