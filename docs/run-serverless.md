@@ -25,18 +25,22 @@ describe('Some suite', () => {
 
 ### Supported options
 
-#### `cwd` (interchangeable with `config` option)
+#### `cwd` (interchangeable with `config` and `noService` options)
 
 Working directory in which supposedly `serverless` is run. Usually it's about a path to
 serverless service test fixture directory.
 
 If test can be fully accomplished just by processing serverless config, alternatively `config` option can be passed (no need then to create physical fixture directory)
 
-#### `config` (interchangeable with `cwd` option)
+#### `config` (interchangeable with `cwd` and `noService` options)
 
 Plain object serverless config to be used to run serverless test.
 
 It'll be written to `serverless.json` file in provisioned temporary service directory, then against that directory serverless instance will be run.
+
+#### `noService` (interchangeable with `cwd` and `config` options)
+
+Request a run not in a service context. Current working directory will be set to homedir (which in test file runs usually points a temporary folder)
 
 #### `cliArgs` (optional)
 

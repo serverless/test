@@ -8,6 +8,7 @@ const cjsResolveSync = require('ncjsm/resolve/sync');
 const { writeJson } = require('fs-extra');
 const { entries, values } = require('lodash');
 const path = require('path');
+const os = require('os');
 const overrideEnv = require('process-utils/override-env');
 const overrideCwd = require('process-utils/override-cwd');
 const overrideArgv = require('process-utils/override-argv');
@@ -76,6 +77,7 @@ module.exports = (
     lastLifecycleHookName,
     lifecycleHookNamesBlacklist,
     modulesCacheStub,
+    noService,
     pluginPathsBlacklist,
     shouldStubSpawn,
   }
@@ -102,11 +104,15 @@ module.exports = (
       isOptional: true,
       errorMessage: 'Expected plain object value for `config`, received %v',
     });
-    if (!cwd && !config) throw new TypeError("Either 'cwd' or 'config' option must be provided");
+    if (!cwd && !config && !noService) {
+      throw new TypeError("Either 'cwd', 'config' or 'noService' option must be provided");
+    }
     if (cwd && config) {
       throw new TypeError("Expected either 'cwd' or 'config' options, not both of them");
     }
-    if (config) {
+    if (noService) {
+      cwd = os.homedir();
+    } else if (config) {
       // By default expose configuration errors as crashes
       if (!config.configValidationMode) config.configValidationMode = 'error';
       if (!config.frameworkVersion) config.frameworkVersion = '*';
