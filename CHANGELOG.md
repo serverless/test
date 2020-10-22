@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/serverless/test/compare/v6.0.0...v6.1.0) (2020-10-22)
+
+### Features
+
+- **Run Serverless:** Support relative paths in `modulesCacheStub` ([#56](https://github.com/serverless/test/issues/56)) ([8238bfd](https://github.com/serverless/test/commit/8238bfd4d7eaf5cbadfb0b5930493663fc19d66a)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [6.0.0](https://github.com/serverless/test/compare/v5.2.0...v6.0.0) (2020-10-19)
 
 ### ⚠ BREAKING CHANGES
