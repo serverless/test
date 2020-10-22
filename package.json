@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.773.0",
+    "aws-sdk": "^2.776.0",
     "bluebird": "^3.7.2",
     "chalk": "^2.4.2",
     "child-process-ext": "^2.1.1",
