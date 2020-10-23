@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.1](https://github.com/serverless/test/compare/v6.1.0...v6.1.1) (2020-10-23)
+
+### Bug Fixes
+
+- **Run Serverless:** Fix handling of `shouldStubSpawn` option ([#57](https://github.com/serverless/test/issues/57)) ([0e541ed](https://github.com/serverless/test/commit/0e541ed809c5cf15d97370b4059372ea1e79876a)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [6.1.0](https://github.com/serverless/test/compare/v6.0.0...v6.1.0) (2020-10-22)
 
 ### Features
