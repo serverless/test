@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.2](https://github.com/serverless/test/compare/v6.1.1...v6.1.2) (2020-10-23)
+
+### Bug Fixes
+
+- Recognize EBUSY as safe to ignore ([#58](https://github.com/serverless/test/issues/58)) ([b07d715](https://github.com/serverless/test/commit/b07d71598691c6f53f6e381bd6c122aa3612dbc6)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [6.1.1](https://github.com/serverless/test/compare/v6.1.0...v6.1.1) (2020-10-23)
 
 ### Bug Fixes
