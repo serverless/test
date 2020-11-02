@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 const MochaSpec = require('mocha/lib/reporters/spec');
-const Reporter = require('./mocha-reporter');
+const Reporter = require('../../setup/mocha-reporter');
 
 const isPrototypeOf = Object.prototype.isPrototypeOf;
 
