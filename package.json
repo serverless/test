@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
-    "@serverless/eslint-config": "^2.2.0",
+    "@serverless/eslint-config": "^3.0.0",
     "eslint": "^7.14.0",
     "eslint-plugin-import": "^2.22.1",
     "git-list-updated": "^1.2.1",
@@ -50,7 +50,7 @@
     "mocha": "6"
   },
   "eslintConfig": {
-    "extends": "@serverless/eslint-config/node/6",
+    "extends": "@serverless/eslint-config/node",
     "root": true
   },
   "husky": {
@@ -86,6 +86,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=10.0"
   },
   "license": "MIT"
 }
