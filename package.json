@@ -72,6 +72,9 @@
       "tag": true
     }
   },
+  "mocha": {
+    "reporter": "./setup/mocha-reporter"
+  },
   "scripts": {
     "commitlint": "commitlint -f HEAD@{15}",
     "commitlint:pull-request": "commitlint -f HEAD~1",
