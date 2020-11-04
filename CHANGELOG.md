@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.2](https://github.com/serverless/test/compare/v6.2.1...v6.2.2) (2020-11-04)
+
+### Bug Fixes
+
+- **Run Serverless:** Fix path resolution ([0499b8b](https://github.com/serverless/test/commit/0499b8b0970ad5cf9fee825a66c8909a2efb4b4e)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [6.2.1](https://github.com/serverless/test/compare/v6.2.0...v6.2.1) (2020-11-04)
 
 ### Bug Fixes
