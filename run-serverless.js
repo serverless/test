@@ -32,7 +32,9 @@ const resolveServerless = (serverlessPath, modulesCacheStub, callback) => {
   for (const key of Object.keys(require.cache)) delete require.cache[key];
   disableServerlessStatsRequests(serverlessPath);
   for (const [key, value] of entries(modulesCacheStub)) {
-    require.cache[cjsResolveSync(serverlessPath, key).realPath] = { exports: value };
+    require.cache[path.isAbsolute() ? key : cjsResolveSync(serverlessPath, key).realPath] = {
+      exports: value,
+    };
   }
 
   const restore = () => {
