@@ -4,6 +4,7 @@ const ensureString = require('type/string/ensure');
 const ensureIterable = require('type/iterable/ensure');
 const ensurePlainObject = require('type/plain-object/ensure');
 const ensurePlainFunction = require('type/plain-function/ensure');
+const log = require('log').get('serverless:test:stdout');
 const cjsResolveSync = require('ncjsm/resolve/sync');
 const { writeJson } = require('fs-extra');
 const { entries, values } = require('lodash');
@@ -168,7 +169,10 @@ module.exports = (
             return overrideCwd(confirmedCwd, () =>
               overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
                 overrideStdoutWrite(
-                  (data) => (stdoutData += data),
+                  (data) => {
+                    log.info(data);
+                    stdoutData += data;
+                  },
                   () =>
                     resolveServerless(serverlessPath, modulesCacheStub, (Serverless) =>
                       Promise.resolve(
