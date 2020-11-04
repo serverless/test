@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.1](https://github.com/serverless/test/compare/v6.2.0...v6.2.1) (2020-11-04)
+
+### Bug Fixes
+
+- **Run Serverless:** Fix absolute module paths handling on Windows ([#61](https://github.com/serverless/test/issues/61)) ([722bb53](https://github.com/serverless/test/commit/722bb53bad157bc8cc8480ae21885e6bbc6eed86)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [6.2.0](https://github.com/serverless/test/compare/v6.1.2...v6.2.0) (2020-11-04)
 
 ### Features
