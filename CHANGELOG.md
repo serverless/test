@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/serverless/test/compare/v6.1.2...v6.2.0) (2020-11-04)
+
+### Features
+
+- **Run Serverless:**
+  - Expose `serverless` instance and _stdout_ data on exception ([#58](https://github.com/serverless/test/issues/60)) ([fcf2be1](https://github.com/serverless/test/commit/fcf2be11651de8d5aaebcba97b19ad1beac2904e)) ([Mariusz Nowak](https://github.com/medikoo))
+  - Log `serverless` process output ([#58](https://github.com/serverless/test/issues/60)) ([4606f32](https://github.com/serverless/test/commit/4606f320d188eeaba3d894f57f3dc50e1a7e6f66)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [6.1.2](https://github.com/serverless/test/compare/v6.1.1...v6.1.2) (2020-10-23)
 
 ### Bug Fixes
