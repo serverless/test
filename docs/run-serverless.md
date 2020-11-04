@@ -89,6 +89,10 @@ Note: It implies relying on `modulesCacheStub`, so all serverless framework modu
 When provided, serverless instance will be created out of freshly required module,
 and provided cache map will be used as stub for underlying required modules.
 
+#### `awsRequestStubMap` (optional)
+
+Stub for any AWS SDK requests. See [configure-aws-request-stub](./configure-aws-request-stub.md) for more info.
+
 #### `hooks` (optional)
 
 Optional hooks, to be run in prepared mocked environemnt.
