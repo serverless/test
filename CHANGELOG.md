@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.3](https://github.com/serverless/test/compare/v6.2.2...v6.2.3) (2020-11-24)
+
+### Bug Fixes
+
+- **Mocha Fixes:** Fix tests propagation patch ([#62](https://github.com/serverless/test/issues/62)) ([34f0052](https://github.com/serverless/test/commit/34f0052bdd8f3380303254913778e4c7a3252fe5)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [6.2.2](https://github.com/serverless/test/compare/v6.2.1...v6.2.2) (2020-11-04)
 
 ### Bug Fixes
