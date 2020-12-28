@@ -28,7 +28,7 @@
     "ncjsm": "^4.1.0",
     "p-limit": "^3.0.2",
     "process-utils": "^4.0.0",
-    "sinon": "^8.1.1",
+    "sinon": "^9.2.2",
     "timers-ext": "^0.1.7",
     "type": "^2.1.0"
   },
