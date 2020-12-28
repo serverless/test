@@ -1,7 +1,7 @@
 'use strict';
 
 const chalk = require('chalk');
-const { deferredRunner } = require('./setup/mocha-reporter');
+const { runnerEmitter } = require('./setup/patch');
 
 const skippedWithNotice = [];
 
@@ -26,7 +26,7 @@ module.exports = (context, reason, afterCallback) => {
   context.skip();
 };
 
-deferredRunner.then((runner) =>
+runnerEmitter.on('runner', (runner) =>
   runner.on('end', () => {
     // Output eventual skip notices
     if (!skippedWithNotice.length) return;

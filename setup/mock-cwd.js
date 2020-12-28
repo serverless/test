@@ -1,14 +1,16 @@
 'use strict';
 
 const os = require('os');
-const { deferredRunner } = require('./mocha-reporter');
+const { runnerEmitter } = require('./patch');
 
-deferredRunner.then((runner) => {
-  const homedir = os.homedir();
-  process.chdir(homedir);
+const resetCwd = () => {
+  if (process.cwd() !== os.homedir()) process.chdir(os.homedir());
+};
 
+runnerEmitter.on('runner', (runner) => {
+  resetCwd();
   runner.on('suite end', (suite) => {
     if (!suite.parent || !suite.parent.root) return; // Apply just on top level suites
-    if (process.cwd() !== homedir) process.chdir(homedir);
+    resetCwd();
   });
 });

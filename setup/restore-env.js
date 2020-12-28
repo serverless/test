@@ -1,11 +1,11 @@
 'use strict';
 
-const { deferredRunner } = require('./mocha-reporter');
+const { runnerEmitter } = require('./patch');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const startEnv = Object.assign(Object.create(null), process.env);
-deferredRunner.then((runner) =>
+runnerEmitter.on('runner', (runner) =>
   runner.on('suite end', (suite) => {
     if (!suite.parent || !suite.parent.root) return; // Apply just on top level suites
     for (const key of Object.keys(process.env)) {
