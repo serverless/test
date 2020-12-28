@@ -73,7 +73,9 @@
     }
   },
   "mocha": {
-    "reporter": "./setup/mocha-reporter"
+    "require": [
+      "./setup/patch"
+    ]
   },
   "scripts": {
     "commitlint": "commitlint -f HEAD@{15}",

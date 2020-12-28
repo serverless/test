@@ -4,7 +4,7 @@ if (!process.env.LOG_TIME) process.env.LOG_TIME = 'abs';
 
 const log = require('log').get('mocha');
 const initializeLogWriter = require('log-node');
-const { deferredRunner } = require('./mocha-reporter');
+const { runnerEmitter } = require('./patch');
 
 const logWriter = initializeLogWriter();
 
@@ -21,7 +21,7 @@ const logSuiteTitle = (suite) => {
   log.debug(message, ...args);
 };
 
-deferredRunner.then((runner) => {
+runnerEmitter.on('runner', (runner) => {
   runner.on('suite', logSuiteTitle);
   runner.on('test', logSuiteTitle);
 });
@@ -48,7 +48,7 @@ logEmitter.on('log', (event) => {
   logsBuffer.push(event);
   if (!event.message) logWriter.resolveMessageTokens(event);
 });
-deferredRunner.then((runner) => {
+runnerEmitter.on('runner', (runner) => {
   runner.on('suite end', (suite) => {
     if (!suite.parent || !suite.parent.root) return;
 

@@ -6,7 +6,7 @@ const os = require('os');
 const crypto = require('crypto');
 const { emptyDirSync } = require('fs-extra');
 const processTmpDir = require('../process-tmp-dir');
-const { deferredRunner } = require('./mocha-reporter');
+const { runnerEmitter } = require('./patch');
 const rmTmpDirIgnorableErrorCodes = require('../lib/private/rm-tmp-dir-ignorable-error-codes');
 
 const createTmpHomedir = () => {
@@ -26,7 +26,7 @@ os.homedir = () => tmpHomeDir;
 if (process.env.USERPROFILE) process.env.USERPROFILE = tmpHomeDir;
 if (process.env.HOME) process.env.HOME = tmpHomeDir;
 
-deferredRunner.then((runner) => {
+runnerEmitter.on('runner', (runner) => {
   runner.on('suite end', (suite) => {
     if (!suite.parent || !suite.parent.root) return;
 
