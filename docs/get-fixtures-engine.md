@@ -43,3 +43,19 @@ const pathToExtendedHttpFixture = await fixturesEngine.setup('http', {
   configExt: { provider: { logs: { restApi: true } } },
 });
 ```
+
+#### Returned data
+
+`fixturesEngine.setup(..)` resolves with object that has following properties:
+
+##### `servicePath`
+
+Path to setup fixture
+
+##### `serviceConfig`
+
+Service configuration as setup in fixture
+
+##### `updateConfig(configExt)`
+
+Method throuch which we can update service config as installed in fixture
