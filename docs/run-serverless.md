@@ -11,7 +11,7 @@ const runServerless = require('@serverless/test/run-serverless');
 
 describe('Some suite', () => {
   it('Some test that involves creation of serverless instance', function () {
-    runServerless(serverlessPath, {
+    runServerless(serverlessDir, {
       // Options, see below documentation
     }).then(({ serverless, stdoutData, cfTemplate }) => {
       // Resolved after serverless.run() finalizes.
@@ -21,7 +21,7 @@ describe('Some suite', () => {
 });
 ```
 
-`serverlessPath` should point a path to Serverless Framework which we want to run test against.
+`serverlessDir` should point a path to Serverless Framework directory which we want to run test against.
 
 _**Important:** [setup-run-serverless-fixture-engine](./setup-run-serverless-fixtures-engine.md) enriches `runServerless` with [extra options](./setup-run-serverless-fixtures-engine.md#extra-runserverless-options) to those listed below_
 
