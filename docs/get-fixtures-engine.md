@@ -9,7 +9,7 @@ Fixtures engine provides out of a box means to extend existing fixtures (enrich/
 Fixture engine should be initialized by passing a path to directory that contains all fixtures (each in its own directory):
 
 ```javascript
-const fixtures = require('@serverless/test/get-fixtures-engine')(fixturesPath);
+const fixtures = require('@serverless/test/get-fixtures-engine')(fixturesDir);
 ```
 
 ### Preparing a fixture
