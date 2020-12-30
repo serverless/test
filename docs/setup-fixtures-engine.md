@@ -1,4 +1,4 @@
-# get-fixtures-engine
+# setup-fixtures-engine
 
 Initializes _fixtures_ engine for a folder where Serverless service fixtures are placed (each in different top level folder)
 
@@ -9,7 +9,7 @@ Fixtures engine provides out of a box means to extend existing fixtures (enrich/
 Fixture engine should be initialized by passing a path to directory that contains all fixtures (each in its own directory):
 
 ```javascript
-const fixtures = require('@serverless/test/get-fixtures-engine')(fixturesDir);
+const fixtures = require('@serverless/test/setup-fixtures-engine')(fixturesDir);
 ```
 
 ### Preparing a fixture
