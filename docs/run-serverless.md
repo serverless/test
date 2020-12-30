@@ -23,6 +23,8 @@ describe('Some suite', () => {
 
 `serverlessPath` should point a path to Serverless Framework which we want to run test against.
 
+_**Important:** [setup-run-serverless-fixture-engine](./setup-run-serverless-fixtures-engine.md) enriches `runServerless` with [extra options](./setup-run-serverless-fixtures-engine.md#extra-runserverless-options) to those listed below_
+
 ### Supported options
 
 #### `cwd` (interchangeable with `config` and `noService` options)
