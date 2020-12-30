@@ -5,7 +5,7 @@ const ensurePlainFunction = require('type/plain-function/ensure');
 const ensurePlainObject = require('type/plain-object/ensure');
 const path = require('path');
 const runServerless = require('./run-serverless');
-const setupFixturesEngine = require('./get-fixtures-engine');
+const setupFixturesEngine = require('./setup-fixtures-engine');
 
 module.exports = (setupOptions) => {
   const fixturesDir = path.resolve(ensureString(ensurePlainObject(setupOptions).fixturesDir));
