@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/serverless/test/compare/v6.2.3...v7.0.0) (2021-01-04)
+
+### ⚠ BREAKING CHANGES
+
+- Node.js version 10 or later is required (dropped support for v6 and v8)
+- Mocha version 8 is required (switched from v6)
+- Removed custom Mocha reporter `setup/mocha-reporter` in favor of simple patch extension (`setup/patch`)
+- Removed Mocha dedicated async leaks detector
+- `get-fixture-engine.js` util was renamed to `setup-fixture-engine.js`
+
+### Features
+
+- Drop support for Node.js v6 & v8 ([c9e823a](https://github.com/serverless/test/commit/c9e823ab3cd45bb1d9f5f7a6f6aae9e69b1348ee)) ([#59](https://github.com/serverless/test/issues/59)) ([Mariusz Nowak](https://github.com/medikoo))
+- **Mocha:**
+  - Upgrade to v8 ([157a2a2](https://github.com/serverless/test/commit/157a2a23e82870b126c7ae82b14e8fc2537737b4)) ([#59](https://github.com/serverless/test/issues/59)) ([Mariusz Nowak](https://github.com/medikoo))
+  - Remove async leaks detector ([875327e](https://github.com/serverless/test/commit/875327e1330175097e46da79fe29474138e70572)) ([#59](https://github.com/serverless/test/issues/59)) ([Mariusz Nowak](https://github.com/medikoo))
+  - Upgrade Mocha extensions to support parallel mode ([3952ae2](https://github.com/serverless/test/commit/3952ae2e9a2c23d3914de151b9c6f2b4ad789672)) ([#59](https://github.com/serverless/test/issues/59)) ([Mariusz Nowak](https://github.com/medikoo))
+- **Run Serverless:** `setupRunServerlessFixturesEngine` util ([fadd55e](https://github.com/serverless/test/commit/fadd55ea22fa9fb0e2374b5fa344b05871564b2f)) ([#63](https://github.com/serverless/test/issues/63)) ([Mariusz Nowak](https://github.com/medikoo))
+- Rename `getFixturesEngine` to `setupFixturesEngine` ([153480a](https://github.com/serverless/test/commit/153480ac4e4ffcb9f70609ff015b9d8e4000745b)) ([#63](https://github.com/serverless/test/issues/63)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [6.2.3](https://github.com/serverless/test/compare/v6.2.2...v6.2.3) (2020-11-24)
 
 ### Bug Fixes
