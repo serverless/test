@@ -19,7 +19,7 @@
     "cli-progress-footer": "^1.1.1",
     "essentials": "^1.1.1",
     "fs-extra": "^9.0.1",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.0.0",
     "lodash": "^4.17.20",
     "log": "^6.0.0",
     "log-node": "^7.0.0",
