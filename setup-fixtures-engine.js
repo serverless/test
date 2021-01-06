@@ -11,6 +11,7 @@ const memoizee = require('memoizee');
 const { merge } = require('lodash');
 const log = require('log').get('serverless:test');
 const { load: loadYaml, dump: saveYaml } = require('js-yaml');
+const cloudformationSchema = require('@serverless/utils/cloudformation-schema');
 const provisionTmpDir = require('./provision-tmp-dir');
 
 const isFixtureConfigured = memoizee((fixturePath) => {
@@ -95,7 +96,7 @@ module.exports = memoizee((fixturesPath) => {
                 if (!configContent) return null;
                 configObject = (() => {
                   try {
-                    return loadYaml(configContent);
+                    return loadYaml(configContent, { schema: cloudformationSchema });
                   } catch (error) {
                     return null;
                   }
