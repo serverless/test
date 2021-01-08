@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@serverless/utils": "^2.2.0",
-    "aws-sdk": "^2.820.0",
+    "aws-sdk": "^2.824.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.0",
     "child-process-ext": "^2.1.1",
@@ -29,7 +29,7 @@
     "ncjsm": "^4.1.0",
     "p-limit": "^3.1.0",
     "process-utils": "^4.0.0",
-    "sinon": "^9.2.2",
+    "sinon": "^9.2.3",
     "timers-ext": "^0.1.7",
     "type": "^2.1.0"
   },
@@ -41,7 +41,7 @@
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
     "glob-exec": "^0.1.1",
-    "husky": "^4.3.6",
+    "husky": "^4.3.7",
     "lint-staged": "^10.5.3",
     "mocha": "^8.2.1",
     "prettier": "^2.2.1",
