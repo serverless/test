@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/serverless/test/compare/v7.0.0...v7.1.0) (2021-01-08)
+
+### Features
+
+- **Fixtures Engine:** Do not crash on recognized CF shortcuts in YAML ([#64](https://github.com/serverless/test/issues/64)) ([85aad00](https://github.com/serverless/test/commit/85aad008fd5deaa389200bd0cd4b2cea90ebdec0))([Frédéric Barthelet](https://github.com/fredericbarthelet))
+
 ## [7.0.0](https://github.com/serverless/test/compare/v6.2.3...v7.0.0) (2021-01-04)
 
 ### ⚠ BREAKING CHANGES
