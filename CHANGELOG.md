@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.2.0](https://github.com/serverless/test/compare/v7.1.0...v7.2.0) (2021-01-13)
+
+### Features
+
+- **Mocha:** Patch circular references parallel invocation bug ([#67](https://github.com/serverless/test/issues/67)) ([5fa4b74](https://github.com/serverless/test/commit/5fa4b746f7f68f5a84174ac395d6253d31ea2787)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.1.0](https://github.com/serverless/test/compare/v7.0.0...v7.1.0) (2021-01-08)
 
 ### Features
