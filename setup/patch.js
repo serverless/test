@@ -44,6 +44,9 @@ Mocha.prototype.run = function (fn, ...args) {
     ...args
   );
   if (runner.constructor.name === 'Runner') runnerEmitter.emit('runner', runner);
+  // Ensure faster tests propagation
+  // It's to expose errors otherwise hidden by race conditions
+  // Reported to Mocha with: https://github.com/mochajs/mocha/issues/3920
   runner.constructor.immediately = process.nextTick;
   return runner;
 };
