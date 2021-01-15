@@ -149,6 +149,14 @@ module.exports = async (
     modulesCacheStub['child-process-ext/spawn'] = sinon.stub().resolves({});
   }
   const confirmedCwd = await resolveCwd({ cwd, config });
+
+  const resolveConfigurationPath = (() => {
+    try {
+      return require(path.resolve(serverlessPath, 'lib/cli/resolve-configuration-path'));
+    } catch (error) {
+      return null;
+    }
+  })();
   return overrideEnv(
     { variables: Object.assign(resolveEnv(), env), whitelist: envWhitelist },
     () => {
@@ -164,7 +172,11 @@ module.exports = async (
               resolveServerless(serverlessPath, modulesCacheStub, async (Serverless) => {
                 if (hooks.before) await hooks.before(Serverless, { cwd: confirmedCwd });
                 // Intialize serverless instances in preconfigured environment
-                let serverless = new Serverless();
+                let serverless = new Serverless({
+                  configurationPath: resolveConfigurationPath
+                    ? await resolveConfigurationPath()
+                    : null,
+                });
                 if (serverless.triggeredDeprecations) {
                   serverless.triggeredDeprecations.clear();
                 }
