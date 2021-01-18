@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.3.0](https://github.com/serverless/test/compare/v7.2.0...v7.3.0) (2021-01-18)
+
+### Features
+
+- **Run Serverless:** Recognize and provide new `configurationPath` option (follows [serverless/serverless/#8770](https://github.com/serverless/serverless/pull/8770)) ([#69](https://github.com/serverless/test/issues/67)) ([cc65e3c](https://github.com/serverless/test/commit/cc65e3c305bcd177561b0f5bdaf6faa54e999cd5)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.2.0](https://github.com/serverless/test/compare/v7.1.0...v7.2.0) (2021-01-13)
 
 ### Features
