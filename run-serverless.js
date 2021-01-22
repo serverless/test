@@ -153,7 +153,7 @@ module.exports = async (
   const resolveConfigurationPath = (() => {
     try {
       return require(path.resolve(serverlessPath, 'lib/cli/resolve-configuration-path'));
-    } catch (error) {
+    } catch {
       return null;
     }
   })();
