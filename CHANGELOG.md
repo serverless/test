@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.4.0](https://github.com/serverless/test/compare/v7.3.0...v7.4.0) (2021-01-22)
+
+### Features
+
+- **Run Serverless:** Inject resolved configuration into constructor ([#71](https://github.com/serverless/test/issues/71)) ([b26c4e6](https://github.com/serverless/test/commit/b26c4e67e470c8387ca6e02e2b4a957343e0601c)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.3.0](https://github.com/serverless/test/compare/v7.2.0...v7.3.0) (2021-01-18)
 
 ### Features
