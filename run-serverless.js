@@ -157,6 +157,13 @@ module.exports = async (
       return null;
     }
   })();
+  const readConfiguration = (() => {
+    try {
+      return require(path.resolve(serverlessPath, 'lib/configuration/read'));
+    } catch {
+      return null;
+    }
+  })();
   return overrideEnv(
     { variables: Object.assign(resolveEnv(), env), whitelist: envWhitelist },
     () => {
@@ -172,11 +179,14 @@ module.exports = async (
               resolveServerless(serverlessPath, modulesCacheStub, async (Serverless) => {
                 if (hooks.before) await hooks.before(Serverless, { cwd: confirmedCwd });
                 // Intialize serverless instances in preconfigured environment
-                let serverless = new Serverless({
-                  configurationPath: resolveConfigurationPath
-                    ? await resolveConfigurationPath()
-                    : null,
-                });
+                const configurationPath = resolveConfigurationPath
+                  ? await resolveConfigurationPath()
+                  : null;
+                const configuration =
+                  configurationPath && readConfiguration
+                    ? await readConfiguration(configurationPath)
+                    : null;
+                let serverless = new Serverless({ configurationPath, configuration });
                 if (serverless.triggeredDeprecations) {
                   serverless.triggeredDeprecations.clear();
                 }
