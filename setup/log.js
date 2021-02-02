@@ -36,6 +36,8 @@ const logsBuffer = [];
 const flushLogs = () => {
   // Write, only if there are some non-mocha log events
   if (logsBuffer.some((event) => event.logger.namespace !== 'mocha')) {
+    log.notice('flushing previously gathered logs...');
+    logsBuffer.pop(); // Drop above log from logsBuffer
     logsBuffer.forEach((event) => {
       if (!event.message) logWriter.resolveMessage(event);
       logWriter.writeMessage(event);
@@ -54,7 +56,11 @@ runnerEmitter.on('runner', (runner) => {
 
     logsBuffer.length = 0; // Empty array
   });
-  runner.on('fail', flushLogs);
+  runner.on('fail', (ignore, error) => {
+    log.error('test fail %s', error && error.stack);
+    logsBuffer.pop(); // Drop above log from logsBuffer
+    flushLogs();
+  });
 });
 
 module.exports.flushLogs = flushLogs;
