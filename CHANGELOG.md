@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.5.0](https://github.com/serverless/test/compare/v7.4.0...v7.5.0) (2021-02-02)
+
+### Features
+
+- **Mocha:** Log test failure error right when it happens ([#73](https://github.com/serverless/test/issues/73)) ([1f8956f](https://github.com/serverless/test/commit/1f8956fdbdae51de763d232f5e08c5fab79a2496)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.4.0](https://github.com/serverless/test/compare/v7.3.0...v7.4.0) (2021-01-22)
 
 ### Features
