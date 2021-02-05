@@ -165,7 +165,10 @@ module.exports = async (
     }
   })();
   return overrideEnv(
-    { variables: Object.assign(resolveEnv(), env), whitelist: envWhitelist },
+    {
+      variables: Object.assign(resolveEnv(), { SLS_AWS_MONITORING_FREQUENCY: '1' }, env),
+      whitelist: envWhitelist,
+    },
     () => {
       let stdoutData = '';
       return overrideCwd(confirmedCwd, () =>
