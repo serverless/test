@@ -107,6 +107,11 @@ Run as first step of evaluation (before `Serverless` instance is initialized, bu
 
 It's invoked with `Serverless` constructor and resolved `cwd` as meta data in arguments
 
+##### `beforeInstanceInit(serverless)`
+
+Run right after `serverless` instance is constructed, but before `severlesss.init()` is invoked.
+It's invoked with just created `serverless` instances.
+
 ##### `after(serverless)`
 
 Run as last step of evaluation (after `serverless.run()` resolves).
