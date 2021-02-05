@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.6.0](https://github.com/serverless/test/compare/v7.5.0...v7.6.0) (2021-02-05)
+
+### Features
+
+- **Run Serverless:** `beforeInstanceInit` hook ([#76](https://github.com/serverless/test/issues/76)) ([89d6531](https://github.com/serverless/test/commit/89d6531132b7d82692bd142bfe310f5ff3d2ffab)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.5.0](https://github.com/serverless/test/compare/v7.4.0...v7.5.0) (2021-02-02)
 
 ### Features
