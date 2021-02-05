@@ -128,7 +128,7 @@ module.exports = async (
   lastLifecycleHookName = ensureString(lastLifecycleHookName, { isOptional: true });
   hooks = ensurePlainObject(hooks, {
     default: {},
-    allowedKeys: ['after', 'before'],
+    allowedKeys: ['after', 'before', 'beforeInstanceInit'],
     ensurePropertyValue: ensurePlainFunction,
     errorMessage:
       'Expected `hooks` to be a plain object with predefined supported hooks, received %v',
@@ -194,6 +194,7 @@ module.exports = async (
                   require(pluginPath)
                 );
                 try {
+                  if (hooks.beforeInstanceInit) await hooks.beforeInstanceInit(serverless);
                   await serverless.init();
 
                   if (serverless.invokedInstance) serverless = serverless.invokedInstance;
