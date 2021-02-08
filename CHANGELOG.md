@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.7.0](https://github.com/serverless/test/compare/v7.6.0...v7.7.0) (2021-02-08)
+
+### Features
+
+- **Run Serverless:** Ensure monitoring frequency is low to speed up tests ([#75](https://github.com/serverless/test/pull/75)) ([1bbacde](https://github.com/serverless/test/commit/1bbacdeac2c8af10ee4d136f5045837863f2a83f)) ([Piotr Grzesik](https://github.com/pgrzesik))
+
 ## [7.6.0](https://github.com/serverless/test/compare/v7.5.0...v7.6.0) (2021-02-05)
 
 ### Features
