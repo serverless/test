@@ -1,13 +1,13 @@
 'use strict';
 
-const { mkdirSync } = require('fs');
+const { mkdirSync, realpathSync } = require('fs');
 const { removeSync } = require('fs-extra');
 const path = require('path');
 const os = require('os');
 const crypto = require('crypto');
 const rmTmpDirIgnorableErrorCodes = require('./lib/private/rm-tmp-dir-ignorable-error-codes');
 
-const systemTmpDir = os.tmpdir();
+const systemTmpDir = realpathSync(os.tmpdir());
 const serverlessTmpDir = path.join(systemTmpDir, 'tmpdirs-serverless');
 try {
   mkdirSync(serverlessTmpDir);
