@@ -150,6 +150,7 @@ module.exports = async (
   }
   const confirmedCwd = await resolveCwd({ cwd, config });
 
+  // TODO: Remove try/catch conditionals with next major release
   const resolveConfigurationPath = (() => {
     try {
       return require(path.resolve(serverlessPath, 'lib/cli/resolve-configuration-path'));
