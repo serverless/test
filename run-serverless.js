@@ -165,6 +165,16 @@ module.exports = async (
       return null;
     }
   })();
+  const resolveInput = (() => {
+    try {
+      const exports = require(path.resolve(serverlessPath, 'lib/cli/resolve-input'));
+      exports.clear();
+      return exports;
+    } catch {
+      return null;
+    }
+  })();
+
   return overrideEnv(
     {
       variables: Object.assign(resolveEnv(), { SLS_AWS_MONITORING_FREQUENCY: '1' }, env),
@@ -190,7 +200,11 @@ module.exports = async (
                   configurationPath && readConfiguration
                     ? await readConfiguration(configurationPath)
                     : undefined;
-                let serverless = new Serverless({ configurationPath, configuration });
+                let serverless = new Serverless({
+                  configurationPath,
+                  configuration,
+                  ...(resolveInput ? resolveInput() : {}),
+                });
                 if (serverless.triggeredDeprecations) {
                   serverless.triggeredDeprecations.clear();
                 }
