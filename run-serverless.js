@@ -185,11 +185,11 @@ module.exports = async (
                 // Intialize serverless instances in preconfigured environment
                 const configurationPath = resolveConfigurationPath
                   ? await resolveConfigurationPath()
-                  : null;
+                  : undefined;
                 const configuration =
                   configurationPath && readConfiguration
                     ? await readConfiguration(configurationPath)
-                    : null;
+                    : undefined;
                 let serverless = new Serverless({ configurationPath, configuration });
                 if (serverless.triggeredDeprecations) {
                   serverless.triggeredDeprecations.clear();
