@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.8.0](https://github.com/serverless/test/compare/v7.7.0...v7.8.0) (2021-02-11)
+
+### Features
+
+- **Run Serverless:** Adapt to CLI args parser seclusion ([#80](https://github.com/serverless/test/pull/80)) ([4f27c12](https://github.com/serverless/test/commit/4f27c1229c4422e96a3e78a5eea15f2caad1b115)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Bug Fixes
+
+- **Run Serverless:** When no internals resolvers found ensure reflecting configuration ([#80](https://github.com/serverless/test/pull/80)) ([b030834](https://github.com/serverless/test/commit/b030834e08c56aef464e1bcc97a7d9dc91714d1c)) ([Mariusz Nowak](https://github.com/medikoo))
+- Ensure to expose real tmp dir path ([#79](https://github.com/serverless/test/pull/79)) ([cf6c6d2](https://github.com/serverless/test/commit/cf6c6d2972f06fc10ed2a82a96f9ead7d11e3f0f)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.7.0](https://github.com/serverless/test/compare/v7.6.0...v7.7.0) (2021-02-08)
 
 ### Features
