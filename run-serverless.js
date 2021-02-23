@@ -72,6 +72,7 @@ module.exports = async (
     noService,
     pluginPathsBlacklist,
     shouldStubSpawn,
+    shouldUseLegacyVariablesResolver,
   }
 ) => {
   serverlessPath = path.resolve(
@@ -174,6 +175,15 @@ module.exports = async (
       return null;
     }
   })();
+  const hasNewVariablesResolver = (() => {
+    try {
+      return (
+        require.resolve(path.resolve(serverlessPath, 'lib/configuration/variables/resolve')) && true
+      );
+    } catch {
+      return false;
+    }
+  })();
 
   return overrideEnv(
     {
@@ -200,10 +210,67 @@ module.exports = async (
                   configurationPath && readConfiguration
                     ? await readConfiguration(configurationPath)
                     : undefined;
+
+                const input = resolveInput ? resolveInput() : null;
+                if (configuration && hasNewVariablesResolver && !shouldUseLegacyVariablesResolver) {
+                  const resolveVariablesMeta = require(path.resolve(
+                    serverlessPath,
+                    'lib/configuration/variables/resolve-meta'
+                  ));
+                  const resolveVariables = require(path.resolve(
+                    serverlessPath,
+                    'lib/configuration/variables/resolve'
+                  ));
+                  const variableSources = {
+                    env: {
+                      ...require(path.resolve(
+                        serverlessPath,
+                        'lib/configuration/variables/sources/env'
+                      )),
+                      isIncomplete: true,
+                    },
+                    file: require(path.resolve(
+                      serverlessPath,
+                      'lib/configuration/variables/sources/file'
+                    )),
+                    opt: require(path.resolve(
+                      serverlessPath,
+                      'lib/configuration/variables/sources/opt'
+                    )),
+                    self: require(path.resolve(
+                      serverlessPath,
+                      'lib/configuration/variables/sources/self'
+                    )),
+                    strToBool: require(path.resolve(
+                      serverlessPath,
+                      'lib/configuration/variables/sources/str-to-bool'
+                    )),
+                  };
+                  const variablesMeta = resolveVariablesMeta(configuration);
+                  await resolveVariables({
+                    servicePath: process.cwd(),
+                    configuration,
+                    variablesMeta,
+                    sources: variableSources,
+                    options: input.options,
+                  });
+                  const resolutionErrors = Array.from(
+                    variablesMeta.values(),
+                    ({ error }) => error
+                  ).filter(Boolean);
+                  if (resolutionErrors.length) {
+                    throw new Error(
+                      `Variables resolution errored with:${resolutionErrors.map(
+                        (error) => `\n  - ${error.message}`
+                      )}\n`
+                    );
+                  }
+                }
+
                 let serverless = new Serverless({
                   configurationPath,
                   configuration,
-                  ...(resolveInput ? resolveInput() : {}),
+                  ...input,
                 });
                 if (serverless.triggeredDeprecations) {
                   serverless.triggeredDeprecations.clear();
