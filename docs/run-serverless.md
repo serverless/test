@@ -86,6 +86,12 @@ Stub is preconfigured to resolve successfully with `{}` (an empty object).
 
 Note: It implies relying on `modulesCacheStub`, so all serverless framework modules will be freshly required.
 
+#### `shouldUseLegacyVariablesResolver`
+
+By default `runServerless` runs a new variables resolver to resolve any variables in service configuration
+
+If for a valid reason just legacy resolver should be used (e.g. we may want to test it) it can be forced with this setting
+
 #### `modulesCacheStub` (optional)
 
 When provided, serverless instance will be created out of freshly required module,
