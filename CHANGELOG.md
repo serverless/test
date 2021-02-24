@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.9.0](https://github.com/serverless/test/compare/v7.8.0...v7.9.0) (2021-02-24)
+
+### Features
+
+- **Run Serverless:** Resolve variables with a new resolver ([#82](https://github.com/serverless/test/pull/82)) ([31f4085](https://github.com/serverless/test/commit/31f4085890173f2fcaee88d1701b7c8c4ee5ed4f)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.8.0](https://github.com/serverless/test/compare/v7.7.0...v7.8.0) (2021-02-11)
 
 ### Features
