@@ -212,6 +212,7 @@ module.exports = async (
                     : undefined;
 
                 const input = resolveInput ? resolveInput() : null;
+                let variablesMeta;
                 if (configuration && hasNewVariablesResolver && !shouldUseLegacyVariablesResolver) {
                   const resolveVariablesMeta = require(path.resolve(
                     serverlessPath,
@@ -246,7 +247,7 @@ module.exports = async (
                       'lib/configuration/variables/sources/str-to-bool'
                     )),
                   };
-                  const variablesMeta = resolveVariablesMeta(configuration);
+                  variablesMeta = resolveVariablesMeta(configuration);
                   await resolveVariables({
                     servicePath: process.cwd(),
                     configuration,
@@ -270,6 +271,7 @@ module.exports = async (
                 let serverless = new Serverless({
                   configurationPath,
                   configuration,
+                  isConfigurationResolved: Boolean(variablesMeta && !variablesMeta.size),
                   ...input,
                 });
                 if (serverless.triggeredDeprecations) {
