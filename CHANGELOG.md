@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.10.0](https://github.com/serverless/test/compare/v7.9.0...v7.10.0) (2021-03-02)
+
+### Features
+
+- **Run Serverless:** Pass `isConfigurationResolved` to `Serverless` constructor ([#84](https://github.com/serverless/test/pull/84)) ([48fbd1b](https://github.com/serverless/test/commit/48fbd1bcdf6068d92cf50f20e473ae6cc00f4937)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.9.0](https://github.com/serverless/test/compare/v7.8.0...v7.9.0) (2021-02-24)
 
 ### Features
