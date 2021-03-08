@@ -228,6 +228,7 @@ module.exports = async (
                         serverlessPath,
                         'lib/configuration/variables/sources/env'
                       )),
+                      // TODO: Remove with next major
                       isIncomplete: true,
                     },
                     file: require(path.resolve(
@@ -254,6 +255,7 @@ module.exports = async (
                     variablesMeta,
                     sources: variableSources,
                     options: input.options,
+                    fulfilledSources: new Set(['env', 'file', 'opt', 'self', 'strToBool']),
                   });
                   const resolutionErrors = Array.from(
                     variablesMeta.values(),
