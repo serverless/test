@@ -261,7 +261,7 @@ module.exports = async (
                     variablesMeta.values(),
                     ({ error }) => error
                   ).filter(Boolean);
-                  if (resolutionErrors.length) {
+                  if (configuration.variablesResolutionMode && resolutionErrors.length) {
                     throw new Error(
                       `Variables resolution errored with:${resolutionErrors.map(
                         (error) => `\n  - ${error.message}`
