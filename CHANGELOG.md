@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.10.1](https://github.com/serverless/test/compare/v7.10.0...v7.10.1) (2021-03-09)
+
+### Bug Fixes
+
+- **Run Serverless:** Respect "variablesResolutionMode" ([#86](https://github.com/serverless/test/pull/86)) ([d264f88](https://github.com/serverless/test/commit/d264f8811dbd3c119333523a9efb97a13d90105e)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Maintenance Improvements
+
+- **Run Serverless:** Upgrade to new variables resolver signature ([#86](https://github.com/serverless/test/pull/86)) ([dc87ffc](https://github.com/serverless/test/commit/dc87ffc41056221d36329aed8e4c48c180795acf)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.10.0](https://github.com/serverless/test/compare/v7.9.0...v7.10.0) (2021-03-02)
 
 ### Features
