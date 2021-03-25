@@ -175,6 +175,14 @@ module.exports = async (
       return null;
     }
   })();
+  const commandSchemasPath = (() => {
+    try {
+      require.resolve(path.resolve(serverlessPath, 'lib/cli/commands-schema/resolve-final'));
+      return path.resolve(serverlessPath, 'lib/cli/commands-schema');
+    } catch {
+      return null;
+    }
+  })();
   const hasNewVariablesResolver = (() => {
     try {
       return (
@@ -211,7 +219,23 @@ module.exports = async (
                     ? await readConfiguration(configurationPath)
                     : undefined;
 
-                const input = resolveInput ? resolveInput() : null;
+                const providerName = (() => {
+                  if (!configuration || !configuration.provider) return null;
+                  return configuration.provider.name || configuration.provider;
+                })();
+                const input = (() => {
+                  if (!resolveInput) return null;
+                  if (!commandSchemasPath) return resolveInput();
+                  if (!configuration) {
+                    return resolveInput(require(path.resolve(commandSchemasPath)));
+                  }
+                  return resolveInput(
+                    require(path.resolve(
+                      commandSchemasPath,
+                      providerName === 'aws' ? 'aws-service' : 'service'
+                    ))
+                  );
+                })();
                 let variablesMeta;
                 if (configuration && hasNewVariablesResolver && !shouldUseLegacyVariablesResolver) {
                   const resolveVariablesMeta = require(path.resolve(
@@ -274,6 +298,7 @@ module.exports = async (
                   configurationPath,
                   configuration,
                   isConfigurationResolved: Boolean(variablesMeta && !variablesMeta.size),
+                  hasResolvedCommandsExternally: true,
                   ...input,
                 });
                 if (serverless.triggeredDeprecations) {
@@ -288,6 +313,22 @@ module.exports = async (
 
                   if (serverless.invokedInstance) serverless = serverless.invokedInstance;
                   const { pluginManager } = serverless;
+
+                  if (commandSchemasPath && pluginManager.externalPlugins.size) {
+                    const isInteractiveCli = serverless.processedInput.commands.includes(
+                      'interactiveCli'
+                    );
+                    const commandsSchema = require(path.resolve(
+                      commandSchemasPath,
+                      'resolve-final'
+                    ))(pluginManager.externalPlugins, { providerName });
+                    resolveInput.clear();
+                    const { commands, options } = resolveInput(commandsSchema);
+                    if (!isInteractiveCli) {
+                      serverless.processedInput.commands = serverless.pluginManager.cliCommands = commands;
+                    }
+                    serverless.processedInput.options = serverless.pluginManager.cliOptions = options;
+                  }
                   const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
                     pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
                   );
