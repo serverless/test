@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.11.0](https://github.com/serverless/test/compare/v7.10.1...v7.11.0) (2021-03-26)
+
+### Features
+
+- **Run Serverless:** Resolve CLI commands and options on basis of schema ([#89](https://github.com/serverless/test/pull/89)) ([77e225c](https://github.com/serverless/test/commit/77e225ce694b4765c24a5d940d781145d6c96144)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [7.10.1](https://github.com/serverless/test/compare/v7.10.0...v7.10.1) (2021-03-09)
 
 ### Bug Fixes
