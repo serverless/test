@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "@serverless/utils": "^3.1.0",
+    "@serverless/utils": "^4.0.0",
     "aws-sdk": "^2.873.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.0",
