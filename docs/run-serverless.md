@@ -44,15 +44,15 @@ It'll be written to `serverless.json` file in provisioned temporary service dire
 
 Request a run not in a service context. Current working directory will be set to homedir (which in test file runs usually points a temporary folder)
 
-#### `cliArgs` (optional)
+#### `cliArgs`
 
 CLI arguments (e.g. `['deploy', '--stage', 'beta']`), defaults to `[]`
 
-#### `env` (optinal)
+#### `env`
 
 Eventual environment variables (e.g. `{ SLS_DEBUG: '*' }`)
 
-#### `envWhitelist` (optional)
+#### `envWhitelist`
 
 `runServerless` is run with mocked `process.env` and no env vars from original `process.env` exposed.
 
@@ -92,16 +92,16 @@ By default `runServerless` runs a new variables resolver to resolve any variable
 
 If for a valid reason just legacy resolver should be used (e.g. we may want to test it) it can be forced with this setting
 
-#### `modulesCacheStub` (optional)
+#### `modulesCacheStub`
 
 When provided, serverless instance will be created out of freshly required module,
 and provided cache map will be used as stub for underlying required modules.
 
-#### `awsRequestStubMap` (optional)
+#### `awsRequestStubMap`
 
 Stub for any AWS SDK requests. See [configure-aws-request-stub](./configure-aws-request-stub.md) for more info.
 
-#### `hooks` (optional)
+#### `hooks`
 
 Optional hooks, to be run in prepared mocked environemnt.
 
