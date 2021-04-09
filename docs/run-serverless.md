@@ -2,7 +2,9 @@
 
 Runs complete serverless instance in preconfigured environment, optionally with some plugins and/or lifecycle engine hooks disabled.
 
-Optionally serverless instance can be freshly required with specific modules mocked
+Optionally serverless instance can be freshly required with specific modules mocked.
+
+Note: In eventually provided service configuration, variables are resolved (before passing configuration to `Serverless` instance), for `env`, `file`, `opt`, `self` and `strToBool` sources.
 
 ## Usage
 
@@ -44,9 +46,13 @@ It'll be written to `serverless.json` file in provisioned temporary service dire
 
 Request a run not in a service context. Current working directory will be set to homedir (which in test file runs usually points a temporary folder)
 
-#### `cliArgs`
+#### `command`
 
-CLI arguments (e.g. `['deploy', '--stage', 'beta']`), defaults to `[]`
+Command with which `Serverless` instance will be intiailized
+
+#### `options`
+
+Options for `Serverless` instance, defaults to `{}`
 
 #### `env`
 
@@ -88,9 +94,7 @@ Note: It implies relying on `modulesCacheStub`, so all serverless framework modu
 
 #### `shouldUseLegacyVariablesResolver`
 
-By default `runServerless` runs a new variables resolver to resolve any variables in service configuration
-
-If for a valid reason just legacy resolver should be used (e.g. we may want to test it) it can be forced with this setting
+By default `runServerless` resolves configuration variables with new resolver (before configuration is passed to `Serverless`). Still if (for a valid reason) legacy internal variables resolver should be used instead, it can be forced with this setting
 
 #### `modulesCacheStub`
 
