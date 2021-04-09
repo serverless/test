@@ -4,6 +4,7 @@ const ensureString = require('type/string/ensure');
 const ensureIterable = require('type/iterable/ensure');
 const ensurePlainObject = require('type/plain-object/ensure');
 const ensurePlainFunction = require('type/plain-function/ensure');
+const _ = require('lodash');
 const log = require('log').get('serverless:test:stdout');
 const cjsResolveSync = require('ncjsm/resolve/sync');
 const { writeJson } = require('fs-extra');
@@ -60,7 +61,8 @@ module.exports = async (
   serverlessPath,
   {
     awsRequestStubMap,
-    cliArgs,
+    command,
+    options,
     config,
     cwd,
     env,
@@ -109,10 +111,12 @@ module.exports = async (
     if (!config.configValidationMode) config.configValidationMode = 'error';
     if (!config.frameworkVersion) config.frameworkVersion = '*';
   }
-  cliArgs = ensureIterable(cliArgs, {
-    default: [],
-    ensureItem: ensureString,
-    errorMessage: 'Expected `cliArgs` to be a string collection, received %v',
+  command = ensureString(command, {
+    errorMessage: 'Expected `command` to be a string, received %v',
+  });
+  options = ensurePlainObject(options, {
+    default: {},
+    errorMessage: 'Expected `options` to be a plain object, received %v',
   });
   pluginPathsBlacklist = ensureIterable(pluginPathsBlacklist, {
     default: [],
@@ -151,47 +155,37 @@ module.exports = async (
   }
   const confirmedCwd = await resolveCwd({ cwd, config });
 
-  // TODO: Remove try/catch conditionals with next major release
-  const resolveConfigurationPath = (() => {
-    try {
-      return require(path.resolve(serverlessPath, 'lib/cli/resolve-configuration-path'));
-    } catch {
-      return null;
-    }
-  })();
-  const readConfiguration = (() => {
-    try {
-      return require(path.resolve(serverlessPath, 'lib/configuration/read'));
-    } catch {
-      return null;
-    }
-  })();
-  const resolveInput = (() => {
-    try {
-      const exports = require(path.resolve(serverlessPath, 'lib/cli/resolve-input'));
-      exports.clear();
-      return exports;
-    } catch {
-      return null;
-    }
-  })();
-  const commandSchemasPath = (() => {
-    try {
-      require.resolve(path.resolve(serverlessPath, 'lib/cli/commands-schema/resolve-final'));
-      return path.resolve(serverlessPath, 'lib/cli/commands-schema');
-    } catch {
-      return null;
-    }
-  })();
-  const hasNewVariablesResolver = (() => {
-    try {
-      return (
-        require.resolve(path.resolve(serverlessPath, 'lib/configuration/variables/resolve')) && true
-      );
-    } catch {
-      return false;
-    }
-  })();
+  const resolveConfigurationPath = require(path.resolve(
+    serverlessPath,
+    'lib/cli/resolve-configuration-path'
+  ));
+  const readConfiguration = require(path.resolve(serverlessPath, 'lib/configuration/read'));
+  const resolveVariables = require(path.resolve(serverlessPath, 'lib/configuration/variables'));
+
+  // Temporary patch to ensure resolveInput result matches the options
+  // (to be removed once we fully remove `resolveInput` dependency from `Serverless` class)
+  const resolveInput = require(path.resolve(serverlessPath, 'lib/cli/resolve-input'));
+  resolveInput.clear();
+  overrideArgv(
+    {
+      args: [
+        'serverless',
+        ...command.split(' '),
+        ..._.flattenDeep(
+          Object.entries(options).map(([optionName, optionValue]) => {
+            if (optionValue === true) return `--${optionName}`;
+            if (optionValue === false) return `--no-${optionName}`;
+            if (optionValue === null) return null;
+            if (Array.isArray(optionValue)) {
+              return optionValue.map((optionItemValue) => [`--${optionName}`, optionItemValue]);
+            }
+            return [`--${optionName}`, optionValue];
+          })
+        ).filter(Boolean),
+      ],
+    },
+    () => resolveInput(require(path.resolve(serverlessPath, 'lib/cli/commands-schema')))
+  );
 
   return overrideEnv(
     {
@@ -201,221 +195,135 @@ module.exports = async (
     () => {
       let stdoutData = '';
       return overrideCwd(confirmedCwd, () =>
-        overrideArgv({ args: ['serverless', ...cliArgs] }, () =>
-          overrideStdoutWrite(
-            (data) => {
-              log.info(data);
-              stdoutData += data;
-            },
-            () =>
-              resolveServerless(serverlessPath, modulesCacheStub, async (Serverless) => {
-                if (hooks.before) await hooks.before(Serverless, { cwd: confirmedCwd });
-                // Intialize serverless instances in preconfigured environment
-                const configurationPath = resolveConfigurationPath
-                  ? await resolveConfigurationPath()
-                  : undefined;
-                const configuration =
-                  configurationPath && readConfiguration
-                    ? await readConfiguration(configurationPath)
-                    : undefined;
+        overrideStdoutWrite(
+          (data) => {
+            log.info(data);
+            stdoutData += data;
+          },
+          () =>
+            resolveServerless(serverlessPath, modulesCacheStub, async (Serverless) => {
+              if (hooks.before) await hooks.before(Serverless, { cwd: confirmedCwd });
+              // Intialize serverless instances in preconfigured environment
+              const configurationPath = await resolveConfigurationPath();
+              const configuration = configurationPath
+                ? await readConfiguration(configurationPath)
+                : undefined;
 
-                const providerName = (() => {
-                  if (!configuration || !configuration.provider) return null;
-                  return configuration.provider.name || configuration.provider;
-                })();
-                const input = (() => {
-                  if (!resolveInput) return null;
-                  if (!commandSchemasPath) return resolveInput();
-                  if (!configuration) {
-                    return resolveInput(require(path.resolve(commandSchemasPath)));
-                  }
-                  return resolveInput(
-                    require(path.resolve(
-                      commandSchemasPath,
-                      providerName === 'aws' ? 'aws-service' : 'service'
-                    ))
-                  );
-                })();
-                let variablesMeta;
-                if (configuration && hasNewVariablesResolver && !shouldUseLegacyVariablesResolver) {
-                  const resolveVariablesMeta = require(path.resolve(
-                    serverlessPath,
-                    'lib/configuration/variables/resolve-meta'
-                  ));
-                  const resolveVariables = require(path.resolve(
-                    serverlessPath,
-                    'lib/configuration/variables/resolve'
-                  ));
-                  const variableSources = {
-                    env: {
-                      ...require(path.resolve(
-                        serverlessPath,
-                        'lib/configuration/variables/sources/env'
-                      )),
-                      // TODO: Remove with next major
-                      isIncomplete: true,
-                    },
-                    file: require(path.resolve(
-                      serverlessPath,
-                      'lib/configuration/variables/sources/file'
-                    )),
-                    opt: require(path.resolve(
-                      serverlessPath,
-                      'lib/configuration/variables/sources/opt'
-                    )),
-                    self: require(path.resolve(
-                      serverlessPath,
-                      'lib/configuration/variables/sources/self'
-                    )),
-                    strToBool: require(path.resolve(
-                      serverlessPath,
-                      'lib/configuration/variables/sources/str-to-bool'
-                    )),
-                  };
-                  variablesMeta = resolveVariablesMeta(configuration);
-                  await resolveVariables({
-                    servicePath: process.cwd(),
-                    configuration,
-                    variablesMeta,
-                    sources: variableSources,
-                    options: input.options,
-                    fulfilledSources: new Set(['env', 'file', 'opt', 'self', 'strToBool']),
-                  });
-                  const resolutionErrors = Array.from(
-                    variablesMeta.values(),
-                    ({ error }) => error
-                  ).filter(Boolean);
-                  if (configuration.variablesResolutionMode && resolutionErrors.length) {
-                    throw new Error(
-                      `Variables resolution errored with:${resolutionErrors.map(
-                        (error) => `\n  - ${error.message}`
-                      )}\n`
-                    );
-                  }
-                }
-
-                let serverless = new Serverless({
-                  configurationPath,
+              if (configuration && !shouldUseLegacyVariablesResolver) {
+                await resolveVariables({
+                  servicePath: path.dirname(configurationPath),
                   configuration,
-                  isConfigurationResolved: Boolean(variablesMeta && !variablesMeta.size),
-                  hasResolvedCommandsExternally: true,
-                  ...input,
+                  options,
                 });
-                if (serverless.triggeredDeprecations) {
-                  serverless.triggeredDeprecations.clear();
-                }
-                const pluginConstructorsBlacklist = pluginPathsBlacklist.map((pluginPath) =>
-                  require(pluginPath)
+              }
+
+              let serverless = new Serverless({
+                configurationPath,
+                configuration,
+                isConfigurationResolved: !shouldUseLegacyVariablesResolver,
+                hasResolvedCommandsExternally: true,
+                commands: command ? command.split(' ') : [],
+                options,
+              });
+
+              if (serverless.triggeredDeprecations) {
+                serverless.triggeredDeprecations.clear();
+              }
+              const pluginConstructorsBlacklist = pluginPathsBlacklist.map((pluginPath) =>
+                require(pluginPath)
+              );
+              try {
+                if (hooks.beforeInstanceInit) await hooks.beforeInstanceInit(serverless);
+                await serverless.init();
+
+                if (serverless.invokedInstance) serverless = serverless.invokedInstance;
+                const { pluginManager } = serverless;
+                const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
+                  pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
                 );
-                try {
-                  if (hooks.beforeInstanceInit) await hooks.beforeInstanceInit(serverless);
-                  await serverless.init();
-
-                  if (serverless.invokedInstance) serverless = serverless.invokedInstance;
-                  const { pluginManager } = serverless;
-
-                  if (commandSchemasPath && pluginManager.externalPlugins.size) {
-                    const isInteractiveCli = serverless.processedInput.commands.includes(
-                      'interactiveCli'
-                    );
-                    const commandsSchema = require(path.resolve(
-                      commandSchemasPath,
-                      'resolve-final'
-                    ))(pluginManager.externalPlugins, { providerName });
-                    resolveInput.clear();
-                    const { commands, options } = resolveInput(commandsSchema);
-                    if (!isInteractiveCli) {
-                      serverless.processedInput.commands = serverless.pluginManager.cliCommands = commands;
-                    }
-                    serverless.processedInput.options = serverless.pluginManager.cliOptions = options;
-                  }
-                  const blacklistedPlugins = pluginManager.plugins.filter((plugin) =>
-                    pluginConstructorsBlacklist.some((Plugin) => plugin instanceof Plugin)
-                  );
-                  for (const [index, Plugin] of pluginConstructorsBlacklist.entries()) {
-                    if (!blacklistedPlugins.some((plugin) => plugin instanceof Plugin)) {
-                      throw new Error(
-                        `Didn't resolve a plugin instance for ${pluginPathsBlacklist[index]}`
-                      );
-                    }
-                  }
-
-                  const { hooks: lifecycleHooks } = pluginManager;
-                  const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesBlacklist);
-                  for (const hookName of Object.keys(lifecycleHooks)) {
-                    unconfirmedLifecycleHookNames.delete(hookName);
-                    if (lifecycleHookNamesBlacklist.includes(hookName)) {
-                      delete lifecycleHooks[hookName];
-                      continue;
-                    }
-
-                    lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(
-                      (hookData) =>
-                        !blacklistedPlugins.some((blacklistedPlugin) =>
-                          values(blacklistedPlugin.hooks).includes(hookData.hook)
-                        )
-                    );
-                  }
-                  if (unconfirmedLifecycleHookNames.size) {
+                for (const [index, Plugin] of pluginConstructorsBlacklist.entries()) {
+                  if (!blacklistedPlugins.some((plugin) => plugin instanceof Plugin)) {
                     throw new Error(
-                      `${Array.from(unconfirmedLifecycleHookNames).join(
-                        ', '
-                      )} blacklisted lifecycle hook names were not recognized.`
+                      `Didn't resolve a plugin instance for ${pluginPathsBlacklist[index]}`
                     );
                   }
-
-                  if (lastLifecycleHookName) {
-                    const { getHooks } = pluginManager;
-                    let hasLastHookFinalized = null;
-                    pluginManager.getHooks = function (events) {
-                      if (hasLastHookFinalized) return [];
-                      if (hasLastHookFinalized === false) {
-                        return getHooks.call(this, events);
-                      }
-                      const lastEventIndex = events.indexOf(lastLifecycleHookName);
-                      if (lastEventIndex === -1) return getHooks.call(this, events);
-                      events = events.slice(0, lastEventIndex + 1);
-                      const eventHooks = getHooks.call(this, events);
-                      if (!eventHooks.length) {
-                        hasLastHookFinalized = true;
-                        return eventHooks;
-                      }
-                      hasLastHookFinalized = false;
-                      const lastHook = eventHooks[eventHooks.length - 1];
-                      const hookFunction = lastHook.hook;
-                      lastHook.hook = async function () {
-                        try {
-                          return await hookFunction.call(this);
-                        } finally {
-                          hasLastHookFinalized = true;
-                        }
-                      };
-                      return eventHooks;
-                    };
-                  }
-
-                  if (awsRequestStubMap) {
-                    configureAwsRequestStub(serverless.getProvider('aws'), awsRequestStubMap);
-                  }
-
-                  // Run plugin manager hooks
-                  await serverless.run();
-                  if (hooks.after) await hooks.after(serverless);
-                  const awsProvider = serverless.getProvider('aws');
-                  return {
-                    serverless,
-                    stdoutData,
-                    cfTemplate: serverless.service.provider.compiledCloudFormationTemplate,
-                    awsNaming: awsProvider && awsProvider.naming,
-                  };
-                } catch (error) {
-                  throw Object.assign(error, {
-                    serverless,
-                    stdoutData,
-                  });
                 }
-              })
-          )
+
+                const { hooks: lifecycleHooks } = pluginManager;
+                const unconfirmedLifecycleHookNames = new Set(lifecycleHookNamesBlacklist);
+                for (const hookName of Object.keys(lifecycleHooks)) {
+                  unconfirmedLifecycleHookNames.delete(hookName);
+                  if (lifecycleHookNamesBlacklist.includes(hookName)) {
+                    delete lifecycleHooks[hookName];
+                    continue;
+                  }
+
+                  lifecycleHooks[hookName] = lifecycleHooks[hookName].filter(
+                    (hookData) =>
+                      !blacklistedPlugins.some((blacklistedPlugin) =>
+                        values(blacklistedPlugin.hooks).includes(hookData.hook)
+                      )
+                  );
+                }
+                if (unconfirmedLifecycleHookNames.size) {
+                  throw new Error(
+                    `${Array.from(unconfirmedLifecycleHookNames).join(
+                      ', '
+                    )} blacklisted lifecycle hook names were not recognized.`
+                  );
+                }
+
+                if (lastLifecycleHookName) {
+                  const { getHooks } = pluginManager;
+                  let hasLastHookFinalized = null;
+                  pluginManager.getHooks = function (events) {
+                    if (hasLastHookFinalized) return [];
+                    if (hasLastHookFinalized === false) {
+                      return getHooks.call(this, events);
+                    }
+                    const lastEventIndex = events.indexOf(lastLifecycleHookName);
+                    if (lastEventIndex === -1) return getHooks.call(this, events);
+                    events = events.slice(0, lastEventIndex + 1);
+                    const eventHooks = getHooks.call(this, events);
+                    if (!eventHooks.length) {
+                      hasLastHookFinalized = true;
+                      return eventHooks;
+                    }
+                    hasLastHookFinalized = false;
+                    const lastHook = eventHooks[eventHooks.length - 1];
+                    const hookFunction = lastHook.hook;
+                    lastHook.hook = async function () {
+                      try {
+                        return await hookFunction.call(this);
+                      } finally {
+                        hasLastHookFinalized = true;
+                      }
+                    };
+                    return eventHooks;
+                  };
+                }
+
+                if (awsRequestStubMap) {
+                  configureAwsRequestStub(serverless.getProvider('aws'), awsRequestStubMap);
+                }
+
+                // Run plugin manager hooks
+                await serverless.run();
+                if (hooks.after) await hooks.after(serverless);
+                const awsProvider = serverless.getProvider('aws');
+                return {
+                  serverless,
+                  stdoutData,
+                  cfTemplate: serverless.service.provider.compiledCloudFormationTemplate,
+                  awsNaming: awsProvider && awsProvider.naming,
+                };
+              } catch (error) {
+                throw Object.assign(error, {
+                  serverless,
+                  stdoutData,
+                });
+              }
+            })
         )
       );
     }
