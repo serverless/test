@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/serverless/test/compare/v7.11.0...v8.0.0) (2021-04-09)
+
+### ⚠ BREAKING CHANGES
+
+- **Run Serverless:** `cliArgs` options was dropped in favor more programmatic `command` and `options`.
+  `runServerless` can only be used with `serverless` which provides `lib/configuration/variables/index.js` util.
+
+### Features
+
+- **Run Serverless:** Replace `cliArgs` with `command` and `options` ([#91](https://github.com/serverless/test/pull/91)) ([37d850b](https://github.com/serverless/test/commit/37d850bff25c2b42db539f8eb5652c7ff7603962)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [7.11.0](https://github.com/serverless/test/compare/v7.10.1...v7.11.0) (2021-03-26)
 
 ### Features
