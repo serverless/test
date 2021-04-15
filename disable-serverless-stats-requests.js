@@ -3,16 +3,17 @@
 'use strict';
 
 const path = require('path');
-const isModuleNotFoundError = require('ncjsm/is-module-not-found-error');
 
 const resolveAreAnalyticsDisabled = (serverlessPath) => {
-  let modulePath = path.join(serverlessPath, 'lib/utils/analytics/areDisabled');
-  try {
-    return require.resolve(modulePath);
-  } catch (error) {
-    if (!isModuleNotFoundError(error, modulePath)) throw error;
+  for (const modulePath of ['lib/utils/telemetry/areDisabled', 'lib/utils/analytics/areDisabled']) {
+    try {
+      return require.resolve(modulePath);
+    } catch {
+      // Pass
+    }
   }
-  modulePath = path.join(serverlessPath, 'lib/utils/isTrackingDisabled');
+
+  const modulePath = path.join(serverlessPath, 'lib/utils/isTrackingDisabled');
   return require.resolve(modulePath);
 };
 
