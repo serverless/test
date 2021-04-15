@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.1](https://github.com/serverless/test/compare/v8.0.0...v8.0.1) (2021-04-15)
+
+### Maintenance Improvements
+
+- Add support for analytics disable module in `telemetry` dir ([#93](https://github.com/serverless/test/pull/93)) ([3bd7c83](https://github.com/serverless/test/commit/3bd7c835c70cf9ce0ac4ba6af81f8844e8d45859)) ([Piotr Grzesik](https://github.com/pgrzesik))
+
 ## [8.0.0](https://github.com/serverless/test/compare/v7.11.0...v8.0.0) (2021-04-09)
 
 ### ⚠ BREAKING CHANGES
