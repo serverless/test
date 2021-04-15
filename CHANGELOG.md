@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.0.2](https://github.com/serverless/test/compare/v8.0.1...v8.0.2) (2021-04-15)
+
+### Bug Fixes
+
+- Resolution of analytics module ([#95](https://github.com/serverless/test/pull/95)) ([eb8d1df](https://github.com/serverless/test/commit/eb8d1dff7b58d550102be530117dfed7d0c73fbd)) ([Piotr Grzesik](https://github.com/pgrzesik))
+
 ## [8.0.1](https://github.com/serverless/test/compare/v8.0.0...v8.0.1) (2021-04-15)
 
 ### Maintenance Improvements
