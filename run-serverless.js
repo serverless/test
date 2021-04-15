@@ -218,8 +218,11 @@ module.exports = async (
               }
 
               let serverless = new Serverless({
-                configurationPath,
                 configuration,
+                serviceDir: configurationPath && confirmedCwd,
+                configurationFilename:
+                  configurationPath && configurationPath.slice(confirmedCwd.length + 1),
+                configurationPath,
                 isConfigurationResolved: !shouldUseLegacyVariablesResolver,
                 hasResolvedCommandsExternally: true,
                 commands: command ? command.split(' ') : [],
