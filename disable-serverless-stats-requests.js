@@ -5,9 +5,12 @@
 const path = require('path');
 
 const resolveAreAnalyticsDisabled = (serverlessPath) => {
-  for (const modulePath of ['lib/utils/telemetry/areDisabled', 'lib/utils/analytics/areDisabled']) {
+  for (const relativeModulePath of [
+    'lib/utils/telemetry/areDisabled',
+    'lib/utils/analytics/areDisabled',
+  ]) {
     try {
-      return require.resolve(modulePath);
+      return require.resolve(path.join(serverlessPath, relativeModulePath));
     } catch {
       // Pass
     }
