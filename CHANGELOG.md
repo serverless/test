@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com/serverless/test/compare/v8.0.2...v8.1.0) (2021-04-16)
+
+### Features
+
+- **Run Serverless:** Pass `serviceDir` and `configurationFilename` to `Serverless` constructor ([#97](https://github.com/serverless/test/pull/97)) ([2a7c95e](https://github.com/serverless/test/commit/2a7c95e79c30eeffee8a05d9271d216ac1689745)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [8.0.2](https://github.com/serverless/test/compare/v8.0.1...v8.0.2) (2021-04-15)
 
 ### Bug Fixes
