@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.1.1](https://github.com/serverless/test/compare/v8.1.0...v8.1.1) (2021-06-08)
+
+### Bug Fixes
+
+- **Mocha:** Ensure to resolve `Mocha` local to tested package ([#99](https://github.com/serverless/test/pull/99)) ([dd95dcd](https://github.com/serverless/test/commit/dd95dcdff1433c2a538f50b51d523aabc2d2bcd6)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [8.1.0](https://github.com/serverless/test/compare/v8.0.2...v8.1.0) (2021-04-16)
 
 ### Features
