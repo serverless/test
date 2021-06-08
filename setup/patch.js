@@ -6,13 +6,18 @@ process.on('unhandledRejection', (err) => {
   throw err;
 });
 
+const path = require('path');
 const EventEmitter = require('events');
 
 const runnerEmitter = new EventEmitter();
 
 const isObject = require('type/object/is');
-const Mocha = require('mocha/lib/mocha');
-const { serialize } = require('mocha/lib/nodejs/serializer');
+const resolveSync = require('ncjsm/resolve/sync');
+
+// Ensure to resolve mocha from tested package context
+const mochaBinPath = path.dirname(require.main.filename);
+const Mocha = require(resolveSync(mochaBinPath, 'mocha/lib/mocha').realPath);
+const { serialize } = require(resolveSync(mochaBinPath, 'mocha/lib/nodejs/serializer').realPath);
 
 const removeCyclicReferences = (object, parentObjects = new Set()) => {
   const entries = Array.isArray(object) ? object.entries() : Object.entries(object);
