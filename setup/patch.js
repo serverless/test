@@ -6,6 +6,9 @@ process.on('unhandledRejection', (err) => {
   throw err;
 });
 
+// By default report deprecations as errors
+process.env.SLS_DEPRECATION_NOTIFICATION_MODE = 'error';
+
 // Ensure no telemetry reporting in tests
 process.env.SLS_TELEMETRY_DISABLED = '1';
 

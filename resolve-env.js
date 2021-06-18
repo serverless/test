@@ -14,6 +14,9 @@ module.exports = (options = {}) => {
       'TMPDIR',
       'USERPROFILE',
     ].concat(options.whitelist || []),
-    variables: Object.assign({ SLS_TRACKING_DISABLED: '1' }, options.variables || {}),
+    variables: Object.assign(
+      { SLS_TRACKING_DISABLED: '1', SLS_DEPRECATION_NOTIFICATION_MODE: 'error' },
+      options.variables || {}
+    ),
   });
 };
