@@ -60,9 +60,9 @@ const setupFixture = memoizee(
             if (!hasSetupScript) return null;
             log.notice('run setup for %s (at %s)', path.basename(fixturePath), setupFixturePath);
             const setupScriptPath = path.resolve(setupFixturePath, '_setup.js');
-            return Promise.resolve(
-              ensurePlainFunction(require(setupScriptPath))(fixturePath)
-            ).then(() => fse.unlink(setupScriptPath));
+            return Promise.resolve(ensurePlainFunction(require(setupScriptPath))(fixturePath)).then(
+              () => fse.unlink(setupScriptPath)
+            );
           })
           .then(() => setupFixturePath);
       });
