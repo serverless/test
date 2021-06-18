@@ -6,6 +6,9 @@ process.on('unhandledRejection', (err) => {
   throw err;
 });
 
+// Ensure no telemetry reporting in tests
+process.env.SLS_TELEMETRY_DISABLED = '1';
+
 const path = require('path');
 const EventEmitter = require('events');
 
