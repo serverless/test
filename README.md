@@ -19,12 +19,11 @@ In `package.json` add `mocha` section with `reporter` option set, and recommende
 ```json
 {
   "mocha": {
-    "reporter": "@serverless/test/setup/mocha-reporter",
     "require": [
+      "@serverless/test/setup/patch",
       "@serverless/test/setup/log",
-      "@serverless/test/setup/async-leaks-detector",
       "@serverless/test/setup/mock-homedir",
-      "@serverless/test/setup/restore-cwd",
+      "@serverless/test/setup/mock-cwd",
       "@serverless/test/setup/restore-env"
     ]
   }
