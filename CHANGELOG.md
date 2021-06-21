@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.2.0](https://github.com/serverless/test/compare/v8.1.1...v8.2.0) (2021-06-21)
+
+### Features
+
+- Disable telemetry reports on test suite initialization ([#101](https://github.com/serverless/test/pull/101)) ([a92ccb2](https://github.com/serverless/test/commit/a92ccb2ffca7104197aee2dc84c4e64e23eb8bb3)) ([Mariusz Nowak](https://github.com/medikoo))
+- Set deprecation notification mode to `error` by default ([#101](https://github.com/serverless/test/pull/101)) ([780cd80](https://github.com/serverless/test/commit/780cd80646f12d99635a0ade601e7673f79a494f)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [8.1.1](https://github.com/serverless/test/compare/v8.1.0...v8.1.1) (2021-06-08)
 
 ### Bug Fixes
