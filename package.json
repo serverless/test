@@ -12,8 +12,8 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "@serverless/utils": "^5.2.0",
-    "aws-sdk": "^2.923.0",
+    "@serverless/utils": "^5.3.0",
+    "aws-sdk": "^2.931.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.1",
     "child-process-ext": "^2.1.1",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@serverless/eslint-config": "^3.0.0",
-    "eslint": "^7.28.0",
+    "eslint": "^7.29.0",
     "eslint-plugin-import": "^2.23.4",
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
