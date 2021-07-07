@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@serverless/utils": "^5.3.0",
-    "aws-sdk": "^2.931.0",
+    "aws-sdk": "^2.940.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.1",
     "child-process-ext": "^2.1.1",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@serverless/eslint-config": "^3.0.0",
-    "eslint": "^7.29.0",
+    "eslint": "^7.30.0",
     "eslint-plugin-import": "^2.23.4",
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.2.0",
@@ -44,7 +44,7 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "mocha": "^8.4.0",
-    "prettier": "^2.3.1",
+    "prettier": "^2.3.2",
     "standard-version": "^9.3.0"
   },
   "peerDependencies": {
