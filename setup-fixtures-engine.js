@@ -38,35 +38,29 @@ const isFile = (filename) =>
   );
 
 const setupFixture = memoizee(
-  (fixturePath) =>
-    Promise.all([
+  async (fixturePath) => {
+    const [hasSetupScript, hasNpmDependencies] = await Promise.all([
       isFile(path.resolve(fixturePath, '_setup.js')),
       isFile(path.resolve(fixturePath, 'package.json')),
-    ]).then(([hasSetupScript, hasNpmDependencies]) => {
-      if (!hasSetupScript && !hasNpmDependencies) return fixturePath;
-      return provisionTmpDir().then((setupFixturePath) => {
-        return fse
-          .copy(fixturePath, setupFixturePath)
-          .then(() => {
-            if (!hasNpmDependencies) return null;
-            log.notice(
-              'install dependencies for %s (at %s)',
-              path.basename(fixturePath),
-              setupFixturePath
-            );
-            return spawn('npm', ['install'], { cwd: setupFixturePath });
-          })
-          .then(() => {
-            if (!hasSetupScript) return null;
-            log.notice('run setup for %s (at %s)', path.basename(fixturePath), setupFixturePath);
-            const setupScriptPath = path.resolve(setupFixturePath, '_setup.js');
-            return Promise.resolve(ensurePlainFunction(require(setupScriptPath))(fixturePath)).then(
-              () => fse.unlink(setupScriptPath)
-            );
-          })
-          .then(() => setupFixturePath);
-      });
-    }),
+    ]);
+    if (!hasSetupScript && !hasNpmDependencies) return fixturePath;
+    const setupFixturePath = await provisionTmpDir();
+    await fse.copy(fixturePath, setupFixturePath);
+    if (hasNpmDependencies) {
+      log.notice(
+        'install dependencies for %s (at %s)',
+        path.basename(fixturePath),
+        setupFixturePath
+      );
+      await spawn('npm', ['install'], { cwd: setupFixturePath });
+    }
+    if (!hasSetupScript) return setupFixturePath;
+    log.notice('run setup for %s (at %s)', path.basename(fixturePath), setupFixturePath);
+    const setupScriptPath = path.resolve(setupFixturePath, '_setup.js');
+    await ensurePlainFunction(require(setupScriptPath))(fixturePath);
+    await fse.unlink(setupScriptPath);
+    return setupFixturePath;
+  },
   { promise: true }
 );
 
