@@ -4,6 +4,7 @@ const path = require('path');
 const ensureString = require('type/string/ensure');
 const ensurePlainObject = require('type/plain-object/ensure');
 const ensurePlainFunction = require('type/plain-function/ensure');
+const wait = require('timers-ext/promise/sleep');
 const spawn = require('child-process-ext/spawn');
 const BbPromise = require('bluebird');
 const fse = require('fs-extra');
@@ -37,6 +38,32 @@ const isFile = (filename) =>
     }
   );
 
+const npmInstall = async (cwd, attempt = 0) => {
+  if (attempt) {
+    try {
+      await fse.remove(path.resolve(cwd, 'node_modules'));
+    } catch {
+      // ignore
+    }
+  }
+
+  try {
+    await spawn('npm', ['install'], { cwd });
+  } catch (error) {
+    if (attempt < 3) {
+      const { code, stdoutBuffer } = error;
+      if (code === 1) {
+        if (String(stdoutBuffer).includes('cb() never called!')) {
+          await wait(2000);
+          await npmInstall(cwd, ++attempt);
+          return;
+        }
+      }
+    }
+    throw error;
+  }
+};
+
 const setupFixture = memoizee(
   async (fixturePath) => {
     const [hasSetupScript, hasNpmDependencies] = await Promise.all([
@@ -52,7 +79,7 @@ const setupFixture = memoizee(
         path.basename(fixturePath),
         setupFixturePath
       );
-      await spawn('npm', ['install'], { cwd: setupFixturePath });
+      await npmInstall(setupFixturePath);
     }
     if (!hasSetupScript) return setupFixturePath;
     log.notice('run setup for %s (at %s)', path.basename(fixturePath), setupFixturePath);
