@@ -162,31 +162,6 @@ module.exports = async (
   const readConfiguration = require(path.resolve(serverlessPath, 'lib/configuration/read'));
   const resolveVariables = require(path.resolve(serverlessPath, 'lib/configuration/variables'));
 
-  // Temporary patch to ensure resolveInput result matches the options
-  // (to be removed once we fully remove `resolveInput` dependency from `Serverless` class)
-  const resolveInput = require(path.resolve(serverlessPath, 'lib/cli/resolve-input'));
-  resolveInput.clear();
-  overrideArgv(
-    {
-      args: [
-        'serverless',
-        ...command.split(' '),
-        ..._.flattenDeep(
-          Object.entries(options).map(([optionName, optionValue]) => {
-            if (optionValue === true) return `--${optionName}`;
-            if (optionValue === false) return `--no-${optionName}`;
-            if (optionValue === null) return null;
-            if (Array.isArray(optionValue)) {
-              return optionValue.map((optionItemValue) => [`--${optionName}`, optionItemValue]);
-            }
-            return [`--${optionName}`, optionValue];
-          })
-        ).filter(Boolean),
-      ],
-    },
-    () => resolveInput(require(path.resolve(serverlessPath, 'lib/cli/commands-schema')))
-  );
-
   return overrideEnv(
     {
       variables: Object.assign(resolveEnv(), { SLS_AWS_MONITORING_FREQUENCY: '1' }, env),
@@ -202,6 +177,34 @@ module.exports = async (
           },
           () =>
             resolveServerless(serverlessPath, modulesCacheStub, async (Serverless) => {
+              // Temporary patch to ensure resolveInput result matches the options
+              // (to be removed once we fully remove `resolveInput` dependency from `Serverless` class)
+              const resolveInput = require(path.resolve(serverlessPath, 'lib/cli/resolve-input'));
+              resolveInput.clear();
+              overrideArgv(
+                {
+                  args: [
+                    'serverless',
+                    ...command.split(' '),
+                    ..._.flattenDeep(
+                      Object.entries(options).map(([optionName, optionValue]) => {
+                        if (optionValue === true) return `--${optionName}`;
+                        if (optionValue === false) return `--no-${optionName}`;
+                        if (optionValue === null) return null;
+                        if (Array.isArray(optionValue)) {
+                          return optionValue.map((optionItemValue) => [
+                            `--${optionName}`,
+                            optionItemValue,
+                          ]);
+                        }
+                        return [`--${optionName}`, optionValue];
+                      })
+                    ).filter(Boolean),
+                  ],
+                },
+                () => resolveInput(require(path.resolve(serverlessPath, 'lib/cli/commands-schema')))
+              );
+
               if (hooks.before) await hooks.before(Serverless, { cwd: confirmedCwd });
               // Intialize serverless instances in preconfigured environment
               const configurationPath = await resolveConfigurationPath();
