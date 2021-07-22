@@ -6,11 +6,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-- **Fixtures Engine:** Retry on `npm install` error ([86956a5](https://github.com/serverless/test/commit/86956a5652e7a3daef5ec46c7507a7c3f0ec6564))
+- **Fixtures Engine:** Retry on `npm install` error ([86956a5](https://github.com/serverless/test/commit/86956a5652e7a3daef5ec46c7507a7c3f0ec6564)) ([Mariusz Nowak](https://github.com/medikoo))
 
 ### Maintenance Improvements
 
-- **Fixtures Engine:** Refactor to async/await ([aaca133](https://github.com/serverless/test/commit/aaca1334ce527d07c0c81be5cfa376a92b12ba3c))
+- **Fixtures Engine:** Refactor to async/await ([aaca133](https://github.com/serverless/test/commit/aaca1334ce527d07c0c81be5cfa376a92b12ba3c)) ([Mariusz Nowak](https://github.com/medikoo))
 
 ## [8.2.0](https://github.com/serverless/test/compare/v8.1.1...v8.2.0) (2021-06-21)
 
