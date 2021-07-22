@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.3.1](https://github.com/serverless/test/compare/v8.3.0...v8.3.1) (2021-07-21)
+
+### Bug Fixes
+
+- **Run Serverless:** Ensure CLI input resolution patch is applied when modules cache is cleared ([#105](https://github.com/serverless/test/pull/105)) ([b32eb2e](https://github.com/serverless/test/commit/b32eb2e6163642910a8dfa106d381c134bc78dea)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [8.3.0](https://github.com/serverless/test/compare/v8.2.0...v8.3.0) (2021-07-07)
 
 ### Features
