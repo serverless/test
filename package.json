@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@serverless/utils": "^5.13.0",
-    "aws-sdk": "^2.989.0",
+    "aws-sdk": "^2.991.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.2",
     "child-process-ext": "^2.1.1",
