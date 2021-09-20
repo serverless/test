@@ -58,4 +58,4 @@ Service configuration as setup in fixture
 
 ##### `updateConfig(configExt)`
 
-Method throuch which we can update service config as installed in fixture
+Method through which we can update service config as installed in fixture
