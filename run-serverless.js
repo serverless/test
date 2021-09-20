@@ -280,33 +280,88 @@ module.exports = async (
                 }
 
                 if (lastLifecycleHookName) {
-                  const { getHooks } = pluginManager;
                   let hasLastHookFinalized = null;
-                  pluginManager.getHooks = function (events) {
-                    if (hasLastHookFinalized) return [];
-                    if (hasLastHookFinalized === false) {
-                      return getHooks.call(this, events);
-                    }
-                    const lastEventIndex = events.indexOf(lastLifecycleHookName);
-                    if (lastEventIndex === -1) return getHooks.call(this, events);
-                    events = events.slice(0, lastEventIndex + 1);
-                    const eventHooks = getHooks.call(this, events);
-                    if (!eventHooks.length) {
-                      hasLastHookFinalized = true;
-                      return eventHooks;
-                    }
-                    hasLastHookFinalized = false;
-                    const lastHook = eventHooks[eventHooks.length - 1];
-                    const hookFunction = lastHook.hook;
-                    lastHook.hook = async function () {
-                      try {
-                        return await hookFunction.call(this);
-                      } finally {
-                        hasLastHookFinalized = true;
+                  if (pluginManager.getLifecycleEventsData) {
+                    // Introduced in Serverless v2.60.0
+                    const { getLifecycleEventsData } = pluginManager;
+                    pluginManager.getLifecycleEventsData = function (lifecycleCommand) {
+                      if (hasLastHookFinalized) return { lifecycleEventsData: [], hooksLength: 0 };
+                      const result = getLifecycleEventsData.call(this, lifecycleCommand);
+                      if (hasLastHookFinalized === false) return result;
+
+                      let newHooksLength = 0;
+                      let lastHook;
+                      let shouldOverride = false;
+                      for (const [
+                        index,
+                        {
+                          hooksData: { before, at, after },
+                          lifecycleEventName,
+                        },
+                      ] of result.lifecycleEventsData.entries()) {
+                        newHooksLength += before.length;
+                        if (before.length) lastHook = before[before.length - 1];
+                        if (lastLifecycleHookName === `before:${lifecycleEventName}`) {
+                          at.length = 0;
+                          after.length = 0;
+                        } else {
+                          newHooksLength += at.length;
+                          if (at.length) lastHook = at[at.length - 1];
+                          if (lastLifecycleHookName === lifecycleEventName) {
+                            after.length = 0;
+                          } else {
+                            newHooksLength += after.length;
+                            if (after.length) lastHook = after[after.length - 1];
+                            if (lastLifecycleHookName !== `after:${lifecycleEventName}`) continue;
+                          }
+                        }
+                        shouldOverride = Boolean(lastHook);
+                        result.lifecycleEventsData.length = index + 1;
+                        result.hooksLength = newHooksLength;
+                        hasLastHookFinalized = !newHooksLength;
+                        break;
                       }
+                      if (shouldOverride) {
+                        const hookFunction = lastHook.hook;
+                        lastHook.hook = async function () {
+                          try {
+                            return await hookFunction.call(this);
+                          } finally {
+                            hasLastHookFinalized = true;
+                          }
+                        };
+                      }
+                      return result;
                     };
-                    return eventHooks;
-                  };
+                  } else {
+                    // TODO: Remove with next major release
+                    const { getHooks } = pluginManager;
+                    pluginManager.getHooks = function (events) {
+                      if (hasLastHookFinalized) return [];
+                      if (hasLastHookFinalized === false) {
+                        return getHooks.call(this, events);
+                      }
+                      const lastEventIndex = events.indexOf(lastLifecycleHookName);
+                      if (lastEventIndex === -1) return getHooks.call(this, events);
+                      events = events.slice(0, lastEventIndex + 1);
+                      const eventHooks = getHooks.call(this, events);
+                      if (!eventHooks.length) {
+                        hasLastHookFinalized = true;
+                        return eventHooks;
+                      }
+                      hasLastHookFinalized = false;
+                      const lastHook = eventHooks[eventHooks.length - 1];
+                      const hookFunction = lastHook.hook;
+                      lastHook.hook = async function () {
+                        try {
+                          return await hookFunction.call(this);
+                        } finally {
+                          hasLastHookFinalized = true;
+                        }
+                      };
+                      return eventHooks;
+                    };
+                  }
                 }
 
                 if (awsRequestStubMap) {
