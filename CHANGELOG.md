@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.4.0](https://github.com/serverless/test/compare/v8.3.2...v8.4.0) (2021-09-20)
+
+### Features
+
+- **Run Serverless:** Support new internal hooks resolution ([#109](https://github.com/serverless/test/pull/109)) ([6f0a761](https://github.com/serverless/test/commit/6f0a761dda9af9569472dda7c09cdf1c8b7eb6c8)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [8.3.2](https://github.com/serverless/test/compare/v8.3.1...v8.3.2) (2021-09-16)
 
 _Maintainance improvements_
