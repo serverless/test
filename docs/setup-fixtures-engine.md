@@ -2,7 +2,7 @@
 
 Initializes _fixtures_ engine for a folder where Serverless service fixtures are placed (each in different top level folder)
 
-Fixtures engine provides out of a box means to extend existing fixtures (enrich/tweak configurations of existing fixutres for testing purpused) and to cleanup eventually created artifacts after testing is made
+Fixtures engine provides out of a box means to extend existing fixtures (enrich/tweak configurations of existing fixutres for testing purposes) and to cleanup eventually created artifacts after testing is made
 
 ## Usage
 
@@ -58,4 +58,4 @@ Service configuration as setup in fixture
 
 ##### `updateConfig(configExt)`
 
-Method throuch which we can update service config as installed in fixture
+Method through which we can update service config as installed in fixture
