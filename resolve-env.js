@@ -9,6 +9,7 @@ module.exports = (options = {}) => {
       'APPDATA',
       'HOME',
       'LOCAL_SERVERLESS_LINK_PATH',
+      'LOG_LEVEL',
       'PATH',
       'SERVERLESS_BINARY_PATH',
       'TMPDIR',
