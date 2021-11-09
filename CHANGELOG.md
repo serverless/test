@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.5.0](https://github.com/serverless/test/compare/v8.4.0...v8.5.0) (2021-11-09)
+
+### Features
+
+- **Mocha Isolated:** Ensure to pass through `LOG_LEVEL` env variable ([#110](https://github.com/serverless/test/pull/110)) ([def06a9](https://github.com/serverless/test/commit/def06a92e7e8ddaec511ccffc342015a2401fef3)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [8.4.0](https://github.com/serverless/test/compare/v8.3.2...v8.4.0) (2021-09-20)
 
 ### Features
