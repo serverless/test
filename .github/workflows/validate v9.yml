@@ -1,0 +1,140 @@
+# PR's only
+
+name: Validate v9
+
+on:
+  pull_request:
+    branches: [v9]
+
+env:
+  FORCE_COLOR: 1
+
+jobs:
+  linuxNode14:
+    name: '[Linux] Node.js v14: Lint, Formatting, Eventual Commitlint, Unit tests'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          # For commitlint purpose ensure to have complete list of PR commits
+          # It's loose and imperfect assumption that PR has no more than 30 commits
+          fetch-depth: 30
+
+      - name: Retrieve last v9 commit (for `git diff` purposes)
+        run: |
+          git checkout -b pr
+          git fetch --prune --depth=30 origin +refs/heads/v9:refs/remotes/origin/v9
+          git checkout v9
+          git checkout pr
+
+      - name: Retrieve ~/.npm from cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: npm-v14-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            npm-v14-${{ runner.os }}-${{ github.ref }}-
+            npm-v14-${{ runner.os }}-refs/heads/v9-
+      - name: Retrieve node_modules from cache
+        id: cacheNodeModules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: node-modules-v14-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            node-modules-v14-${{ runner.os }}-${{ github.ref }}-
+            node-modules-v14-${{ runner.os }}-refs/heads/v9-
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install dependencies
+        if: steps.cacheNodeModules.outputs.cache-hit != 'true'
+        run: |
+          npm install
+          npm update --no-save
+          npm update --save-dev --no-save
+      - name: Validate Prettier formatting
+        run: npm run prettier-check:updated
+      - name: Validate ESLint rules
+        run: npm run lint:updated
+      - name: Validate Commit messages
+        if: github.event.pull_request.base.repo.id == github.event.pull_request.head.repo.id
+        run: npm run commitlint:pull-request
+      - name: Unit tests
+        run: npm test
+
+  linuxNode16:
+    name: '[Linux] Node.js 16: Unit tests'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Retrieve dependencies from cache
+        id: cacheNpm
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: npm-v16-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            npm-v16-${{ runner.os }}-${{ github.ref }}-
+            npm-v16-${{ runner.os }}-refs/heads/v9-
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        if: steps.cacheNpm.outputs.cache-hit != 'true'
+        run: |
+          npm install
+          npm update --no-save
+          npm update --save-dev --no-save
+      - name: Unit tests
+        run: npm test
+
+  linuxNode12:
+    name: '[Linux] Node.js v12: Unit tests'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Retrieve ~/.npm from cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: npm-v12-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            npm-v12-${{ runner.os }}-${{ github.ref }}-
+            npm-v12-${{ runner.os }}-refs/heads/v9-
+      - name: Retrieve node_modules from cache
+        id: cacheNodeModules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: node-modules-v12-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            node-modules-v12-${{ runner.os }}-${{ github.ref }}-
+            node-modules-v12-${{ runner.os }}-refs/heads/v9-
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Install dependencies
+        if: steps.cacheNodeModules.outputs.cache-hit != 'true'
+        run: |
+          npm install
+          npm update --no-save
+          npm update --save-dev --no-save
+      - name: Unit tests
+        run: npm test
