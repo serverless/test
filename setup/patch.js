@@ -20,6 +20,11 @@ const runnerEmitter = new EventEmitter();
 const isObject = require('type/object/is');
 const resolveSync = require('ncjsm/resolve/sync');
 
+// TODO: Remove once all legacy logs are removed from the core
+const uniGlobal = require('uni-global')('serverless/serverless/202110');
+
+uniGlobal.legacyLogWrite = () => {};
+
 // Ensure to resolve mocha from tested package context
 const mochaBinPath = path.dirname(require.main.filename);
 const Mocha = require(resolveSync(mochaBinPath, 'mocha/lib/mocha').realPath);

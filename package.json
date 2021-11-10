@@ -31,7 +31,8 @@
     "process-utils": "^4.0.0",
     "sinon": "^12.0.1",
     "timers-ext": "^0.1.7",
-    "type": "^2.5.0"
+    "type": "^2.5.0",
+    "uni-global": "^1.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
