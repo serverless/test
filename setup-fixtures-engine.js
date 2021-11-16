@@ -93,7 +93,7 @@ const setupFixture = memoizee(
 const nameTimeBase = new Date(2020, 8, 7).getTime();
 
 module.exports = memoizee((fixturesPath) => {
-  const fixturesEngine = {
+  return {
     setup: async (fixtureName, options = {}) => {
       const baseFixturePath = path.join(fixturesPath, ensureString(fixtureName));
       if (!isFixtureConfigured(baseFixturePath)) {
@@ -140,5 +140,4 @@ module.exports = memoizee((fixturesPath) => {
       };
     },
   };
-  return fixturesEngine;
 });
