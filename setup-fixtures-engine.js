@@ -8,7 +8,7 @@ const wait = require('timers-ext/promise/sleep');
 const spawn = require('child-process-ext/spawn');
 const fse = require('fs-extra');
 const memoizee = require('memoizee');
-const { merge } = require('lodash');
+const _ = require('lodash');
 const log = require('log').get('serverless:test');
 const { load: loadYaml, dump: saveYaml } = require('js-yaml');
 const cloudformationSchema = require('@serverless/utils/cloudformation-schema');
@@ -125,7 +125,7 @@ module.exports = memoizee((fixturesPath) => {
       if (!configObject.service && !options.configExt) return null;
 
       configObject.service = `test-${fixtureName}-${(Date.now() - nameTimeBase).toString(32)}`;
-      if (options.configExt) configObject = merge(configObject, options.configExt);
+      if (options.configExt) configObject = _.merge(configObject, options.configExt);
 
       await fse.writeFile(path.join(fixturePath, 'serverless.yml'), saveYaml(configObject));
       log.info('setup %s fixture at %s', fixtureName, fixturePath);
@@ -134,7 +134,7 @@ module.exports = memoizee((fixturesPath) => {
         serviceConfig: configObject,
         updateConfig: (configExt) => {
           ensurePlainObject(configExt);
-          merge(configObject, configExt);
+          _.merge(configObject, configExt);
           return fse.writeFile(path.join(fixturePath, 'serverless.yml'), saveYaml(configObject));
         },
       };
