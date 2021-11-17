@@ -113,21 +113,27 @@ module.exports = memoizee((fixturesPath) => {
         }),
         fse.copy(setupFixturePath, fixturePath),
       ]);
-      if (!configContent) return null;
-      configObject = (() => {
-        try {
-          return loadYaml(configContent, { schema: cloudformationSchema });
-        } catch (error) {
-          return null;
-        }
-      })();
-      if (!configObject) return null;
-      if (!configObject.service && !options.configExt) return null;
-
-      configObject.service = `test-${fixtureName}-${(Date.now() - nameTimeBase).toString(32)}`;
-      if (options.configExt) configObject = _.merge(configObject, options.configExt);
-
-      await fse.writeFile(path.join(fixturePath, 'serverless.yml'), saveYaml(configObject));
+      configObject =
+        configContent &&
+        (() => {
+          try {
+            return loadYaml(configContent, { schema: cloudformationSchema });
+          } catch (error) {
+            return null;
+          }
+        })();
+      let isConfigUpdated = false;
+      if (_.get(configObject, 'service')) {
+        configObject.service = `test-${fixtureName}-${(Date.now() - nameTimeBase).toString(32)}`;
+        isConfigUpdated = true;
+      }
+      if (options.configExt) {
+        configObject = _.merge(configObject || {}, options.configExt);
+        isConfigUpdated = true;
+      }
+      if (isConfigUpdated) {
+        await fse.writeFile(path.join(fixturePath, 'serverless.yml'), saveYaml(configObject));
+      }
       log.info('setup %s fixture at %s', fixtureName, fixturePath);
       return {
         servicePath: fixturePath,
