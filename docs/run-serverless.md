@@ -133,6 +133,6 @@ It's invokved with `serverless` instance passed as first argument
 ### Result values
 
 - `serverless` - Instance of Serverless Framework
-- `stdoutData` - Written data to `process.stdout`
+- `output` - Registered command output (via [`writeText`](https://github.com/serverless/utils/blob/master/docs/log.md#writetexttexttoken-texttokens-interface-to-write-final-outcome-of-the-command))
 - `cfTemplate` - (only if it was generated) CloudFormation template
 - `awsNaming` - AWS provider naming instance
