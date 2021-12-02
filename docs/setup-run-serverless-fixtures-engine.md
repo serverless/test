@@ -8,13 +8,13 @@ and returns [runServerless](./run-serverless.md) runner with direct access to cr
 Should be initialized by passing a `fixturesDir` (path to directory that contains all fixtures, each in its own directory), and either `serverlessDir` (path to Serverless Framework installation) or `setupServerlessDir` (a function which does a one time setup of Serverless Framework, this can be an async opreation)
 
 ```javascript
-const runServerless = require('@serverless/test/setup-run-serverlessfixtures-engine')({
+const runServerless = require('@serverless/test/setup-run-serverless-fixtures-engine')({
   fixturesDir: path.resolve(__dirname, 'fixtures'),
   serverlessDir: path.resolve(__dirname, '..'),
 });
 ```
 
-Returned [`runServerless`](./run-serverless.md)) function is stripped of `serverlessPath` argument and takes extended options directly. See below section for documentation on extra options.
+Returned [`runServerless`](./run-serverless.md) function is stripped of `serverlessPath` argument and takes extended options directly. See below section for documentation on extra options.
 
 For more information about fixtures check [get-fixtures-engine.md](./get-fixtures-engine.md).
 
