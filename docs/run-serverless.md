@@ -122,6 +122,10 @@ It's invoked with `Serverless` constructor and resolved `cwd` as meta data in ar
 Run right after `serverless` instance is constructed, but before `severlesss.init()` is invoked.
 It's invoked with just created `serverless` instances.
 
+##### `beforeInstanceRun(serverless)`
+
+Run right before `severlesss.run()` is invoked. It's invoked with initialized `serverless` instance.
+
 ##### `after(serverless)`
 
 Run as last step of evaluation (after `serverless.run()` resolves).
