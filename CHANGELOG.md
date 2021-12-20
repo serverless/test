@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.6.0](https://github.com/serverless/test/compare/v8.5.0...v8.6.0) (2021-12-20)
+
+### Features
+
+- **Run Serverless:** `beforeInstanceRun` hook ([#118](https://github.com/serverless/test/pull/118)) ([0e830aa](https://github.com/serverless/test/commit/0e830aa1150ceeba89764761d99f0d15f9e92492)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Maintenance Improvements
+
+- **Fixtures Engine:** Refactor to async/await ([#115](https://github.com/serverless/test/pull/115) & [#116](https://github.com/serverless/test/pull/116)) ([f33f650](https://github.com/serverless/test/commit/f33f6508c60fd0efbe2785a6576f29de24fa1e5b)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [8.5.0](https://github.com/serverless/test/compare/v8.4.0...v8.5.0) (2021-11-09)
 
 ### Features
