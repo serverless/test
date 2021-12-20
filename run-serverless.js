@@ -133,7 +133,7 @@ module.exports = async (
   lastLifecycleHookName = ensureString(lastLifecycleHookName, { isOptional: true });
   hooks = ensurePlainObject(hooks, {
     default: {},
-    allowedKeys: ['after', 'before', 'beforeInstanceInit'],
+    allowedKeys: ['after', 'before', 'beforeInstanceInit', 'beforeInstanceRun'],
     ensurePropertyValue: ensurePlainFunction,
     errorMessage:
       'Expected `hooks` to be a plain object with predefined supported hooks, received %v',
@@ -368,6 +368,7 @@ module.exports = async (
                   configureAwsRequestStub(serverless.getProvider('aws'), awsRequestStubMap);
                 }
 
+                if (hooks.beforeInstanceRun) await hooks.beforeInstanceRun(serverless);
                 // Run plugin manager hooks
                 await serverless.run();
                 if (hooks.after) await hooks.after(serverless);
