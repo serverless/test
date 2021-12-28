@@ -12,6 +12,7 @@ module.exports = {
       [
         '',
         'Async Leaks Detector',
+        'Environment',
         'Fixtures Engine',
         'Inquirer Stub',
         'Log',
