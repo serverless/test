@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.7.0](https://github.com/serverless/test/compare/v8.6.0...v8.7.0) (2021-12-28)
+
+### Features
+
+- **Environment:** Allow env vars starting with `SERVERLESS_PLATFORM_` ([#120](https://github.com/serverless/test/pull/120)) ([87973f7](https://github.com/serverless/test/commit/87973f7b12bd2c8aa0ab0efa5d6e2fbc92f18cdc)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [8.6.0](https://github.com/serverless/test/compare/v8.5.0...v8.6.0) (2021-12-20)
 
 ### Features
