@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@serverless/utils": "^5.20.2",
-    "aws-sdk": "^2.1046.0",
+    "aws-sdk": "^2.1048.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.2",
     "child-process-ext": "^2.1.1",
@@ -23,7 +23,7 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "log": "^6.3.1",
-    "log-node": "^8.0.2",
+    "log-node": "^8.0.3",
     "memoizee": "^0.4.15",
     "minimist": "^1.2.5",
     "ncjsm": "^4.2.0",
