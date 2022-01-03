@@ -12,6 +12,7 @@ module.exports = (options = {}) => {
       'LOG_LEVEL',
       'PATH',
       'SERVERLESS_BINARY_PATH',
+      'SLS_SCHEMA_CACHE_BASE_DIR',
       'TMPDIR',
       'USERPROFILE',
     ].concat(options.whitelist || []),
