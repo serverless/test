@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.8.0](https://github.com/serverless/test/compare/v8.7.0...v8.8.0) (2022-01-03)
+
+### Features
+
+- Add schema cache env var to allowlist ([#122](https://github.com/serverless/test/pull/122)) ([7d7e680](https://github.com/serverless/test/commit/7d7e6808a63f250b62afc9e61e626c2e74f0cdea)) ([Piotr Grzesik](https://github.com/pgrzesik))
+
 ## [8.7.0](https://github.com/serverless/test/compare/v8.6.0...v8.7.0) (2021-12-28)
 
 ### Features
