@@ -12,13 +12,11 @@ Note: In eventually provided service configuration, variables are resolved (befo
 const runServerless = require('@serverless/test/run-serverless');
 
 describe('Some suite', () => {
-  it('Some test that involves creation of serverless instance', function () {
-    runServerless(serverlessDir, {
+  it('Some test that involves creation of serverless instance', async () => {
+    const { serverless, stdoutData, cfTemplate } = await runServerless(serverlessDir, {
       // Options, see below documentation
-    }).then(({ serverless, stdoutData, cfTemplate }) => {
-      // Resolved after serverless.run() finalizes.
-      // Examine here expected outcome
     });
+    // Examine here expected outcome
   });
 });
 ```
