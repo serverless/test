@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/serverless/test/compare/v8.8.0...v9.0.0) (2022-01-27)
+
+### ⚠ BREAKING CHANGES
+
+- `serverless` v2 is no longer supported
+- Node.js version 12 or later is required (dropped support for v10)
+
+### Features
+
+- Switch support for `serverless` from v2 to v3 ([#114](https://github.com/serverless/test/pull/114) & [#125](https://github.com/serverless/test/pull/125)) ([2b42700](https://github.com/serverless/test/commit/2b427002f3ba234d8c1646a2456f75056f82ca6e)) ([Mariusz Nowak](https://github.com/medikoo))
+- Utility to observe registered command output ([#114](https://github.com/serverless/test/pull/114)) ([ed90df8](https://github.com/serverless/test/commit/ed90df8d45505e7b5c484d770c53aedb3b79d338)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Maintenance Improvements
+
+- Drop support for Node.js versions below v12 ([#113](https://github.com/serverless/test/pull/113)) ([91f86ce](https://github.com/serverless/test/commit/91f86ce14e211fbeef37a9f3999d0af91bbc0923)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [8.8.0](https://github.com/serverless/test/compare/v8.7.0...v8.8.0) (2022-01-03)
 
 ### Features
