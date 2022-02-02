@@ -7,7 +7,7 @@ Provides a reliable test suite setup, based on [Mocha](https://mochajs.org/) tes
 ### Installation
 
 ```bash
-npm i --save-dev mocha@8 chai chai-as-promised @serverless/test
+npm i --save-dev mocha@9 chai chai-as-promised @serverless/test
 ```
 
 ### Mocha Setup
