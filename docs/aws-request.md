@@ -5,16 +5,16 @@ Issue AWS SDK request with built-in retry (on retryable errors) mechanism.
 ## Usage
 
 ```javascript
-awsRequest(serviceNameOrConfig, methodName, params);
+awsRequest(clientOrClientConfig, methodName, params);
 ```
 
-### `serviceNameOrConfig`
+### `clientOrClientConfig`
 
-Service name (e.g. `'CloudFormation'`), or a config, if we need to pass a parameters to contrusctors, e.g.:
+Client constructor (e.g. `require('@aws-sdk/client-cloudformation').CloudFormation`), or a config, if we need to pass a parameters to client constructor, e.g.:
 
 ```javascript
 {
-  "name": "CloudFormation",
+  "client": require('@aws-sdk/client-cloudformation').CloudFormation,
   "params": {
     "region": "us-east-2" // Override 'us-east-1' default
   }
@@ -33,6 +33,7 @@ Invocation params, passed as direct input to AWS SDK method.
 
 ```javascript
 const awsRequest = require('@serverless/test/aws-request');
+const { CloudFormation } = require('@aws-sdk/client-cloudformation');
 
-const result = await awsRequest('CloudFormation', 'describeStacks', { StackName: stackName });
+const result = await awsRequest(CloudFormation, 'describeStacks', { StackName: stackName });
 ```

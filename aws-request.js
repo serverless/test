@@ -1,27 +1,35 @@
 'use strict';
 
-const _ = require('lodash');
-const AWS = require('aws-sdk');
+const isPlainObject = require('type/plain-object/is');
+const ensureConstructor = require('type/constructor/ensure');
+const ensurePlainObject = require('type/plain-object/ensure');
+const memoizeWeak = require('memoizee/weak');
 const awsLog = require('log').get('aws');
 const wait = require('timers-ext/promise/sleep');
 
-const getServiceInstance = _.memoize(
-  (nameInput) => {
-    const params = Object.assign({ region: 'us-east-1' }, nameInput.params);
-    const name = typeof nameInput === 'string' ? nameInput : nameInput.name;
-    const Service = _.get(AWS, name);
-    return new Service(params);
+const getClientInstance = memoizeWeak(
+  (Client, options) => {
+    const params = { region: 'us-east-1', ...options };
+    return new Client(params);
   },
-  (nameInput) => {
-    return typeof nameInput === 'string' ? nameInput : JSON.stringify(nameInput);
-  }
+  { normalizer: (ignore, [options]) => JSON.stringify(options) }
 );
 
+const resolveClientData = (clientOrClientConfig) => {
+  if (isPlainObject(clientOrClientConfig)) {
+    return [
+      ensureConstructor(clientOrClientConfig.client),
+      ensurePlainObject(clientOrClientConfig.params, { default: {} }),
+    ];
+  }
+  return [ensureConstructor(clientOrClientConfig), {}];
+};
+
 let lastAwsRequestId = 0;
-module.exports = function awsRequest(service, method, ...args) {
+module.exports = function awsRequest(clientOrClientConfig, method, ...args) {
   const requestId = ++lastAwsRequestId;
-  awsLog.debug('[%d] %o %s %O', requestId, service, method, args);
-  const instance = getServiceInstance(service);
+  awsLog.debug('[%d] %o %s %O', requestId, clientOrClientConfig, method, args);
+  const instance = getClientInstance(...resolveClientData(clientOrClientConfig));
   return instance[method](...args)
     .promise()
     .then(
@@ -33,7 +41,9 @@ module.exports = function awsRequest(service, method, ...args) {
         awsLog.debug('[%d] %O', requestId, error);
         if (error.statusCode !== 403 && error.retryable) {
           awsLog.debug('[%d] retry', requestId);
-          return wait(4000 + Math.random() * 3000).then(() => awsRequest(service, method, ...args));
+          return wait(4000 + Math.random() * 3000).then(() =>
+            awsRequest(clientOrClientConfig, method, ...args)
+          );
         }
         throw error;
       }
