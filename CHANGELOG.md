@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/serverless/test/compare/v9.0.0...v10.0.0) (2022-02-03)
+
+### ⚠ BREAKING CHANGES
+
+- `awsRequest` no longer requires and retrieves AWS SDK on it's own. The SDK client constructor needs to be passed to directly
+- Support for `mocha` v8 was removed. Use `mocha` v9 instead
+
+### Features
+
+- Make `awsRequest` AWS SDK instance agnostic ([#128](https://github.com/serverless/test/pull/128)) ([703603b](https://github.com/serverless/test/commit/703603bd37c97a27dea7177c963b37f3e54e2c55)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Maintenance Improvements
+
+- Upgrade `mocha` to v9 ([#128](https://github.com/serverless/test/pull/128)) ([dffb1b2](https://github.com/serverless/test/commit/dffb1b23d2ed966fa749f617af14643b554a8704)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [9.0.0](https://github.com/serverless/test/compare/v8.8.0...v9.0.0) (2022-01-27)
 
 ### ⚠ BREAKING CHANGES
