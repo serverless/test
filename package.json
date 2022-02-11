@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "@serverless/utils": "^6.0.0",
+    "@serverless/utils": "^6.0.2",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.2",
     "child-process-ext": "^2.1.1",
