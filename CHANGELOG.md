@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.1](https://github.com/serverless/test/compare/v10.0.0...v10.0.1) (2022-02-11)
+
+### Bug Fixes
+
+- Add `TEMP`, `TMP` to `resolve-env` whitelist ([#130](https://github.com/serverless/test/pull/130)) ([5a6a5f9](https://github.com/serverless/test/commit/5a6a5f97a4c916741f69852325d0a5938b0ed47a)) ([Piotr Grzesik](https://github.com/pgrzesik))
+
 ## [10.0.0](https://github.com/serverless/test/compare/v9.0.0...v10.0.0) (2022-02-03)
 
 ### ⚠ BREAKING CHANGES
