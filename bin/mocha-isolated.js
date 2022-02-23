@@ -120,7 +120,7 @@ const run = (path) => {
   env.FORCE_COLOR = '1';
   const mochaArgs = [];
   if (argv.require) mochaArgs.push('--require', argv.require);
-  const testPromise = spawn('node', ['node_modules/.bin/_mocha', ...mochaArgs, path], {
+  const testPromise = spawn('node', [require.resolve('mocha/bin/_mocha'), ...mochaArgs, path], {
     stdio: isMultiProcessRun ? null : 'inherit',
     env,
   });
