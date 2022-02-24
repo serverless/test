@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.2](https://github.com/serverless/test/compare/v10.0.1...v10.0.2) (2022-02-24)
+
+### Bug Fixes
+
+- **Mocha Isolated:** Fix resolution of Mocha binary ([#132](https://github.com/serverless/test/pull/132)) ([3edd1a1](https://github.com/serverless/test/commit/3edd1a1b5803971fad29c2f77ce23061cd8758a8)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [10.0.1](https://github.com/serverless/test/compare/v10.0.0...v10.0.1) (2022-02-11)
 
 ### Bug Fixes
