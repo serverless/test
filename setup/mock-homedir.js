@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const crypto = require('crypto');
-const { emptyDirSync } = require('fs-extra');
+const emptyDirSync = require('fs2/empty-dir-sync');
 const processTmpDir = require('../process-tmp-dir');
 const { runnerEmitter } = require('./patch');
 const rmTmpDirIgnorableErrorCodes = require('../lib/private/rm-tmp-dir-ignorable-error-codes');
@@ -32,7 +32,7 @@ runnerEmitter.on('runner', (runner) => {
 
     // Cleanup temp homedir after each top level test run
     try {
-      emptyDirSync(tmpHomeDir);
+      emptyDirSync(tmpHomeDir, { recursive: true });
     } catch (error) {
       if (rmTmpDirIgnorableErrorCodes.has(error.code)) return;
       // If some of the tests timed out, error could be caused by ongoing operation
