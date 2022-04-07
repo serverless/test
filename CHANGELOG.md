@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.3](https://github.com/serverless/test/compare/v10.0.2...v10.0.3) (2022-04-07)
+
+### Bug Fixes
+
+- **AWS Request:** Fix support AWS SDK3 method responses ([#134](https://github.com/serverless/test/pull/134)) ([d9915fe](https://github.com/serverless/test/commit/d9915feb276eab96b359acf00577f1dc5260e703)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Maintenance Improvements
+
+- **AWS Request:** Improve readability of debug log ([#134](https://github.com/serverless/test/pull/134)) ([dabe909](https://github.com/serverless/test/commit/dabe9095769b99cb6604707e8aa959bbb76370af)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [10.0.2](https://github.com/serverless/test/compare/v10.0.1...v10.0.2) (2022-02-24)
 
 ### Bug Fixes
