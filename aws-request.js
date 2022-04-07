@@ -28,7 +28,7 @@ const resolveClientData = (clientOrClientConfig) => {
 let lastAwsRequestId = 0;
 module.exports = function awsRequest(clientOrClientConfig, method, ...args) {
   const requestId = ++lastAwsRequestId;
-  awsLog.debug('[%d] %o %s %O', requestId, clientOrClientConfig, method, args);
+  awsLog.debug('[%d] %O %s %O', requestId, clientOrClientConfig, method, args);
   const instance = getClientInstance(...resolveClientData(clientOrClientConfig));
   return instance[method](...args)
     .promise()
