@@ -1,6 +1,6 @@
 # setup-run-serverless-fixtures-engine
 
-Initializes [fixtures engine](./get-fixtures-engine.md) for a folder where serverless service fixtures are placed (each in different top level folder)
+Initializes [fixtures engine](./setup-fixtures-engine.md) for a folder where serverless service fixtures are placed (each in different top level folder)
 and returns [runServerless](./run-serverless.md) runner with direct access to created fixtures.
 
 ## Usage
@@ -16,9 +16,9 @@ const runServerless = require('@serverless/test/setup-run-serverless-fixtures-en
 
 Returned [`runServerless`](./run-serverless.md) function is stripped of `serverlessPath` argument and takes extended options directly. See below section for documentation on extra options.
 
-For more information about fixtures check [get-fixtures-engine.md](./get-fixtures-engine.md).
+For more information about fixtures check [setup-fixtures-engine.md](./setup-fixtures-engine.md).
 
-Note that `runServerless` result has [fixture engine result](./get-fixtures-engine.md#return-data) exposed on `fixtureData` property.;
+Note that `runServerless` result has [fixture engine result](./setup-fixtures-engine.md#return-data) exposed on `fixtureData` property.;
 
 ### Extra `runServerless` options
 
