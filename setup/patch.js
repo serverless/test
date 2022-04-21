@@ -3,6 +3,9 @@
 // Unhandled rejections are not exposed in Mocha, enforce it
 // https://github.com/mochajs/mocha/issues/2640
 process.on('unhandledRejection', (err) => {
+  // Write to stderr
+  // (Mocha reports error to stdout and if we're muting it for test purposes it'll end silent)
+  process.stderr.write(`Unhandled rejection: ${err && err.stack}\n`);
   throw err;
 });
 
