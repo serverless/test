@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.4](https://github.com/serverless/test/compare/v10.0.3...v10.0.4) (2022-04-29)
+
+### Bug Fixes
+
+- **AWS Request:** Ensure to retry on rate limit exceeded ([#138](https://github.com/serverless/test/pull/138)) ([86a46ff](https://github.com/serverless/test/commit/86a46ff63fcb46128ccc7916ef536eecc3fadbc7)) ([Mariusz Nowak](https://github.com/medikoo))
+
+### Maintenance Improvements
+
+- **AWS Request:** Improve logic maintainability ([#138](https://github.com/serverless/test/pull/138)) ([1bd9e2d](https://github.com/serverless/test/commit/1bd9e2dd9c38a33f25413c1a0dc17d86bfeb3060)) ([Mariusz Nowak](https://github.com/medikoo))
+- **Mocha Fixes:** Improve visibility of unhandled rejection ([#137](https://github.com/serverless/test/pull/137)) ([6be01df](https://github.com/serverless/test/commit/6be01df5ff5f1e840358d766acee860460a36ad5)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [10.0.3](https://github.com/serverless/test/compare/v10.0.2...v10.0.3) (2022-04-07)
 
 ### Bug Fixes
