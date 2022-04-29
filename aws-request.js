@@ -43,6 +43,7 @@ module.exports = function awsRequest(clientOrClientConfig, method, ...args) {
       const shouldRetry = (() => {
         if (error.statusCode === 403) return false;
         if (error.retryable) return true;
+        if (error.Reason === 'CallerRateLimitExceeded') return true;
         return false;
       })();
       if (shouldRetry) {
