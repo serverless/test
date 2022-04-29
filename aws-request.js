@@ -40,7 +40,12 @@ module.exports = function awsRequest(clientOrClientConfig, method, ...args) {
     },
     (error) => {
       awsLog.debug('[%d] %O', requestId, error);
-      if (error.statusCode !== 403 && error.retryable) {
+      const shouldRetry = (() => {
+        if (error.statusCode === 403) return false;
+        if (error.retryable) return true;
+        return false;
+      })();
+      if (shouldRetry) {
         awsLog.debug('[%d] retry', requestId);
         return wait(4000 + Math.random() * 3000).then(() =>
           awsRequest(clientOrClientConfig, method, ...args)
