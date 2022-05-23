@@ -10,42 +10,21 @@ env:
   FORCE_COLOR: 1
 
 jobs:
-  linuxNode14:
-    name: '[Linux] Node.js v14: Unit tests'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  linuxNode:
+    strategy:
+      matrix:
+        node-version:
+          - 12.x
+          - 14.x
+          - 16.x
+        mocha-version:
+          - ^9
+          - ^10
+        exclude:
+          - node-version: 12.x
+            mocha-version: ^10 # mocha 10 supports node >= 14
 
-      - name: Retrieve ~/.npm from cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: npm-v14-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
-          restore-keys: npm-v14-${{ runner.os }}-${{ github.ref }}-
-      - name: Retrieve node_modules from cache
-        id: cacheNodeModules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: node-modules-v14-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
-          restore-keys: node-modules-v14-${{ runner.os }}-${{ github.ref }}-
-
-      - name: Install Node.js and npm
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-
-      - name: Install dependencies
-        if: steps.cacheNodeModules.outputs.cache-hit != 'true'
-        run: |
-          npm update --no-save
-          npm update --save-dev --no-save
-      - name: Unit tests
-        run: npm test
-
-  linuxNode16:
-    name: '[Linux] Node.js 16: Unit tests'
+    name: '[Linux] Node.js v${{matrix.node-version}}: Unit tests'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -58,53 +37,20 @@ jobs:
           path: |
             ~/.npm
             node_modules
-          key: npm-v16-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
-          restore-keys: npm-v16-${{ runner.os }}-${{ github.ref }}-
+          key: npm-v${{matrix.node-version}}-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
+          restore-keys: npm-v${{matrix.node-version}}-${{ runner.os }}-${{ github.ref }}-
 
       - name: Install Node.js and npm
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: ${{matrix.node-version}}
 
       - name: Install dependencies
         if: steps.cacheNpm.outputs.cache-hit != 'true'
         run: |
           npm update --no-save
           npm update --save-dev --no-save
-      - name: Unit tests
-        run: npm test
-
-  linuxNode12:
-    name: '[Linux] Node.js v12: Unit tests'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Retrieve ~/.npm from cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: npm-v12-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
-          restore-keys: npm-v12-${{ runner.os }}-${{ github.ref }}-
-      - name: Retrieve node_modules from cache
-        id: cacheNodeModules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: node-modules-v12-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('package.json') }}
-          restore-keys: node-modules-v12-${{ runner.os }}-${{ github.ref }}-
-
-      - name: Install Node.js and npm
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-
-      - name: Install dependencies
-        if: steps.cacheNodeModules.outputs.cache-hit != 'true'
-        run: |
-          npm update --no-save
-          npm update --save-dev --no-save
+          npm install --no-save mocha@${{ matrix.mocha-version }}
       - name: Unit tests
         run: npm test
 
