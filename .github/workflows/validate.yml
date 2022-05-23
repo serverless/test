@@ -56,6 +56,7 @@ jobs:
         run: |
           npm update --no-save
           npm update --save-dev --no-save
+          npm install --no-save mocha@10
       - name: Validate Prettier formatting
         run: npm run prettier-check:updated
       - name: Validate ESLint rules
