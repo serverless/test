@@ -47,7 +47,12 @@
     "standard-version": "^9.3.2"
   },
   "peerDependencies": {
-    "mocha": "9"
+    "mocha": "9 || 10"
+  },
+  "peerDependenciesMeta": {
+    "mocha": {
+      "optional": true
+    }
   },
   "eslintConfig": {
     "extends": "@serverless/eslint-config/node",
