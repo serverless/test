@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0](https://github.com/serverless/test/compare/v10.0.4...v11.0.0) (2022-05-26)
+
+### ⚠ BREAKING CHANGES
+
+- `preventCicrularDepPropertyWarning` util was removed as no longer needed.
+
+### Features
+
+- **Mocha:** Support `mocha` v10 ([#140](https://github.com/serverless/test/issues/140)) ([71746cd](https://github.com/serverless/test/commit/71746cd0e0c897de50e19bc96a3968e5f26bee4f)) ([Julian Grinblat](https://github.com/perrin4869))
+
+### Maintenance Improvements
+
+- Remove `preventCicrularDepPropertyWarning` util ([#141](https://github.com/serverless/test/pull/141)) ([9dd2261](https://github.com/serverless/test/commit/9dd22613b1ce7e57191145fd25796b5d397e3d05)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [10.0.4](https://github.com/serverless/test/compare/v10.0.3...v10.0.4) (2022-04-29)
 
 ### Bug Fixes
