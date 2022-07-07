@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.1](https://github.com/serverless/test/compare/v11.0.0...v11.0.1) (2022-07-07)
+
+### Bug Fixes
+
+- Fix `Rate exceeded` detection whem working with AWS SDK v3 ([9b6737a](https://github.com/serverless/test/commit/9b6737a5246bc340db5e8c3b5d107681619e97dd))
+
 ## [11.0.0](https://github.com/serverless/test/compare/v10.0.4...v11.0.0) (2022-05-26)
 
 ### ⚠ BREAKING CHANGES
