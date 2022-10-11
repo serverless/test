@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-- Fix `Rate exceeded` detection whem working with AWS SDK v3 ([9b6737a](https://github.com/serverless/test/commit/9b6737a5246bc340db5e8c3b5d107681619e97dd))
+- Fix `Rate exceeded` detection whem working with AWS SDK v3 ([#143](https://github.com/serverless/test/issues/143)) ([9b6737a](https://github.com/serverless/test/commit/9b6737a5246bc340db5e8c3b5d107681619e97dd)) ([Mariusz Nowak](https://github.com/medikoo))
 
 ## [11.0.0](https://github.com/serverless/test/compare/v10.0.4...v11.0.0) (2022-05-26)
 
