@@ -91,8 +91,8 @@ if (!paths.length) {
 const processesCount = (() => {
   if (!argv['skip-fs-cleanup-check']) return 1;
   const forced = Number(argv.w);
-  if (forced > 0) return forced;
-  return Math.max(require('os').cpus().length - 1, 1);
+  if (forced > 0) return Math.min(forced, paths.length);
+  return Math.min(Math.max(require('os').cpus().length - 1, 1), paths.length);
 })();
 
 const isMultiProcessRun = processesCount > 1;
