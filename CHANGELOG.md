@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.2](https://github.com/serverless/test/compare/v11.0.1...v11.0.2) (2022-10-11)
+
+### Bug Fixes
+
+- **Mocha Isolated:** Ensure single process on single test ([#145](https://github.com/serverless/test/issues/145)) ([7347b12](https://github.com/serverless/test/commit/7347b1287aab840ed9fd43a2b3df52bf237e6f08)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ### [11.0.1](https://github.com/serverless/test/compare/v11.0.0...v11.0.1) (2022-07-07)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@serverless/test",
-  "version": "11.0.1",
+  "version": "11.0.2",
   "description": "Test utilities for serverless libraries",
   "repository": "serverless/test",
   "keywords": [
