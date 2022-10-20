@@ -10,8 +10,23 @@ module.exports = (inquirer, config) => {
       const configType = promptConfig.type || 'input';
       const questions = config[configType];
       if (!questions) throw new Error(`Unexpected config type: ${configType}`);
-      const answer = questions[promptConfig.name];
+      let answer = questions[promptConfig.name];
       if (answer == null) throw new Error(`Unexpected config name: ${promptConfig.name}`);
+      if (configType === 'list') {
+        if (
+          !promptConfig.choices.some((choice) => {
+            if (typeof choice === 'string') return choice === answer;
+            if (choice.name === answer || choice.value === answer) {
+              answer = choice.value;
+              return true;
+            }
+            return false;
+          })
+        ) {
+          throw new Error(`Unsupported list result: ${answer}`);
+        }
+      }
+
       resolve(
         new Promise((resolveValidation) => {
           if (!validatedTypes.has(promptConfig.type)) return resolveValidation(true);
