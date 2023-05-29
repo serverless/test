@@ -45,6 +45,7 @@ module.exports = function awsRequest(clientOrClientConfig, method, ...args) {
         if (error.retryable) return true;
         if (error.Reason === 'CallerRateLimitExceeded') return true;
         if (error.message.includes('Rate exceeded')) return true;
+        if (error.message.includes('Too Many Requests')) return true;
         return false;
       })();
       if (shouldRetry) {
