@@ -2,11 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.1.1](https://github.com/serverless/test/compare/v11.1.0...v11.1.1) (2023-05-29)
+
+### Bug Fixes
+
+- **AWS Request:** Retry on `Too Many Requests` error ([#149](https://github.com/serverless/test/issues/149)) ([ed22b3d](https://github.com/serverless/test/commit/ed22b3dd20b973271d2ecc58b9ded7cfc25b5963)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [11.1.0](https://github.com/serverless/test/compare/v11.0.2...v11.1.0) (2022-10-20)
 
 ### Features
 
-- **Inquirer Stub:** Improve reliability of `list` choice handling ([#146](https://github.com/serverless/test/issues/146)) ([a5fbc80](https://github.com/serverless/test/commit/a5fbc80d0b5cacb8bdc13e4877e06768fd351ba3))([Mariusz Nowak](https://github.com/medikoo))
+- **Inquirer Stub:** Improve reliability of `list` choice handling ([#146](https://github.com/serverless/test/issues/146)) ([a5fbc80](https://github.com/serverless/test/commit/a5fbc80d0b5cacb8bdc13e4877e06768fd351ba3)) ([Mariusz Nowak](https://github.com/medikoo))
 
 ### [11.0.2](https://github.com/serverless/test/compare/v11.0.1...v11.0.2) (2022-10-11)
 
