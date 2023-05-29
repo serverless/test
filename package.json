@@ -12,7 +12,7 @@
     "mocha-isolated": "./bin/mocha-isolated.js"
   },
   "dependencies": {
-    "@serverless/utils": "^6.8.0",
+    "@serverless/utils": "^6.11.1",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.2",
     "child-process-ext": "^2.1.1",
@@ -24,8 +24,8 @@
     "log": "^6.3.1",
     "log-node": "^8.0.3",
     "memoizee": "^0.4.15",
-    "minimist": "^1.2.7",
-    "ncjsm": "^4.3.1",
+    "minimist": "^1.2.8",
+    "ncjsm": "^4.3.2",
     "p-limit": "^3.1.0",
     "process-utils": "^4.0.0",
     "sinon": "^13.0.2",
@@ -35,15 +35,15 @@
   "devDependencies": {
     "@commitlint/cli": "^16.3.0",
     "@serverless/eslint-config": "^5.0.1",
-    "eslint": "^8.25.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint": "^8.41.0",
+    "eslint-plugin-import": "^2.27.5",
     "git-list-updated": "^1.2.1",
     "github-release-from-cc-changelog": "^2.3.0",
     "glob-exec": "^0.1.1",
     "husky": "^4.3.8",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "^13.2.2",
     "mocha": "^9.2.2",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.8",
     "standard-version": "^9.5.0"
   },
   "peerDependencies": {
